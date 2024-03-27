@@ -1,0 +1,17 @@
+.custom-navbar {
+    background-color: #1d9bf0; /* Cambia este valor al color que desees */
+    /* Otros estilos personalizados si los necesitas */
+  }
+  .brand-text,
+  .nav-link,
+  .nav-link:hover {
+    color: #ffffff !important; /* Cambia este valor al color del texto deseado (blanco) */
+  }
+  
+  .brand-text {
+    font-family: Helvetica, sans-serif; /* Cambia este valor a la tipografía deseada */
+  }
+  
+  .nav-link {
+    font-family: Helvetica, sans-serif; /* Cambia este valor a la tipografía deseada */
+  }
