@@ -1,9 +1,17 @@
+import Button from "react-bootstrap/esm/Button";
+
 function PerfilAmigo() {
     return (
       <div>
-      <h1>Esta es la página de PerfilAmigo</h1>
-      <h1>Hola Mundo!!!</h1>
-      
+      <h1>Perfil de PerfilAmigo</h1>
+     <img src =""></img>
+     <img src =""></img>
+     <img src =""></img>
+     <img src =""></img>
+     <Button>Volver </Button>
+     <Button>Alquilar Amigo</Button>
+      <h2>Intereses:</h2>
+
 
       </div>
     );
