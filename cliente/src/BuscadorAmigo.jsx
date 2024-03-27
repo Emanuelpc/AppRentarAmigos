@@ -5,6 +5,10 @@ import ComboBox from './Componentes/ComboBox';
 import Slider from './Componentes/ControldeslizanteEdad';
 import CheckboxGroup from './Componentes/CheckboxGroupIntereses';
 import BotonGuardar from './Componentes/BotonGuardar';
+import CardAmigo from './Componentes/CardAmigo';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
+import './BuscadorAmigo.css';
 
 function RegistrarDatosAmigo() {
     //Arreglo y funciones para el CheckBox
@@ -64,6 +68,52 @@ function RegistrarDatosAmigo() {
         setSelectedOptions([...selectedOptions, value]);
       }
     };
+    //Arreglo y Funcion para Crear Card de Amigos 
+    const datosTarjetas = [
+      {
+        titulo: 'Carlos García Edad:21',
+        descripcion: 'Siempre estoy listo para sacar una sonrisa con mi energía vibrante y mi deseo de aventura.',
+        imagenUrl: 'https://media.istockphoto.com/id/1392528328/es/foto/retrato-de-un-hombre-guapo-y-sonriente-con-camiseta-blanca-de-pie-con-los-brazos-cruzados.jpg?s=612x612&w=0&k=20&c=1EtzClRt1iBmW9apxO4HgQEZFKCx6kK_s3Dy3TZteSE=', // Ejemplo de URL de imagen
+      },
+      {
+        titulo: 'Paula Gómez Edad:21',
+        descripcion: 'Siempre buscando contagiar alegría , con un espíritu aventurero y generoso que nunca se apaga.',
+        imagenUrl: 'https://img.freepik.com/foto-gratis/mujer-joven-hermosa-sueter-rosa-calido-aspecto-natural-sonriente-retrato-aislado-cabello-largo_285396-896.jpg?size=626&ext=jpg&ga=GA1.1.417342198.1711497600&semt=sph', // Ejemplo de URL de imagen
+      },
+      {
+        titulo: 'Andrés Rodríguez Edad:21',
+        descripcion: 'Siempre estoy listo para sacar una sonrisa con mi energía vibrante y mi deseo de aventura.',
+        imagenUrl: 'https://media.istockphoto.com/id/1282821098/es/foto/happy-young-man-in-the-city.jpg?s=612x612&w=0&k=20&c=yh4Qjmk5XWZqP6qLSZm1t4k_bui1ad2NJQaS2kSiqo0=', // Ejemplo de URL de imagen
+      },
+      {
+        titulo: 'Carmen Díaz Edad:21',
+        descripcion: 'Siempre buscando contagiar alegría , con un espíritu aventurero y generoso que nunca se apaga.',
+        imagenUrl: 'https://media.istockphoto.com/id/1437816897/es/foto/mujer-de-negocios-gerente-o-retrato-de-recursos-humanos-para-el-%C3%A9xito-profesional-la-empresa.jpg?s=612x612&w=0&k=20&c=UUQMt4QvYIlD3OUT_Q81nZLTML6vb5X5bwMLjznVNuk=', // Ejemplo de URL de imagen
+      },
+      {
+        titulo: 'Carlos García Edad:21',
+        descripcion: 'Siempre estoy listo para sacar una sonrisa con mi energía vibrante y mi deseo de aventura.',
+        imagenUrl: 'https://media.istockphoto.com/id/1392528328/es/foto/retrato-de-un-hombre-guapo-y-sonriente-con-camiseta-blanca-de-pie-con-los-brazos-cruzados.jpg?s=612x612&w=0&k=20&c=1EtzClRt1iBmW9apxO4HgQEZFKCx6kK_s3Dy3TZteSE=', // Ejemplo de URL de imagen
+      },
+      {
+        titulo: 'Paula Gómez Edad:21',
+        descripcion: 'Siempre buscando contagiar alegría , con un espíritu aventurero y generoso que nunca se apaga.',
+        imagenUrl: 'https://img.freepik.com/foto-gratis/mujer-joven-hermosa-sueter-rosa-calido-aspecto-natural-sonriente-retrato-aislado-cabello-largo_285396-896.jpg?size=626&ext=jpg&ga=GA1.1.417342198.1711497600&semt=sph', // Ejemplo de URL de imagen
+      },
+      {
+        titulo: 'Andrés Rodríguez Edad:21',
+        descripcion: 'Siempre estoy listo para sacar una sonrisa con mi energía vibrante y mi deseo de aventura.',
+        imagenUrl: 'https://media.istockphoto.com/id/1282821098/es/foto/happy-young-man-in-the-city.jpg?s=612x612&w=0&k=20&c=yh4Qjmk5XWZqP6qLSZm1t4k_bui1ad2NJQaS2kSiqo0=', // Ejemplo de URL de imagen
+      },
+      {
+        titulo: 'Carmen Díaz Edad:21',
+        descripcion: 'Siempre buscando contagiar alegría , con un espíritu aventurero y generoso que nunca se apaga.',
+        imagenUrl: 'https://media.istockphoto.com/id/1437816897/es/foto/mujer-de-negocios-gerente-o-retrato-de-recursos-humanos-para-el-%C3%A9xito-profesional-la-empresa.jpg?s=612x612&w=0&k=20&c=UUQMt4QvYIlD3OUT_Q81nZLTML6vb5X5bwMLjznVNuk=', // Ejemplo de URL de imagen
+      },
+      
+      
+      // Agrega más objetos de datos para más tarjetas si es necesario
+    ];
     return (
       <div>
         <Navbar/>
@@ -72,6 +122,8 @@ function RegistrarDatosAmigo() {
         <h2>Rentar fácil, rentar inteligente. Amigo Rentable, tu mejor opción siempre.</h2>
         </div>
         <Buscador/>
+        <div className="contenedor">
+        <div className="Filtrosdiv">
         <ComboBox
         label="Ciudad"
         options={optionsCiudades}
@@ -97,6 +149,22 @@ function RegistrarDatosAmigo() {
         onChange={handleCheckboxChange}
         />
         <BotonGuardar />
+        </div>
+        <div className="EditarCardsResultadosAmigos" style={{ overflowY: 'auto', maxHeight: '600px' }}>
+          <h3>Resultados Busqueda de Amigos</h3>
+          <Row xs={1} md={4} className="g-4">
+          {datosTarjetas.map((tarjeta, index) => (
+          <Col key={index}>
+           <CardAmigo
+            titulo={tarjeta.titulo}
+            descripcion={tarjeta.descripcion}
+            imagenUrl={tarjeta.imagenUrl}
+           />
+          </Col>
+          ))}
+          </Row>
+        </div>
+        </div>
       
       </div>
     );
