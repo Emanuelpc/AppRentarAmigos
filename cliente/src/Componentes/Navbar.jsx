@@ -3,13 +3,13 @@ import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import './Navbar.css';
-function BasicExample() {
+function BasicNavbar() {
   return (
     <Navbar expand="lg" className="custom-navbar">
-      <Container>
+      <Container >
         <Navbar.Brand href="#home" className="brand-text">Amigo Rentable</Navbar.Brand> 
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
-        <Navbar.Collapse id="basic-navbar-nav">
+        <Navbar.Collapse id="basic-navbar-nav" className="justify-content-end">
           <Nav className="me-auto">
             <Nav.Link href="#home" className="nav-link">Home</Nav.Link> 
             <Nav.Link href="#link" className="nav-link">IniciarSesion</Nav.Link> 
@@ -24,4 +24,4 @@ function BasicExample() {
   );
 }
 
-export default BasicExample;
+export default BasicNavbar;

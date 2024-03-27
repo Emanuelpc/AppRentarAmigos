@@ -1,0 +1,16 @@
+.ColorFondoDivBuscador{
+    background-color: #536471;
+    padding: 30px;
+    border-radius: 20px;
+    border: 20px;
+    margin: 0 auto; /* Centrar el div horizontalmente */
+    max-width: 80%; /* Establecer un ancho máximo para el div */
+}
+.btnBuscar{
+    background-color: rgb(65, 161, 65) !important;
+    color: azure !important;
+}
+.btnBuscar:hover{
+    background-color: rgb(20, 98, 20) !important;
+    color: azure !important;
+}

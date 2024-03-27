@@ -1,0 +1,7 @@
+.EsloganBuscador{
+    padding: 30px;
+    border-radius: 20px;
+    border: 20px;
+    margin: 0 auto; /* Centrar el div horizontalmente */
+    max-width: 80%; /* Establecer un ancho máximo para el div */
+}
