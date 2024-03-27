@@ -1,0 +1,39 @@
+.EsloganBuscador{
+    padding: 30px;
+    border-radius: 20px;
+    border: 20px;
+    margin: 0 auto; /* Centrar el div horizontalmente */
+    max-width: 80%; /* Establecer un ancho máximo para el div */
+}
+.contenedor {
+    display: flex; /* Utiliza Flexbox */
+  }
+  
+.EditarCardsResultadosAmigos {
+    flex: 1; /* Ocupa todo el espacio disponible */
+    /* Otros estilos según sea necesario */
+    background-color: #536471;
+    margin: 15px;
+    margin-top: 5px;
+    padding: 30px;
+    border-radius: 20px;
+    color: azure;
+    max-width: 100%;
+}
+.Filtrosdiv{
+    margin-top: 5px;
+}
+
+
+@media (max-width: 768px) {
+    .EsloganBuscador{
+        padding: 30px;
+        border-radius: 20px;
+        border: 20px;
+        margin: 0 auto; /* Centrar el div horizontalmente */
+        max-width: 100%; /* Establecer un ancho máximo para el div */
+    }
+    .Filtrosdiv {
+        width: 1000px;
+    }
+}
