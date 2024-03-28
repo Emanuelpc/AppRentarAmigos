@@ -1,12 +1,16 @@
 import Navbar from "./Componentes/Navbar";
+ dev
 import { useState } from "react";
 import './RegistrarHorarioAmigo.css';
 import React from "react";
 
+
+ Jhonn
 function RegistrarHorarioAmigo() {
     return (
       <div>
         <Navbar/>
+ dev
       <h1>Seleccionar Horarios</h1>
 
       <h3>Selecciona los dias que tiene disponible</h3>
@@ -29,6 +33,11 @@ function RegistrarHorarioAmigo() {
 
             <input type="checkbox" id="sabado" name="sabado" value="sabado"/>
             <label for="sabado"> Sabado</label>
+
+      <h1>Esta es la página de RegistrarHorarioAmigo</h1>
+      <h1>Hola Mundo!!!</h1>
+      
+ Jhonn
 
             <input type="checkbox" id="domingo" name="domingo" value="domingo"/>
             <label for="domingo"> Domingo</label>
