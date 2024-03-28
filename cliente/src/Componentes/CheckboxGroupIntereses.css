@@ -1,0 +1,10 @@
+.EditardivCheckboxGroup{
+    background-color: #01366b;
+    padding: 10px;
+    border: 50px;
+    margin: 0; /* Centrar el div horizontalmente */
+    max-width: 100%;
+}
+.EditarTexto{
+    color: #f7f9f9;
+}
