@@ -51,12 +51,14 @@ function RegistrarDatosAmigo() {
           <br></br>
 
           <h3>Género(*)</h3>
-          <input type="radio" name="Genero" id="Masculino" value="Masculino" onChange={handleChange} required/>  
-          <label class = "rb-1" htmlFor="masculino">Masculino</label>
-          <input type="radio" name="Genero" id="Femenino" value="Femenino" onChange={handleChange} />
-          <label class = "rb-2" htmlFor="femenino">Femenino</label>
-          <input type="radio" name="Genero" id="Otro" value="Otro" onChange={handleChange}/>
-          <label class = "rb-3" htmlFor="otro">Otro</label>
+            <div className="RadioButtons">
+              <input type="radio" name="Genero" id="Masculino" value="Masculino" onChange={handleChange} required/>  
+              <label htmlFor="masculino">Masculino</label>
+              <input type="radio" name="Genero" id="Femenino" value="Femenino" onChange={handleChange} />
+              <label htmlFor="femenino">Femenino</label>
+              <input type="radio" name="Genero" id="Otro" value="Otro" onChange={handleChange}/>
+              <label htmlFor="otro">Otro</label>
+            </div>
           <br></br>
 
           <h3>Elige cuánto que te gustaría obtener por hora(*)</h3>
