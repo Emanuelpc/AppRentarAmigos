@@ -1,5 +1,7 @@
 import { useState } from "react";
 import Navbar from "./Componentes/Navbar";
+import './RegistrarDatosAmigo.css';
+
 function RegistrarDatosAmigo() {
 
   const[nombre,setNombre] = useState("");
@@ -23,7 +25,7 @@ function RegistrarDatosAmigo() {
     alert(nombre);
   }
   return (
-      <div>
+      <div >
         <Navbar/>
       <h1>Crear Perfil alqui-amigo</h1>
         <form>
@@ -67,13 +69,11 @@ function RegistrarDatosAmigo() {
           </select>
           <br></br>
           <br></br>
-          <input type="submit" value="Cancelar" />
-          <input type="submit" value="Siguiente" />
-          <br></br>
-
-
-          <button onClick={mostrarDatos}>Probar</button> //Es para ver como se estan guardando los datos
-
+            <div>
+              <button class = "btn-1">Cancelar</button>
+              <button class = "btn-2">Siguiente</button>
+              <br></br>
+            </div>
         </form>
        
       </div> 

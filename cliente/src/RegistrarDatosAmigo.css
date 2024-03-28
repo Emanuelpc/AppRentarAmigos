@@ -1,0 +1,15 @@
+.btn-1{
+    border: 2px;
+    padding: 10px;
+    margin-right: 20px;
+    justify-content: center;
+    color: black;
+}
+
+.btn-2{
+    border: 30px;
+    padding: 10px;
+    margin-left: 20px;
+    justify-content: center;
+    color: black;
+}
