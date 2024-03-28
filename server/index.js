@@ -14,6 +14,21 @@ const db = mysql.createConnection({
     password: "",
     database: "basedatosappamigo"
 });
+//Endpoint para obtener todos los Datos de : Amigo
+app.get("/amigos", (req, res) => {
+    // Consultar todos los departamentos en la base de datos
+    db.query('SELECT * FROM amigo',
+        (err, result) => {
+            if (err) {
+                console.log(err);
+                res.status(500).send("Error al obtener amigos");
+            } else {
+                res.send(result);
+            }
+        }
+    );
+});
+
 
 //Inicialización del servidor:
 
