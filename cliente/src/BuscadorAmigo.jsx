@@ -11,9 +11,12 @@ import Col from 'react-bootstrap/Col';
 import Axios from "axios";
 import './BuscadorAmigo.css';
 
-function RegistrarDatosAmigo() {
+function BuscadorAmigo() {
 
     const [amigosList, setamigos] = useState([])
+    const [departamentosList, setdepartamentos] = useState([])
+    const [ciudadesList, setciudades] = useState([])
+    const [interesesList, setintereses] = useState([])
 
     // Función para obtener la lista de amigos del backend
     const getAmigo = () => {
@@ -21,23 +24,40 @@ function RegistrarDatosAmigo() {
       setamigos(response.data);
     });
     }
+    // Función para obtener la lista de Departamentos del backend
+    const getDepartamentos = () => {
+      Axios.get("http://localhost:3001/departamentos").then((response) => {
+        setdepartamentos(response.data);
+      });
+    }
+    // Función para obtener la lista de Ciudades del backend
+    const getCiudades = () => {
+      Axios.get("http://localhost:3001/ciudades").then((response) => {
+        setciudades(response.data);
+      });
+    }
+    // Función para obtener la lista de Intereses del backend
+    const getIntereses = () => {
+      Axios.get("http://localhost:3001/intereses").then((response) => {
+        setintereses(response.data);
+      });
+    }
     
     //Arreglo y funciones para el CheckBox
-     const optionsCiudades = [
-      { label: 'Cochabamba', value: 'option1' },
-      { label: 'La Paz', value: 'option2' },
-      { label: 'Santa Cruz', value: 'option3' },
-     ];
      const optionsGeneros = [
       { label: 'Hombre', value: 'option1' },
       { label: 'Mujer', value: 'option2' },
       { label: 'Otro', value: 'option3' },
      ];
 
-     const [selectedOptionCiudades, setSelectedOptionCiudades] = useState(optionsCiudades[0].value);
+     const [selectedOptionDepartamentos, setSelectedOptionDepartamentos] = useState([]);
+     const [selectedOptionCiudades, setSelectedOptionCiudades] = useState([]);
      const [selectedOptionGeneros, setSelectedOptionGeneros] = useState(optionsGeneros[0].value);
      
 
+     const handleComboBoxChangeDepartamentos = (event) => {
+      setSelectedOptionDepartamentos(event.target.value);
+      };
      const handleComboBoxChangeCiudades = (event) => {
      setSelectedOptionCiudades(event.target.value);
      };
@@ -51,46 +71,31 @@ function RegistrarDatosAmigo() {
     setSliderValue(event.target.value);
     };
     //Arreglo y Funciones para los checkbox de Interes
-    const options = [
-      { label: 'Musica', value: 'option1' },
-      { label: 'Compras', value: 'option2' },
-      { label: 'Deportes', value: 'option3' },
-      { label: 'Comida', value: 'option4' },
-      { label: 'Jardineria', value: 'option5' },
-      { label: 'videoJuegos', value: 'option6' },
-      { label: 'turismo', value: 'option7' },
-      { label: 'Fiestas', value: 'option8' },
-      { label: 'Cocinar', value: 'option9' },
-      { label: 'Comic', value: 'option10' },
-      { label: 'Libros', value: 'option11' },
-      { label: 'Bailar', value: 'option12' },
-      { label: 'idiomas', value: 'option13' },
-      { label: 'Cine', value: 'option14' },
-      // Agrega más opciones según sea necesario
-    ];
     
     const [selectedOptions, setSelectedOptions] = useState([]);
   
     const handleCheckboxChange = (event) => {
       const value = event.target.value;
-      if (selectedOptions.includes(value)) {
-        setSelectedOptions(selectedOptions.filter(option => option !== value));
+      const isChecked = event.target.checked;
+      console.log("Checkbox value:", value);
+      console.log("Checkbox checked:", isChecked);
+
+      if (isChecked) {
+       setSelectedOptions([...selectedOptions, value]);
       } else {
-        setSelectedOptions([...selectedOptions, value]);
-      }
+       setSelectedOptions(selectedOptions.filter(option => option !== value));
+      } 
+      console.log("Selected options:", selectedOptions);
     };
-    //Arreglo y Funcion para Crear Card de Amigos 
-    //const datosTarjetas = [];
-      // Agrega más objetos de datos para más tarjetas si es necesario
-      const datosTarjetas = [];
+    //Funcion para Crear Card de Amigos al entrar a la pagina 
       useEffect(() => {
         // Esta función se ejecutará cuando el componente se monte por primera vez
         getAmigo();
+        getDepartamentos();
+        getCiudades();
+        getIntereses()
       }, []); // El segundo argumento [] indica que este efecto solo se ejecuta una vez, 
 
-
-
-    
     return (
       <div>
         <Navbar/>
@@ -101,12 +106,29 @@ function RegistrarDatosAmigo() {
         <Buscador/>
         <div className="contenedor">
         <div className="Filtrosdiv">
+
+        {departamentosList.length > 0 && (
+        <ComboBox
+        label="Departamentos"
+        options={departamentosList.map(departamento => ({
+          label: departamento.Departamento, // Ajusta a la propiedad correcta del departamento
+          value: departamento.idDepartamento // Ajusta a la propiedad correcta del departamento
+        }))} // Aquí se utiliza departamentosList
+        selectedValue={selectedOptionDepartamentos}
+        onChange={handleComboBoxChangeDepartamentos}
+        />
+        )}
+        {ciudadesList.length > 0 && (
         <ComboBox
         label="Ciudad"
-        options={optionsCiudades}
+        options={ciudadesList.map(ciudades => ({
+          label: ciudades.Ciudad, // Ajusta a la propiedad correcta del departamento
+          value: ciudades.idCiudad // Ajusta a la propiedad correcta del departamento
+        }))}
         selectedValue={selectedOptionCiudades}
         onChange={handleComboBoxChangeCiudades}
         />
+        )}
         <ComboBox
         label="Genero"
         options={optionsGeneros}
@@ -120,14 +142,19 @@ function RegistrarDatosAmigo() {
         value={sliderValue}
         onChange={handleSliderChange}
         />
-        <CheckboxGroup
-        options={options}
-        selectedOptions={selectedOptions}
-        onChange={handleCheckboxChange}
-        />
+        {interesesList.length > 0 &&(
+          <CheckboxGroup
+          options={interesesList.map(interes => ({
+            label: interes.Interes, // Ajusta a la propiedad correcta del interes
+            value: interes.idIntereses + "option" // Ajusta a la propiedad correcta del interes
+          }))}
+          selectedOptions={selectedOptions}
+          onChange={handleCheckboxChange}
+          />
+        )}
         <BotonGuardar />
         </div>
-        <div className="EditarCardsResultadosAmigos" style={{ overflowY: 'auto', maxHeight: '600px' }}>
+        <div className="EditarCardsResultadosAmigos" style={{ overflowY: 'auto', maxHeight: '700px' }}>
           <h3>Resultados Busqueda de Amigos</h3>
           <Row xs={1} md={4} className="g-4">
           {amigosList.map((tarjeta, index) => (
@@ -146,4 +173,4 @@ function RegistrarDatosAmigo() {
     );
   }
   
-  export default RegistrarDatosAmigo;
+  export default BuscadorAmigo;
