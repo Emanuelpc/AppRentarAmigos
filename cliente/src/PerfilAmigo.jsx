@@ -17,6 +17,7 @@ function PerfilAmigo() {
 return (
   <div>
     <Navbar/>
+    <h1>prueba</h1>
   
   <div style={{ display: 'flex', alignItems: 'center' }}>
     
