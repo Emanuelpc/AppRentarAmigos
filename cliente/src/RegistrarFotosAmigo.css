@@ -1,0 +1,28 @@
+.label {
+    font-weight: bold;
+}
+.RadioButtons label {
+    margin-right: 20px; /* Espacio horizontal entre cada radio button y su etiqueta */
+  }
+  .btn-1{
+    border: 2px;
+    padding: 10px;
+    margin-right: 20px;
+    justify-content: center;
+    color: black;
+}
+
+.btn-2{
+    border: 30px;
+    padding: 10px;
+    margin-left: 20px;
+    justify-content: center;
+    color: black;
+    position: relative;
+}
+
+.reposition-button {
+    position: relative; /* Se establece la posición relativa */
+    top: 20px; /* Se desplaza 20px desde la parte superior */
+    left: 50px; /* Se desplaza 50px desde la izquierda */
+}

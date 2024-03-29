@@ -1,12 +1,9 @@
 import Button from "react-bootstrap/esm/Button";
- dev
+
 import Navbar from "./Componentes/Navbar";
 import './PerfilAmigo.css';
 import InterestType from "./InterestType";
 import React from 'react';
-
-
- Jhonn
 
 function PerfilAmigo() {
   const profile = {
@@ -27,7 +24,7 @@ return (
           {/* Aquí colocarías la imagen del perfil */}
       </div>
       <div>
- dev
+
       
           <h1>Perfil</h1>
           <p>Nombre: {profile.name}</p>
@@ -51,9 +48,6 @@ return (
      <Button>Volver </Button>
      <Button>Alquilar Amigo</Button>
       <h2>Intereses:</h2>
-
-
- Jhonn
       </div>
   </div>
   </div>
