@@ -1,12 +1,9 @@
 import Button from "react-bootstrap/esm/Button";
- dev
 import Navbar from "./Componentes/Navbar";
 import './PerfilAmigo.css';
 import InterestType from "./InterestType";
 import React from 'react';
 
-
- Jhonn
 
 function PerfilAmigo() {
   const profile = {
@@ -16,20 +13,21 @@ function PerfilAmigo() {
     interests: ["Cine", "Baile", "Natación"],
     description: "Esta es una descripción del usuario."
 };
+const hombreGenericoUrl = "https://img.freepik.com/foto-gratis/hombre-feliz-pie-playa_107420-9868.jpg";
 return (
   <div>
     <Navbar/>
-    <h1>prueba</h1>
+   
   
   <div style={{ display: 'flex', alignItems: 'center' }}>
     
-      <div style={{ border: '2px solid black', padding: '400px', marginRight: '20px' }}>
+      <div style={{ marginTop:'90px' }}>
           {/* Aquí colocarías la imagen del perfil */}
+          <img src={hombreGenericoUrl} alt="Hombre Genérico" />
       </div>
-      <div>
- dev
       
-          <h1>Perfil</h1>
+      <div className="perfil">
+          <h1 id="titulo">Perfil</h1>
           <p>Nombre: {profile.name}</p>
           <p>Registro: {profile.registration}</p>
           <p>Precio: {profile.price}</p>
@@ -42,18 +40,6 @@ return (
               </div>
           </div>
           <p>Descripción: {profile.description}</p>
-
-      <h1>Perfil de PerfilAmigo</h1>
-     <img src =""></img>
-     <img src =""></img>
-     <img src =""></img>
-     <img src =""></img>
-     <Button>Volver </Button>
-     <Button>Alquilar Amigo</Button>
-      <h2>Intereses:</h2>
-
-
- Jhonn
       </div>
   </div>
   </div>
