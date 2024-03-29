@@ -1,9 +1,7 @@
 import Navbar from "./Componentes/Navbar";
-
-import { useState } from "react";
 import './RegistrarHorarioAmigo.css';
 import React from "react";
-
+import {  Link } from 'react-router-dom';
 
 function RegistrarHorarioAmigo() {
     return (
@@ -36,6 +34,14 @@ function RegistrarHorarioAmigo() {
             <input type="checkbox" id="domingo" name="domingo" value="domingo"/>
             <label for="domingo"> Domingo</label>
             </form>
+          </div>
+          <div>
+              <Link to ="/RegistrarInteresesAmigo">
+                  <button class = "btn-1">Volver</button>
+              </Link>
+              <Link to ="/RegistrarHorarioAmigo">
+                  <button class = "btn-2">Siguiente</button>
+              </Link>
           </div>
       </div>
     );

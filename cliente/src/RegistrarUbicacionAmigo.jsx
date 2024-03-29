@@ -1,4 +1,5 @@
 import Navbar from "./Componentes/Navbar";
+
 function RegistrarUbicacionAmigo() {
     return (
       <div>
@@ -7,6 +8,5 @@ function RegistrarUbicacionAmigo() {
       <h1>Hola Mundo!!!</h1>
       </div>
     );
-  }
-  
+}
   export default RegistrarUbicacionAmigo;

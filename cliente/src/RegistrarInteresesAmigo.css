@@ -15,12 +15,11 @@
 }
 
   .border3 {
-    font-weight: bold;
-    border: 4px solid black;
+    font-weight: bold;  /*Darle negrita a las letras de los checkbox*/
+    border: 4px solid black; /*crear un recuadro color negro*/
     padding: 10px;
     margin: 20px auto;
-    border-radius: 30px;
-    margin-left: 100px;
-    margin-right: 100px;
-
+    border-radius: 30px;/*suavizar los bordes */
+    margin-left: 100px;/* Ajustar el margen horizontal derecho*/
+    margin-right: 100px;/*Ajustar el margen horizontal izquiero*/
   }

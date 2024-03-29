@@ -6,7 +6,7 @@ import {  Link } from 'react-router-dom';
 
 function RegistrarInteresesAmigo() {
   return(
-  <div><Navbar/></div>
+    <div><Navbar/></div>
   
     );
   }
