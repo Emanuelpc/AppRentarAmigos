@@ -1,16 +1,14 @@
 import Navbar from "./Componentes/Navbar";
- dev
 import { useState } from "react";
 import './RegistrarHorarioAmigo.css';
 import React from "react";
 
 
- Jhonn
+
 function RegistrarHorarioAmigo() {
     return (
       <div>
-        <Navbar/>
- dev
+        <Navbar/> 
       <h1>Seleccionar Horarios</h1>
 
       <h3>Selecciona los dias que tiene disponible</h3>
