@@ -4,7 +4,7 @@ import React, { useState ,useEffect  } from 'react';
 import ComboBox from './Componentes/ComboBox';
 import Slider from './Componentes/ControldeslizanteEdad';
 import CheckboxGroup from './Componentes/CheckboxGroupIntereses';
-import BotonGuardar from './Componentes/BotonGuardar';
+import BotonBuscar from './Componentes/BotonBuscar';
 import CardAmigo from './Componentes/CardAmigo';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
@@ -17,6 +17,7 @@ function BuscadorAmigo() {
     const [departamentosList, setdepartamentos] = useState([])
     const [ciudadesList, setciudades] = useState([])
     const [interesesList, setintereses] = useState([])
+    const [guardarSeleccion, setGuardarSeleccion] = useState([]);
 
     // Función para obtener la lista de amigos del backend
     const getAmigo = () => {
@@ -52,23 +53,29 @@ function BuscadorAmigo() {
 
      const [selectedOptionDepartamentos, setSelectedOptionDepartamentos] = useState([]);
      const [selectedOptionCiudades, setSelectedOptionCiudades] = useState([]);
-     const [selectedOptionGeneros, setSelectedOptionGeneros] = useState(optionsGeneros[0].value);
+     const [selectedOptionGeneros, setSelectedOptionGeneros] = useState([]);
      
 
      const handleComboBoxChangeDepartamentos = (event) => {
       setSelectedOptionDepartamentos(event.target.value);
+      setGuardarSeleccion(prevState => [...prevState, { tipo: 'departamento', valor: event.target.value }]);
       };
      const handleComboBoxChangeCiudades = (event) => {
      setSelectedOptionCiudades(event.target.value);
+     setGuardarSeleccion(prevState => [...prevState, { tipo: 'ciudad', valor: event.target.value }]);
      };
      const handleComboBoxChangeGeneros = (event) => {
      setSelectedOptionGeneros(event.target.value);
+     setGuardarSeleccion(prevState => [...prevState, { tipo: 'genero', valor: event.target.value }]);
      };
     //Arreglo y funciones para el Slide Edad
     const [sliderValue, setSliderValue] = useState(50);
 
     const handleSliderChange = (event) => {
     setSliderValue(event.target.value);
+    const filteredSelections = guardarSeleccion.filter(selection => selection.tipo !== 'edad');
+    // Agregar la nueva entrada al array
+    setGuardarSeleccion([...filteredSelections, { tipo: 'edad', valor: event.target.value }]);
     };
     //Arreglo y Funciones para los checkbox de Interes
     
@@ -82,8 +89,10 @@ function BuscadorAmigo() {
 
       if (isChecked) {
        setSelectedOptions([...selectedOptions, value]);
+       setGuardarSeleccion(prevState => [...prevState, { tipo: 'interes', valor: value }]);
       } else {
        setSelectedOptions(selectedOptions.filter(option => option !== value));
+       setGuardarSeleccion(prevState => prevState.filter(option => option.valor !== value));
       } 
       console.log("Selected options:", selectedOptions);
     };
@@ -95,6 +104,11 @@ function BuscadorAmigo() {
         getCiudades();
         getIntereses()
       }, []); // El segundo argumento [] indica que este efecto solo se ejecuta una vez, 
+      //Funcion para ver las seleccion al clikear el boton
+      const handleGuardarClick = () => {
+        console.log("Selecciones guardadas:", guardarSeleccion);
+        
+    };
 
     return (
       <div>
@@ -146,13 +160,13 @@ function BuscadorAmigo() {
           <CheckboxGroup
           options={interesesList.map(interes => ({
             label: interes.Interes, // Ajusta a la propiedad correcta del interes
-            value: interes.idIntereses + "option" // Ajusta a la propiedad correcta del interes
+            value: "option"+interes.idIntereses  // Ajusta a la propiedad correcta del interes
           }))}
           selectedOptions={selectedOptions}
           onChange={handleCheckboxChange}
           />
         )}
-        <BotonGuardar />
+        <BotonBuscar onClick={handleGuardarClick}/>
         </div>
         <div className="EditarCardsResultadosAmigos" style={{ overflowY: 'auto', maxHeight: '700px' }}>
           <h3>Resultados Busqueda de Amigos</h3>

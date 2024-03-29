@@ -1,8 +1,8 @@
 import React from 'react';
 import Button from 'react-bootstrap/Button';
-import './BotonGuardar.css';
+import './BotonBuscar.css';
 
-const BotonGuardar = ({ onClick }) => {
+const BotonBuscar = ({ onClick }) => {
   return (
     <div className='EditarBotonGuardar'>
     <Button variant="primary" onClick={onClick}>
@@ -12,4 +12,4 @@ const BotonGuardar = ({ onClick }) => {
   );
 };
 
-export default BotonGuardar;
+export default BotonBuscar;
