@@ -1,29 +1,42 @@
 import { useState } from "react";
 import Navbar from "./Componentes/Navbar";
 import './RegistrarDatosAmigo.css';
+import Axios from "axios";
+
+
 
 function RegistrarDatosAmigo() {
 
-  const[nombre,setNombre] = useState("");
+  const[Nombre,setNombre] = useState("");
 
-  const[apellidos,setApellidos] = useState("");
+  const[Apellido,setApellido] = useState("");
 
-  const[email,setEmail] = useState("");
+  const[CorreoElectronico,setCorreoElectronico] = useState("");
 
-  const[contraseña, setContraseña] = useState("");
+  const[Password, setPassword] = useState("");
 
-  const[fecha_nacimiento, setFecha_Nacimiento] = useState(""); 
+  const[fechaNacimiento, setfechaNacimiento] = useState(""); 
 
-  const[genero, setGenero] = useState("Masculino")
+  const[Genero, setGenero] = useState("Masculino")
   
   function handleChange(e) {
     console.log(e.target.va);
     setGenero(e.target.value);
   }
 
-  const mostrarDatos = ()=> {  // llamar al atributo y ve como se esta guardando el dato
-    alert(nombre);
+  const add = () => {
+    Axios.post("http://localhost:3001/create",{
+      Nombre:Nombre,
+      Apellido:Apellido,
+      CorreoElectronico:CorreoElectronico,
+      Passwod:Password,
+      fechaNacimiento:fechaNacimiento,
+      Genero:Genero
+    }).then(()=>{
+      alert("Amigo registrado");
+    });
   }
+
   return (
       <div >
         <Navbar/>
@@ -35,19 +48,19 @@ function RegistrarDatosAmigo() {
           <br></br>
 
           <h3>Apellidos(*)</h3>
-          <input type="text" onChange={(event)=> setApellidos(event.target.value)} required="" />
+          <input type="text" onChange={(event)=> setApellido(event.target.value)} required="" />
           <br></br>
 
           <h3>Correo Electronico(*)</h3>
-          <input type="email" onChange={(event)=> setEmail(event.target.value)} required="" />
+          <input type="email" onChange={(event)=> setCorreoElectronico(event.target.value)} required="" />
           <br></br>
 
           <h3>Contraseña(*)</h3>
-          <input type="password" onChange={(event)=> setContraseña(event.target.value)} required=""/>
+          <input type="password" onChange={(event)=> setPassword(event.target.value)} required=""/>
           <br></br>
 
           <h3>Fecha de nacimiento(*)</h3>
-          <input type="date" onChange={(event)=> setFecha_Nacimiento(event.target.value)} required="" />
+          <input type="date" onChange={(event)=> setfechaNacimiento(event.target.value)} required="" />
           <br></br>
 
           <h3>Género(*)</h3>
@@ -73,6 +86,7 @@ function RegistrarDatosAmigo() {
           <br></br>
               <button class = "btn-1">Cancelar</button>
               <button class = "btn-2">Siguiente</button>
+              <button onClick={add} > Registrar</button>
               <br></br>
         </form>
        

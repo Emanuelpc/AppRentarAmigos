@@ -72,6 +72,26 @@ app.get("/intereses", (req, res) => {
     );
 });
 
+app.post("/create", (req,res)=>{
+    const Nombre = req.body.Nombre;
+    const Apellido = req.body.Apellido;
+    const CorreoElectronico = req.body.CorreoElectronico;
+    const Password = req.body.Password;
+    const fechaNacimiento = req.body.fechaNacimiento;
+    const Genero = req.body.Genero;
+
+        db.query('INSERT INTO amigo(Nombre,Apellido,CorreoElectronico,Password,fechaNacimiento,Genero) VALUES(?,?,?,?,?,?)',[Nombre,Apellido,CorreoElectronico,Password,fechaNacimiento,Genero],
+        (err, result) => {
+            if(err){
+                console.log(err);
+            }else{
+                res.send("Amigo Registrado con exito");
+            }
+        } 
+        );
+});
+
+
 
 //Inicialización del servidor:
 
