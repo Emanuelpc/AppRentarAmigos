@@ -40,9 +40,9 @@ function RegistrarDatosAmigo() {
   return (
       <div >
         <Navbar/>
-      <h1>Crear Perfil alqui-amigo</h1>
-        <form>
-
+      
+        <form class = "border3">
+          <h1>Crear Perfil alqui-amigo</h1>
           <h3>Nombre(*)</h3>
           <input type="text" onChange={(event)=> setNombre(event.target.value)}required="" /> 
           <br></br>
@@ -84,7 +84,9 @@ function RegistrarDatosAmigo() {
           </select>
           <br></br>
           <br></br>
-          <div>
+              <br></br>
+        </form>
+        <div>
           <Link to ="/BuscadorAmigo">
               <button class = "btn-1">Cancelar</button>
           </Link>
@@ -92,9 +94,6 @@ function RegistrarDatosAmigo() {
               <button class = "btn-2">Siguiente</button>
           </Link>
       </div>
-              <br></br>
-        </form>
-       
       </div> 
     );
   }
