@@ -17,7 +17,11 @@ function BuscadorAmigo() {
     const [departamentosList, setdepartamentos] = useState([])
     const [ciudadesList, setciudades] = useState([])
     const [interesesList, setintereses] = useState([])
-    const [guardarSeleccion, setGuardarSeleccion] = useState([]);
+    const [guardarSeleccionComboboxDepartamento, setGuardarSeleccionComboboxDepartamento] = useState([]);
+    const [guardarSeleccionComboboxCiudad, setGuardarSeleccionComboboxCiudad] = useState([]);
+    const [guardarSeleccionComboboxGenero, setGuardarSeleccionComboboxGenero] = useState([]);
+    const [guardarSeleccionSlider, setGuardarSeleccionSlider] = useState([]);
+    const [guardarSeleccionCheckbox, setGuardarSeleccionCheckbox] = useState([]);
 
     // Función para obtener la lista de amigos del backend
     const getAmigo = () => {
@@ -58,43 +62,39 @@ function BuscadorAmigo() {
 
      const handleComboBoxChangeDepartamentos = (event) => {
       setSelectedOptionDepartamentos(event.target.value);
-      setGuardarSeleccion(prevState => [...prevState, { tipo: 'departamento', valor: event.target.value }]);
+      setGuardarSeleccionComboboxDepartamento([...guardarSeleccionComboboxDepartamento, { tipo: 'departamento', valor: event.target.value }]);
       };
      const handleComboBoxChangeCiudades = (event) => {
      setSelectedOptionCiudades(event.target.value);
-     setGuardarSeleccion(prevState => [...prevState, { tipo: 'ciudad', valor: event.target.value }]);
+     setGuardarSeleccionComboboxCiudad([...guardarSeleccionComboboxCiudad, { tipo: 'ciudad', valor: event.target.value }]);
      };
      const handleComboBoxChangeGeneros = (event) => {
      setSelectedOptionGeneros(event.target.value);
-     setGuardarSeleccion(prevState => [...prevState, { tipo: 'genero', valor: event.target.value }]);
+     setGuardarSeleccionComboboxGenero([...guardarSeleccionComboboxGenero, { tipo: 'genero', valor: event.target.value }]);
      };
     //Arreglo y funciones para el Slide Edad
     const [sliderValue, setSliderValue] = useState(50);
 
     const handleSliderChange = (event) => {
     setSliderValue(event.target.value);
-    const filteredSelections = guardarSeleccion.filter(selection => selection.tipo !== 'edad');
+    const filteredSelections = guardarSeleccionSlider.filter(selection => selection.tipo !== 'edad');
     // Agregar la nueva entrada al array
-    setGuardarSeleccion([...filteredSelections, { tipo: 'edad', valor: event.target.value }]);
+    setGuardarSeleccionSlider([...filteredSelections, { tipo: 'edad', valor: event.target.value }]);
     };
-    //Arreglo y Funciones para los checkbox de Interes
+    //Funciones para los checkbox de Interes
     
     const [selectedOptions, setSelectedOptions] = useState([]);
   
     const handleCheckboxChange = (event) => {
       const value = event.target.value;
       const isChecked = event.target.checked;
-      console.log("Checkbox value:", value);
-      console.log("Checkbox checked:", isChecked);
 
       if (isChecked) {
        setSelectedOptions([...selectedOptions, value]);
-       setGuardarSeleccion(prevState => [...prevState, { tipo: 'interes', valor: value }]);
+       setGuardarSeleccionCheckbox([...guardarSeleccionCheckbox, { tipo: 'interes', valor: value }]);
       } else {
-       setSelectedOptions(selectedOptions.filter(option => option !== value));
-       setGuardarSeleccion(prevState => prevState.filter(option => option.valor !== value));
+        setGuardarSeleccionCheckbox(guardarSeleccionCheckbox.filter(option => option.valor !== value));
       } 
-      console.log("Selected options:", selectedOptions);
     };
     //Funcion para Crear Card de Amigos al entrar a la pagina 
       useEffect(() => {
@@ -106,8 +106,11 @@ function BuscadorAmigo() {
       }, []); // El segundo argumento [] indica que este efecto solo se ejecuta una vez, 
       //Funcion para ver las seleccion al clikear el boton
       const handleGuardarClick = () => {
-        console.log("Selecciones guardadas:", guardarSeleccion);
-        
+        console.log("Selecciones guardadas (Combobox Departamento):", guardarSeleccionComboboxDepartamento);
+        console.log("Selecciones guardadas (Combobox Ciudad):", guardarSeleccionComboboxCiudad);
+        console.log("Selecciones guardadas (Combobox Genero):", guardarSeleccionComboboxGenero);
+        console.log("Selecciones guardadas (Slider):", guardarSeleccionSlider);
+        console.log("Selecciones guardadas (Checkbox):", guardarSeleccionCheckbox)
     };
 
     return (

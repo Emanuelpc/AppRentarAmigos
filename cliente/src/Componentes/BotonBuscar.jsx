@@ -6,7 +6,7 @@ const BotonBuscar = ({ onClick }) => {
   return (
     <div className='EditarBotonGuardar'>
     <Button variant="primary" onClick={onClick}>
-      Guardar
+      Buscar Amigo
     </Button>
     </div>
   );
