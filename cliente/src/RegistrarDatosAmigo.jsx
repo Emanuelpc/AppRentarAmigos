@@ -3,7 +3,6 @@ import Navbar from "./Componentes/Navbar";
 import './RegistrarDatosAmigo.css';
 
 function RegistrarDatosAmigo() {
- dev
 
   const[nombre,setNombre] = useState("");
 
@@ -62,37 +61,6 @@ function RegistrarDatosAmigo() {
             </div>
           <br></br>
 
-
-    return (
-
-      <div>
-        <Navbar/>
-      <h1>Crear Perfil alqui-amigo</h1>
-        <form>
-          <h3>Nombre(*)</h3>
-          <input type="text" required="" /> 
-          <br></br>
-          <h3>Apellidos(*)</h3>
-          <input type="text" required="" />
-          <br></br>
-          <h3>Correo Electronico(*)</h3>
-          <input type="email" required="" />
-          <br></br>
-          <h3>Contraseña(*)</h3>
-          <input type="password" required=""/>
-          <br></br>
-          <h3>Fecha de nacimiento(*)</h3>
-          <input type="date" required="" />
-          <br></br>
-          <h3>Género(*)</h3>
-          <input type="radio" value="Masculino" />
-          <label for="masculino">Masculino</label>
-          <input type="radio" value="Femenino" />
-          <label for="femenino">Femenino</label>
-          <input type="radio" value="Otro" />
-          <label for="otro">Otro</label>
-          <br></br>
- Jhonn
           <h3>Elige cuánto que te gustaría obtener por hora(*)</h3>
           <select name="tarifa" id="tarifa">
               <option value="ganar10">Quiero ganar 10Bs por hora</option>
@@ -103,14 +71,9 @@ function RegistrarDatosAmigo() {
           </select>
           <br></br>
           <br></br>
- dev
               <button class = "btn-1">Cancelar</button>
               <button class = "btn-2">Siguiente</button>
               <br></br>
-
-          <input type="submit" value="Cancelar" />
-          <input type="submit" value="Siguiente" />
- Jhonn
         </form>
        
       </div> 
