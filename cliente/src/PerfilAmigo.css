@@ -1,0 +1,11 @@
+#titulo{
+    display: flex;
+    justify-content: center; /* Centra horizontalmente */
+    align-items: center; /* Centra verticalmente */
+    flex-direction: column; /* Apila los elementos verticalmente */
+    color: #1d9bf0;
+}
+div{
+    margin: auto;
+}
+  
