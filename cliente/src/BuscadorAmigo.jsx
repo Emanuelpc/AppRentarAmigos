@@ -13,6 +13,7 @@ import './BuscadorAmigo.css';
 
 function BuscadorAmigo() {
 
+  
     const [amigosList, setamigos] = useState([])
     const [departamentosList, setdepartamentos] = useState([])
     const [ciudadesList, setciudades] = useState([])
