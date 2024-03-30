@@ -31,16 +31,55 @@ function RegistrarHorarioAmigo() {
 
             <input type="checkbox" id="sabado" name="sabado" value="sabado"/>
             <label for="sabado"> Sabado</label>
-
-      <h1>Esta es la página de RegistrarHorarioAmigo</h1>
-      <h1>Hola Mundo!!!</h1>
       
- Jhonn
+ 
 
             <input type="checkbox" id="domingo" name="domingo" value="domingo"/>
             <label for="domingo"> Domingo</label>
             </form>
           </div>
+          <h1>Seleccionar turno </h1>
+          <select name="tarifa" id="tarifa">
+              <option value="ganar10">Mañana</option>
+              <option value="ganar20">Tarde</option>
+              <option value="ganar30">Noche</option>
+          </select>
+          <select name="tarifa" id="tarifa">
+              <option value="ganar10">Mañana</option>
+              <option value="ganar20">Tarde</option>
+              <option value="ganar30">Noche</option>
+          </select>
+          <select name="tarifa" id="tarifa">
+              <option value="ganar10">Mañana</option>
+              <option value="ganar20">Tarde</option>
+              <option value="ganar30">Noche</option>
+          </select>
+          <select name="tarifa" id="tarifa">
+              <option value="ganar10">Mañana</option>
+              <option value="ganar20">Tarde</option>
+              <option value="ganar30">Noche</option>
+          </select>
+          <select name="tarifa" id="tarifa">
+              <option value="ganar10">Mañana</option>
+              <option value="ganar20">Tarde</option>
+              <option value="ganar30">Noche</option>
+          </select>
+          <select name="tarifa" id="tarifa">
+              <option value="ganar10">Mañana</option>
+              <option value="ganar20">Tarde</option>
+              <option value="ganar30">Noche</option>
+          </select>
+          <select name="tarifa" id="tarifa">
+              <option value="ganar10">Mañana</option>
+              <option value="ganar20">Tarde</option>
+              <option value="ganar30">Noche</option>
+          </select>
+          <h1>Previzualizacion del horario</h1>
+          <br></br>
+          <br></br>
+              <button class = "btn-1">Volver</button>
+              <button class = "btn-2">Siguiente</button>
+              <br></br>
       </div>
     );
   }
