@@ -1,7 +1,4 @@
 import Buscador from "./Componentes/Buscador";
-<<<<<<< HEAD
-import Navbar from "./Componentes/Navbar"
-=======
 import Navbar from "./Componentes/Navbar";
 import React, { useState ,useEffect  } from 'react';
 import ComboBox from './Componentes/ComboBox';
@@ -13,8 +10,6 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Axios from "axios";
 import './BuscadorAmigo.css';
-
-function BuscadorAmigo() {
 
     const [amigosList, setamigos] = useState([])
     const [departamentosList, setdepartamentos] = useState([])
@@ -165,7 +160,6 @@ function BuscadorAmigo() {
     function separarPorEspacios(cadena) {
       return cadena.split(" ");
     }
->>>>>>> e5fc7ee24445ea0e639b2f54490c7fb25b911841
 
 function RegistrarDatosAmigo() {
     return (
@@ -175,12 +169,6 @@ function RegistrarDatosAmigo() {
         <h1>Busca a tu Amigo Rentable Ahora!! </h1>
         <h2>Rentar fácil, rentar inteligente. Amigo Rentable, tu mejor opción siempre.</h2>
         </div>
-<<<<<<< HEAD
-        <Buscador/>
-      
-      
-
-=======
         <Buscador
         searchQuery={searchQuery}
         onSearchChange={handleSearchChange}
@@ -251,9 +239,8 @@ function RegistrarDatosAmigo() {
           </Row>
         </div>
         </div>
->>>>>>> e5fc7ee24445ea0e639b2f54490c7fb25b911841
       </div>
     );
   }
   
-  export default RegistrarDatosAmigo;
+  export default BuscadorAmigo;

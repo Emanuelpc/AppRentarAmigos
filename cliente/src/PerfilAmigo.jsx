@@ -6,11 +6,6 @@ import { Link } from 'react-router-dom'; // Importa Link desde react-router-dom
 
 
 function PerfilAmigo() {
-<<<<<<< HEAD
-return (
-  <div>
-    <Navbar/>
-=======
   const profile = {
     name: "Denis Pinto Paredes",
     registration: "Registro realizado en Febrero del 2022 para Bolivia",
@@ -49,7 +44,6 @@ return (
           <Button variant="success">Rentar Amigo</Button>
       </div>
   </div>
->>>>>>> e5fc7ee24445ea0e639b2f54490c7fb25b911841
   </div>
 );
 }
