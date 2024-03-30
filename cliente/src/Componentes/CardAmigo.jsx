@@ -16,3 +16,5 @@ const CardAmigo = ({ titulo, descripcion, imagenUrl }) => {
 };
 
 export default CardAmigo;
+
+
