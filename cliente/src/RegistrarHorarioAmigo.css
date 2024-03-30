@@ -1,3 +1,11 @@
-.Checkbox form > label {
-    margin-right: 40px; /* Espacio horizontal entre cada checkbox y su etiqueta */
+.Checkbox label {
+    margin-right: 75px; /* Espacio horizontal entre cada checkbox y su etiqueta */
+  }
+
+  .Turnos select {
+    margin-right: 65px; /* Ajusta el tamaño del margen según tus preferencias */
+  }
+  .Horarios h5 {
+    display: inline-block;
+    margin-right: 90px; /* Ajusta el margen entre los elementos según tus preferencias */
   }
