@@ -1,25 +1,15 @@
 import Navbar from "./Componentes/Navbar";
-<<<<<<< HEAD
-=======
 import { useState } from "react";
->>>>>>> e5fc7ee24445ea0e639b2f54490c7fb25b911841
 import './RegistrarHorarioAmigo.css';
 import React from "react";
 import {  Link } from 'react-router-dom';
 
-<<<<<<< HEAD
-function RegistrarHorarioAmigo() {
-    return (
-      <div>
-        <Navbar/>
-=======
 
 
 function RegistrarHorarioAmigo() {
     return (
       <div>
         <Navbar/> 
->>>>>>> e5fc7ee24445ea0e639b2f54490c7fb25b911841
       <h1>Seleccionar Horarios</h1>
 
       <h3>Selecciona los dias que tiene disponible</h3>
@@ -42,12 +32,7 @@ function RegistrarHorarioAmigo() {
 
             <input type="checkbox" id="sabado" name="sabado" value="sabado"/>
             <label for="sabado"> Sabado</label>
-<<<<<<< HEAD
-
-
-=======
     
->>>>>>> aed2be3e0c98d94eca721b3d7f8ae180ca8bef01
             <input type="checkbox" id="domingo" name="domingo" value="domingo"/>
             <label for="domingo"> Domingo</label>
 
@@ -114,7 +99,6 @@ function RegistrarHorarioAmigo() {
               </div>
 
           </div>
-<<<<<<< HEAD
           <div>
               <Link to ="/RegistrarFotosAmigo">
                   <button class = "btn-1">Volver</button>
@@ -123,16 +107,6 @@ function RegistrarHorarioAmigo() {
                   <button class = "btn-2">Siguiente</button>
               </Link>
           </div>
-=======
-
-          <div>
-            <br></br>
-              <h2>Previsualización del Horario </h2>
-            
-          </div>
-
-
->>>>>>> aed2be3e0c98d94eca721b3d7f8ae180ca8bef01
       </div>
     );
   }

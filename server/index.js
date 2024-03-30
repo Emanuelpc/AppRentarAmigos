@@ -1,5 +1,3 @@
-<<<<<<< HEAD
-=======
 const express = require("express");
 const app = express();
 const mysql = require("mysql");
@@ -199,4 +197,3 @@ function quitarParte(cadena, parte) {
 function quitarPalabraDeArray(array, palabra) {
     return array.map(cadena => quitarParte(cadena, palabra));
 }
->>>>>>> e5fc7ee24445ea0e639b2f54490c7fb25b911841
