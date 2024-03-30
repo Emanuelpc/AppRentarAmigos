@@ -2,6 +2,7 @@ import Button from "react-bootstrap/esm/Button";
 import Navbar from "./Componentes/Navbar";
 import './PerfilAmigo.css';
 import React from 'react';
+import { Link } from 'react-router-dom'; // Importa Link desde react-router-dom
 
 
 function PerfilAmigo() {
@@ -44,6 +45,8 @@ return (
               </div>
           </div>
           <p>Descripción: {profile.description}</p>
+          <Link to="/BuscadorAmigo" style={{ marginRight: '10px', textDecoration: 'none' }}><button>Volver</button></Link>
+          <Button variant="success">Rentar Amigo</Button>
       </div>
   </div>
 >>>>>>> e5fc7ee24445ea0e639b2f54490c7fb25b911841
