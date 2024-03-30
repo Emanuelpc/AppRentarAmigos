@@ -2,7 +2,11 @@ import { useState } from "react";
 import Navbar from "./Componentes/Navbar";
 import './RegistrarDatosAmigo.css';
 import Axios from "axios";
+<<<<<<< HEAD
 import {  Link } from 'react-router-dom';
+=======
+
+>>>>>>> e5fc7ee24445ea0e639b2f54490c7fb25b911841
 
 
 function RegistrarDatosAmigo() {
@@ -84,6 +88,12 @@ function RegistrarDatosAmigo() {
           </select>
           <br></br>
           <br></br>
+<<<<<<< HEAD
+=======
+              <button class = "btn-1">Cancelar</button>
+              <button class = "btn-2">Siguiente</button>
+              <button onClick={add} > Registrar</button>
+>>>>>>> e5fc7ee24445ea0e639b2f54490c7fb25b911841
               <br></br>
         </form>
         <div>

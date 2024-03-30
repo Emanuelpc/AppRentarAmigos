@@ -1,12 +1,25 @@
 import Navbar from "./Componentes/Navbar";
+<<<<<<< HEAD
+=======
+import { useState } from "react";
+>>>>>>> e5fc7ee24445ea0e639b2f54490c7fb25b911841
 import './RegistrarHorarioAmigo.css';
 import React from "react";
 import {  Link } from 'react-router-dom';
 
+<<<<<<< HEAD
 function RegistrarHorarioAmigo() {
     return (
       <div>
         <Navbar/>
+=======
+
+
+function RegistrarHorarioAmigo() {
+    return (
+      <div>
+        <Navbar/> 
+>>>>>>> e5fc7ee24445ea0e639b2f54490c7fb25b911841
       <h1>Seleccionar Horarios</h1>
 
       <h3>Selecciona los dias que tiene disponible</h3>

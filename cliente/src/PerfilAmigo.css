@@ -1,0 +1,14 @@
+<<<<<<< HEAD
+=======
+#titulo{
+    display: flex;
+    justify-content: center; /* Centra horizontalmente */
+    align-items: center; /* Centra verticalmente */
+    flex-direction: column; /* Apila los elementos verticalmente */
+    color: #1d9bf0;
+}
+div{
+    margin: auto;
+}
+  
+>>>>>>> e5fc7ee24445ea0e639b2f54490c7fb25b911841
