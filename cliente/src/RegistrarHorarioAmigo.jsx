@@ -46,3 +46,4 @@ function RegistrarHorarioAmigo() {
   }
   
   export default RegistrarHorarioAmigo;
+  

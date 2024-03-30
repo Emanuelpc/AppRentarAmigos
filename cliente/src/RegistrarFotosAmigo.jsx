@@ -19,3 +19,4 @@ function RegistrarFotosAmigo() {
   }
   
   export default RegistrarFotosAmigo;
+  

@@ -81,3 +81,4 @@ function RegistrarDatosAmigo() {
   }
   
   export default RegistrarDatosAmigo;
+  

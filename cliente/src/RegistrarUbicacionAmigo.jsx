@@ -10,3 +10,4 @@ function RegistrarUbicacionAmigo() {
   }
   
   export default RegistrarUbicacionAmigo;
+  
