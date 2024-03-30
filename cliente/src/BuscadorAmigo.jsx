@@ -17,7 +17,32 @@ function BuscadorAmigo() {
     const [departamentosList, setdepartamentos] = useState([])
     const [ciudadesList, setciudades] = useState([])
     const [interesesList, setintereses] = useState([])
-    const [guardarSeleccion, setGuardarSeleccion] = useState([]);
+    const [guardarSeleccionComboboxDepartamento, setGuardarSeleccionComboboxDepartamento] = useState([]);
+    const [guardarSeleccionComboboxCiudad, setGuardarSeleccionComboboxCiudad] = useState([]);
+    const [guardarSeleccionComboboxGenero, setGuardarSeleccionComboboxGenero] = useState([]);
+    const [guardarSeleccionSlider, setGuardarSeleccionSlider] = useState([]);
+    const [guardarSeleccionCheckbox, setGuardarSeleccionCheckbox] = useState([]);
+    const [searchQuery, setSearchQuery] = useState('');
+
+    // Manejar cambios en la búsqueda
+    const handleSearchChange = (event) => {
+    setSearchQuery(event.target.value);
+    };
+    const BuscarAmigoNombre = () => {
+      let resultado=separarPorEspacios(searchQuery);
+      console.log(resultado);
+      Axios.get("http://localhost:3001/amigoBusqueda", {
+              params: {
+                Nombre:resultado[0],
+                Apellido:resultado[1]
+              }
+          }).then((response) => {
+              // Manejar la respuesta
+              setamigos(response.data);
+          }).catch((error) => {
+              console.error("Error en la solicitud:", error);
+          });
+    }
 
     // Función para obtener la lista de amigos del backend
     const getAmigo = () => {
@@ -43,6 +68,7 @@ function BuscadorAmigo() {
         setintereses(response.data);
       });
     }
+    //Funcion para obtener la lista de Amigos por los filtros
     
     //Arreglo y funciones para el CheckBox
      const optionsGeneros = [
@@ -58,26 +84,26 @@ function BuscadorAmigo() {
 
      const handleComboBoxChangeDepartamentos = (event) => {
       setSelectedOptionDepartamentos(event.target.value);
-      setGuardarSeleccion(prevState => [...prevState, { tipo: 'departamento', valor: event.target.value }]);
+      setGuardarSeleccionComboboxDepartamento([...guardarSeleccionComboboxDepartamento, { tipo: 'departamento', valor: event.target.value }]);
       };
      const handleComboBoxChangeCiudades = (event) => {
      setSelectedOptionCiudades(event.target.value);
-     setGuardarSeleccion(prevState => [...prevState, { tipo: 'ciudad', valor: event.target.value }]);
+     setGuardarSeleccionComboboxCiudad([...guardarSeleccionComboboxCiudad, { tipo: 'ciudad', valor: event.target.value }]);
      };
      const handleComboBoxChangeGeneros = (event) => {
      setSelectedOptionGeneros(event.target.value);
-     setGuardarSeleccion(prevState => [...prevState, { tipo: 'genero', valor: event.target.value }]);
+     setGuardarSeleccionComboboxGenero([...guardarSeleccionComboboxGenero, { tipo: 'genero', valor: event.target.value }]);
      };
     //Arreglo y funciones para el Slide Edad
     const [sliderValue, setSliderValue] = useState(50);
 
     const handleSliderChange = (event) => {
     setSliderValue(event.target.value);
-    const filteredSelections = guardarSeleccion.filter(selection => selection.tipo !== 'edad');
+    const filteredSelections = guardarSeleccionSlider.filter(selection => selection.tipo !== 'edad');
     // Agregar la nueva entrada al array
-    setGuardarSeleccion([...filteredSelections, { tipo: 'edad', valor: event.target.value }]);
+    setGuardarSeleccionSlider([...filteredSelections, { tipo: 'edad', valor: event.target.value }]);
     };
-    //Arreglo y Funciones para los checkbox de Interes
+    //Funciones para los checkbox de Interes
     
     const [selectedOptions, setSelectedOptions] = useState([]);
   
@@ -89,10 +115,10 @@ function BuscadorAmigo() {
 
       if (isChecked) {
        setSelectedOptions([...selectedOptions, value]);
-       setGuardarSeleccion(prevState => [...prevState, { tipo: 'interes', valor: value }]);
+       setGuardarSeleccionCheckbox(prevState => [...prevState, { tipo: 'interes', valor: value }]);
       } else {
        setSelectedOptions(selectedOptions.filter(option => option !== value));
-       setGuardarSeleccion(prevState => prevState.filter(option => option.valor !== value));
+       setGuardarSeleccionCheckbox(prevState => prevState.filter(option => option.valor !== value));
       } 
       console.log("Selected options:", selectedOptions);
     };
@@ -106,9 +132,36 @@ function BuscadorAmigo() {
       }, []); // El segundo argumento [] indica que este efecto solo se ejecuta una vez, 
       //Funcion para ver las seleccion al clikear el boton
       const handleGuardarClick = () => {
-        console.log("Selecciones guardadas:", guardarSeleccion);
-        
+        console.log("Selecciones guardadas (Combobox Departamento):", guardarSeleccionComboboxDepartamento);
+        console.log("Selecciones guardadas (Combobox Ciudad):", guardarSeleccionComboboxCiudad);
+        console.log("Selecciones guardadas (Combobox Genero):", guardarSeleccionComboboxGenero);
+        console.log("Selecciones guardadas (Slider):", guardarSeleccionSlider);
+        console.log("Selecciones guardadas (Checkbox):", guardarSeleccionCheckbox);
+          Axios.get("http://localhost:3001/amigosfiltrado", {
+              params: {
+                Departamento:guardarSeleccionComboboxDepartamento[guardarSeleccionComboboxDepartamento.length-1],
+                Ciudad:guardarSeleccionComboboxCiudad[guardarSeleccionComboboxCiudad.length-1],
+                Genero:guardarSeleccionComboboxGenero[guardarSeleccionComboboxGenero.length-1],
+                Slider:guardarSeleccionSlider[guardarSeleccionSlider.length-1],
+                Intereses:guardarSeleccionCheckbox
+              }
+          }).then((response) => {
+              // Manejar la respuesta
+              setamigos(response.data);
+          }).catch((error) => {
+              console.error("Error en la solicitud:", error);
+          });
+      
     };
+    function obtenerEdad(cadena) {
+      let primerosCuatro = cadena.substring(0, 4);
+      let edad=2024-parseInt(primerosCuatro, 10); // La base 10 se usa para garantizar la interpretación correcta del número
+      return edad;
+
+    }
+    function separarPorEspacios(cadena) {
+      return cadena.split(" ");
+    }
 
     return (
       <div>
@@ -117,7 +170,11 @@ function BuscadorAmigo() {
         <h1>Busca a tu Amigo Rentable Ahora!! </h1>
         <h2>Rentar fácil, rentar inteligente. Amigo Rentable, tu mejor opción siempre.</h2>
         </div>
-        <Buscador/>
+        <Buscador
+        searchQuery={searchQuery}
+        onSearchChange={handleSearchChange}
+        onClick={BuscarAmigoNombre}
+        />
         <div className="contenedor">
         <div className="Filtrosdiv">
 
@@ -174,7 +231,7 @@ function BuscadorAmigo() {
           {amigosList.map((tarjeta, index) => (
           <Col key={index}>
            <CardAmigo
-            titulo={tarjeta.Nombre+" "+tarjeta.Apellido}
+            titulo={tarjeta.Nombre+" "+tarjeta.Apellido+" Edad "+obtenerEdad(tarjeta.fechaNacimiento)}
             descripcion={tarjeta.Acercademi}
             imagenUrl={"https://media.istockphoto.com/id/522189109/es/foto/no-se-tome-tambi%C3%A9n-en-serio-la-vida.jpg?s=612x612&w=0&k=20&c=4RcKyGRBw_fwH_hl80Fn-COdYk9bjbrVq5v7u97dct4="}
            />
