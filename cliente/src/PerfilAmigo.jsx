@@ -4,8 +4,6 @@ import './PerfilAmigo.css';
 import InterestType from "./InterestType";
 import React from 'react';
 
-
-
 function PerfilAmigo() {
   const profile = {
     name: "Denis Pinto Paredes",
@@ -17,6 +15,7 @@ function PerfilAmigo() {
 return (
   <div>
     <Navbar/>
+   
   
   <div style={{ display: 'flex', alignItems: 'center' }}>
     
@@ -25,12 +24,14 @@ return (
       </div>
       <div>
       
-          <h1>Perfil</h1>
+      
+          <h1 style={c}>Perfil</h1>
           <p>Nombre: {profile.name}</p>
           <p>Registro: {profile.registration}</p>
           <p>Precio: {profile.price}</p>
           <div>
-              <strong>Intereses:</strong>
+              
+          <strong>Intereses:</strong>
               <div style={{ flexDirection: 'row' }}>
                   {profile.interests.map((interest, index) => (
                       <InterestType key={index} interest={interest} />
