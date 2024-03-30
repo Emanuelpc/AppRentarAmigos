@@ -1,0 +1,25 @@
+.btn-1{
+    border: 2px;
+    padding: 10px;
+    margin-right: 20px;
+    justify-content: center;
+    color: black;
+}
+
+.btn-2{
+    border: 30px;
+    padding: 10px;
+    margin-left: 20px;
+    justify-content: center;
+    color: black;
+}
+
+.border3 {
+    font-weight: bold;  /*Darle negrita a las letras de los checkbox*/
+    border: 4px solid black; /*crear un recuadro color negro*/
+    padding: 10px;
+    margin: 20px auto;
+    border-radius: 30px;/*suavizar los bordes */
+    margin-left: 100px;/* Ajustar el margen horizontal derecho*/
+    margin-right: 100px;/*Ajustar el margen horizontal izquiero*/
+  }

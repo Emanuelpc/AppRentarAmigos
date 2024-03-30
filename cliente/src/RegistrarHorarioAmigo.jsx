@@ -36,7 +36,7 @@ function RegistrarHorarioAmigo() {
             </form>
           </div>
           <div>
-              <Link to ="/RegistrarHorarioAmigo">
+              <Link to ="/RegistrarFotosAmigo">
                   <button class = "btn-1">Volver</button>
               </Link>
               <Link to ="/RegistrarUbicacionAmigo">
