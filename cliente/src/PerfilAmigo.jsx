@@ -3,6 +3,7 @@ import Navbar from "./Componentes/Navbar";
 import './PerfilAmigo.css';
 import InterestType from "./InterestType";
 import React from 'react';
+import { Link } from 'react-router-dom'; // Importa Link desde react-router-dom
 
 
 function PerfilAmigo() {
@@ -40,6 +41,8 @@ return (
               </div>
           </div>
           <p>Descripción: {profile.description}</p>
+          <Link to="/BuscadorAmigo" style={{ marginRight: '10px', textDecoration: 'none' }}><button>Volver</button></Link>
+          <Button variant="success">Rentar Amigo</Button>
       </div>
   </div>
   </div>
