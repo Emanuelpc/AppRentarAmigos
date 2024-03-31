@@ -41,8 +41,12 @@ return (
               </div>
           </div>
           <p>Descripción: {profile.description}</p>
-          <Link to="/BuscadorAmigo" style={{ marginRight: '10px', textDecoration: 'none' }}><button>Volver</button></Link>
+          <div className="botones">
+          <Link to="/BuscadorAmigo" style={{ textDecoration: 'none' }}>
+            <button className="boton-buscar-amigos">Volver</button>
+          </Link>
           <Button variant="success">Rentar Amigo</Button>
+          </div>
       </div>
   </div>
   </div>
