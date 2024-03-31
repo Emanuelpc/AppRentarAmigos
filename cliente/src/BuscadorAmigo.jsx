@@ -16,6 +16,7 @@ function BuscadorAmigo() {
     const [amigosList, setamigos] = useState([])
     const [departamentosList, setdepartamentos] = useState([])
     const [ciudadesList, setciudades] = useState([])
+    const [ciudadesListOriginal, setCiudadesOriginal] = useState([]);
     const [interesesList, setintereses] = useState([])
     const [guardarSeleccionComboboxDepartamento, setGuardarSeleccionComboboxDepartamento] = useState([]);
     const [guardarSeleccionComboboxCiudad, setGuardarSeleccionComboboxCiudad] = useState([]);
@@ -60,6 +61,7 @@ function BuscadorAmigo() {
     const getCiudades = () => {
       Axios.get("http://localhost:3001/ciudades").then((response) => {
         setciudades(response.data);
+        setCiudadesOriginal(response.data); // Guardar la lista original
       });
     }
     // Función para obtener la lista de Intereses del backend
@@ -84,8 +86,13 @@ function BuscadorAmigo() {
      
 
      const handleComboBoxChangeDepartamentos = (event) => {
+      const selectedDepartamentoId = parseInt(event.target.value, 10);
       setSelectedOptionDepartamentos(event.target.value);
       setGuardarSeleccionComboboxDepartamento([...guardarSeleccionComboboxDepartamento, { tipo: 'departamento', valor: event.target.value }]);
+      console.log(ciudadesList);
+      const filteredCiudades = ciudadesListOriginal.filter(ciudad => ciudad.Departamento_idDepartamento === selectedDepartamentoId);
+      
+      setciudades(filteredCiudades);
       };
      const handleComboBoxChangeCiudades = (event) => {
      setSelectedOptionCiudades(event.target.value);
