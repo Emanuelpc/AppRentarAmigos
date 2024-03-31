@@ -47,9 +47,6 @@ return (
           </Link>
           <Button variant="success">Rentar Amigo</Button>
           
-          <div>
-          <h1>holaaa</h1>
-          </div>
           </div>
       </div>
   </div>
