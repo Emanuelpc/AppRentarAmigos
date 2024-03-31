@@ -16,6 +16,7 @@ function BuscadorAmigo() {
     const [amigosList, setamigos] = useState([])
     const [departamentosList, setdepartamentos] = useState([])
     const [ciudadesList, setciudades] = useState([])
+    const [ciudadesListOriginal, setCiudadesOriginal] = useState([]);
     const [interesesList, setintereses] = useState([])
     const [guardarSeleccionComboboxDepartamento, setGuardarSeleccionComboboxDepartamento] = useState([]);
     const [guardarSeleccionComboboxCiudad, setGuardarSeleccionComboboxCiudad] = useState([]);
@@ -60,6 +61,7 @@ function BuscadorAmigo() {
     const getCiudades = () => {
       Axios.get("http://localhost:3001/ciudades").then((response) => {
         setciudades(response.data);
+        setCiudadesOriginal(response.data); // Guardar la lista original
       });
     }
     // Función para obtener la lista de Intereses del backend
@@ -72,6 +74,7 @@ function BuscadorAmigo() {
     
     //Arreglo y funciones para el CheckBox
      const optionsGeneros = [
+      { label:'Seleccion un Genero',value: null },
       { label: 'Hombre', value: 'option1' },
       { label: 'Mujer', value: 'option2' },
       { label: 'Otro', value: 'option3' },
@@ -83,8 +86,13 @@ function BuscadorAmigo() {
      
 
      const handleComboBoxChangeDepartamentos = (event) => {
+      const selectedDepartamentoId = parseInt(event.target.value, 10);
       setSelectedOptionDepartamentos(event.target.value);
       setGuardarSeleccionComboboxDepartamento([...guardarSeleccionComboboxDepartamento, { tipo: 'departamento', valor: event.target.value }]);
+      console.log(ciudadesList);
+      const filteredCiudades = ciudadesListOriginal.filter(ciudad => ciudad.Departamento_idDepartamento === selectedDepartamentoId);
+      
+      setciudades(filteredCiudades);
       };
      const handleComboBoxChangeCiudades = (event) => {
      setSelectedOptionCiudades(event.target.value);
@@ -181,10 +189,13 @@ function BuscadorAmigo() {
         {departamentosList.length > 0 && (
         <ComboBox
         label="Departamentos"
-        options={departamentosList.map(departamento => ({
-          label: departamento.Departamento, // Ajusta a la propiedad correcta del departamento
-          value: departamento.idDepartamento // Ajusta a la propiedad correcta del departamento
-        }))} // Aquí se utiliza departamentosList
+        options={[
+          { label: 'Selecciona un departamento', value: null }, // Opción nula agregada aquí
+          ...departamentosList.map(departamento => ({
+            label: departamento.Departamento,
+            value: departamento.idDepartamento
+          }))
+        ]} // Aquí se utiliza departamentosList
         selectedValue={selectedOptionDepartamentos}
         onChange={handleComboBoxChangeDepartamentos}
         />
@@ -192,10 +203,13 @@ function BuscadorAmigo() {
         {ciudadesList.length > 0 && (
         <ComboBox
         label="Ciudad"
-        options={ciudadesList.map(ciudades => ({
-          label: ciudades.Ciudad, // Ajusta a la propiedad correcta del departamento
-          value: ciudades.idCiudad // Ajusta a la propiedad correcta del departamento
-        }))}
+        options={[
+          { label: 'Selecciona una ciudad', value: null }, // Opción nula agregada aquí
+          ...ciudadesList.map(ciudad => ({
+            label: ciudad.Ciudad,
+            value: ciudad.idCiudad
+          }))
+        ]}
         selectedValue={selectedOptionCiudades}
         onChange={handleComboBoxChangeCiudades}
         />

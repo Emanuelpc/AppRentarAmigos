@@ -1,5 +1,6 @@
 import Button from "react-bootstrap/esm/Button";
 import Navbar from "./Componentes/Navbar";
+import InterestType from "./InterestType";
 import './PerfilAmigo.css';
 import React from 'react';
 import { Link } from 'react-router-dom'; // Importa Link desde react-router-dom
@@ -35,14 +36,17 @@ return (
               <strong>Intereses:</strong>
               <div style={{ flexDirection: 'row' }}>
                   {profile.interests.map((interest, index) => (
-                      //<InterestType key={index} interest={interest} />
-                      <div></div>
+                      <InterestType key={index} interest={interest} />
                   ))}
               </div>
           </div>
           <p>Descripción: {profile.description}</p>
-          <Link to="/BuscadorAmigo" style={{ marginRight: '10px', textDecoration: 'none' }}><button>Volver</button></Link>
+          <div className="botones">
+          <Link to="/BuscadorAmigo" style={{ textDecoration: 'none' }}>
+            <button className="boton-buscar-amigos">Volver</button>
+          </Link>
           <Button variant="success">Rentar Amigo</Button>
+          </div>
       </div>
   </div>
   </div>
@@ -50,3 +54,4 @@ return (
 }
 
 export default PerfilAmigo;
+
