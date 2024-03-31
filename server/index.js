@@ -100,17 +100,17 @@ app.get("/amigosfiltrado", (req, res) => {
     let query = 'SELECT * FROM amigo WHERE 1=1';
 
     // Agregar condiciones según los parámetros recibidos
-    if (Departamento) {
+    if (Departamento && !isNaN(Departamento.valor)) {
         const departamentoId = parseInt(Departamento.valor);
         query += ` AND Departamento_idDepartamento = '${departamentoId}'`;
         console.log("Entro 1");
     }
-    if (Ciudad) {
+    if (Ciudad && !isNaN(Ciudad.valor)) {
         const ciudadId = parseInt(Ciudad.valor);
         query += ` AND Ciudad_idCiudad = '${ciudadId}'`;
         console.log("Entro 2");
     }
-    if (Genero) {
+    if (Genero && !isNaN(Genero.valor)) {
         let valorgenero="";
         if(Genero.valor==="option1"){valorgenero="Hombre"}
         if(Genero.valor==="option2"){valorgenero="Mujer"}
