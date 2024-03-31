@@ -84,8 +84,6 @@ function RegistrarDatosAmigo() {
           </select>
           <br></br>
           <br></br>
-              <button class = "btn-1">Cancelar</button>
-              <button class = "btn-2">Siguiente</button>
               <button onClick={add} > Registrar</button>
               <br></br>
         </form>
