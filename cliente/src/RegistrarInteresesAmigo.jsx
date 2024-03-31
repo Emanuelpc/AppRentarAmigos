@@ -69,3 +69,4 @@ function RegistrarInteresesAmigo() {
   }
   
   export default RegistrarInteresesAmigo;
+  

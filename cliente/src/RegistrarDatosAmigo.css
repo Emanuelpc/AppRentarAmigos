@@ -23,3 +23,7 @@
     margin-left: 100px;/* Ajustar el margen horizontal derecho*/
     margin-right: 100px;/*Ajustar el margen horizontal izquiero*/
   }
+.RadioButtons label {
+    margin-right: 20px; /* Espacio horizontal entre cada radio button y su etiqueta */
+  }
+  
