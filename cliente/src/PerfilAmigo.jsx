@@ -35,7 +35,8 @@ return (
               <strong>Intereses:</strong>
               <div style={{ flexDirection: 'row' }}>
                   {profile.interests.map((interest, index) => (
-                      <InterestType key={index} interest={interest} />
+                      //<InterestType key={index} interest={interest} />
+                      <div></div>
                   ))}
               </div>
           </div>

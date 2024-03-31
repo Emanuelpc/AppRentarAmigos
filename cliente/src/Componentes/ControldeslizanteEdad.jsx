@@ -21,3 +21,6 @@ const Slider = ({ label, min, max, value, onChange }) => {
   
   export default Slider;
   
+
+  
+  

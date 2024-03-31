@@ -2,6 +2,7 @@ import { useState } from "react";
 import Navbar from "./Componentes/Navbar";
 import './RegistrarDatosAmigo.css';
 import Axios from "axios";
+import {  Link } from 'react-router-dom';
 
 
 function RegistrarDatosAmigo() {
@@ -101,3 +102,4 @@ function RegistrarDatosAmigo() {
   }
   
   export default RegistrarDatosAmigo;
+  

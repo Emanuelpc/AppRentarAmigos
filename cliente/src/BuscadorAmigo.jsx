@@ -161,7 +161,7 @@ import './BuscadorAmigo.css';
       return cadena.split(" ");
     }
 
-function RegistrarDatosAmigo() {
+
     return (
       <div>
         <Navbar/>
@@ -241,6 +241,9 @@ function RegistrarDatosAmigo() {
         </div>
       </div>
     );
-  }
+  
+
+
   
   export default BuscadorAmigo;
+  
