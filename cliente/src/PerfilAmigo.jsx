@@ -46,6 +46,10 @@ return (
             <button className="boton-buscar-amigos">Volver</button>
           </Link>
           <Button variant="success">Rentar Amigo</Button>
+          
+          <div>
+          <h1>holaaa</h1>
+          </div>
           </div>
       </div>
   </div>
