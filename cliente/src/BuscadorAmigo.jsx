@@ -163,7 +163,6 @@ function BuscadorAmigo() {
       return cadena.split(" ");
     }
 
-
     return (
       <div>
         <Navbar/>
@@ -246,4 +245,3 @@ function BuscadorAmigo() {
   }
   
   export default BuscadorAmigo;
-  

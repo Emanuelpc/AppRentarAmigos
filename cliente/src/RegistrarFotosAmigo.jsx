@@ -11,7 +11,7 @@ function RegistrarFotosAmigo(props) {
             <Link to ="/RegistrarInteresesAmigo">
                 <button class = "btn-1">Volver</button>
             </Link>
-            <Link to ="/RegistrarUbicacionAmigo">
+            <Link to ="/RegistrarHorarioAmigo">
                 <button class = "btn-2">Siguiente</button>
             </Link>
         </div>
