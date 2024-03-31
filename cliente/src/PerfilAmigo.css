@@ -26,5 +26,14 @@ div{
   margin-left: 20px; 
   margin-bottom: 40px ;
   }
+  /* Establece el tamaño máximo de las imágenes */
+.carousel-item img {
+  max-width: 600px;
+  max-height: 400px;
+  width: auto; /* Ajusta automáticamente el ancho para mantener la proporción de aspecto */
+  height: auto; /* Ajusta automáticamente la altura para mantener la proporción de aspecto */
+}
+
+
 
   
