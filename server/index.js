@@ -135,6 +135,14 @@ app.get("/amigosfiltrado", (req, res) => {
         let interesesEnteros = interesesSinoption.map(string => parseInt(string, 10));
         console.log(interesesEnteros);
 
+        // Construir la parte de la consulta para buscar amigos por intereses
+        //let subQuery = `SELECT Amigo_idAmigo FROM amigo_has_intereses WHERE Intereses_idIntereses IN (${interesesEnteros.join(',')})`;
+        let subQuery = `SELECT Amigo_idamigo, COUNT(*) AS num_intereses FROM amigo_has_intereses WHERE Intereses_idIntereses IN (${interesesEnteros.join(',')}) GROUP BY Amigo_idamigo`;
+
+        // Agregar la subconsulta a la consulta principal usando un JOIN
+        //query += ` AND idAmigo IN (${subQuery})`;
+        query += ` AND idAmigo IN (SELECT Amigo_idamigo FROM (${subQuery}) AS sub WHERE num_intereses = ${interesesEnteros.length})`;
+
         //query += ` AND interes IN (${Intereses.join(',')})`;
     }
     console.log(query);
