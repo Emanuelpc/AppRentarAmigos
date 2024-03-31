@@ -8,4 +8,4 @@ function InterestType({ interest }) {
     );
 }
 
-export default InterestType;
+export default InterestType;
