@@ -39,40 +39,41 @@ function RegistrarHorarioAmigo() {
             </form>
           </div>
           <h1>Seleccionar turno </h1>
-          <select name="tarifa" id="tarifa">
-              <option value="ganar10">Mañana</option>
-              <option value="ganar20">Tarde</option>
-              <option value="ganar30">Noche</option>
+          <select name="tarifa" id="tarifa" >
+               <option value="valorDefecto">Valor por defecto</option>
+              <option value="Tmañana">Mañana</option>
+              <option value="Ttarde">Tarde</option>
+              <option value="Tnoche">Noche</option>
           </select>
           <select name="tarifa" id="tarifa">
-              <option value="ganar10">Mañana</option>
-              <option value="ganar20">Tarde</option>
-              <option value="ganar30">Noche</option>
+              <option value="Tmañana">Mañana</option>
+              <option value="Ttarde">Tarde</option>
+              <option value="Tnoche">Noche</option>
           </select>
           <select name="tarifa" id="tarifa">
-              <option value="ganar10">Mañana</option>
-              <option value="ganar20">Tarde</option>
-              <option value="ganar30">Noche</option>
+              <option value="Tmañana">Mañana</option>
+              <option value="Ttarde">Tarde</option>
+              <option value="Tnoche">Noche</option>
           </select>
           <select name="tarifa" id="tarifa">
-              <option value="ganar10">Mañana</option>
-              <option value="ganar20">Tarde</option>
-              <option value="ganar30">Noche</option>
+              <option value="Tmañana">Mañana</option>
+              <option value="Ttarde">Tarde</option>
+              <option value="Tnoche">Noche</option>
           </select>
           <select name="tarifa" id="tarifa">
-              <option value="ganar10">Mañana</option>
-              <option value="ganar20">Tarde</option>
-              <option value="ganar30">Noche</option>
+              <option value="Tmañana">Mañana</option>
+              <option value="Ttarde">Tarde</option>
+              <option value="Tnoche">Noche</option>
           </select>
           <select name="tarifa" id="tarifa">
-              <option value="ganar10">Mañana</option>
-              <option value="ganar20">Tarde</option>
-              <option value="ganar30">Noche</option>
+              <option value="Tmañana">Mañana</option>
+              <option value="Ttarde">Tarde</option>
+              <option value="Tnoche">Noche</option>
           </select>
           <select name="tarifa" id="tarifa">
-              <option value="ganar10">Mañana</option>
-              <option value="ganar20">Tarde</option>
-              <option value="ganar30">Noche</option>
+              <option value="Tmañana">Mañana</option>
+              <option value="Ttarde">Tarde</option>
+              <option value="Tnoche">Noche</option>
           </select>
           <h1>Previzualizacion del horario</h1>
           <br></br>
