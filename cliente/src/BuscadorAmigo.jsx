@@ -11,6 +11,8 @@ import Col from 'react-bootstrap/Col';
 import Axios from "axios";
 import './BuscadorAmigo.css';
 
+function BuscadorAmigo() {
+
     const [amigosList, setamigos] = useState([])
     const [departamentosList, setdepartamentos] = useState([])
     const [ciudadesList, setciudades] = useState([])
@@ -161,7 +163,6 @@ import './BuscadorAmigo.css';
       return cadena.split(" ");
     }
 
-
     return (
       <div>
         <Navbar/>
@@ -241,9 +242,7 @@ import './BuscadorAmigo.css';
         </div>
       </div>
     );
-  
-
-
+  }
   
   export default BuscadorAmigo;
   
