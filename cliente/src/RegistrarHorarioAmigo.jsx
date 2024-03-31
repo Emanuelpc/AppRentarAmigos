@@ -106,6 +106,7 @@ function RegistrarHorarioAmigo() {
                   <h5>Noche (9:00 AM - 1:00 AM)</h5> 
               </div>
           </div>
+
           <div>
             <br></br>
               <h2>Previsualización del Horario </h2>
@@ -141,17 +142,17 @@ function RegistrarHorarioAmigo() {
       </table>
       </div>
     </div>
-          </div>
+        </div>
           <div>
-          <Link to ="/RegistrarFotosAmigo">
-              <button class = "btn-1">Volver</button>
-          </Link>
-          <Link to ="/RegistrarUbicacionAmigo">
-              <button class = "btn-2">Siguiente</button>
-          </Link>
-      </div>
-
-      </div>
+            <Link to ="/RegistrarFotosAmigo">
+                <button class = "btn-1">Volver</button>
+            </Link>
+            <Link to ="/RegistrarUbicacionAmigo">
+                <button class = "btn-2">Siguiente</button>
+            </Link>
+          </div>
+            
+          </div>
     );
   }
   

@@ -82,7 +82,10 @@ function RegistrarDatosAmigo() {
           </select>
           <br></br>
           <br></br>
+
           <br></br>
+              <button onClick={add} > Registrar</button>
+              <br></br>
         </form>
         <div>
           <Link to ="/BuscadorAmigo">
