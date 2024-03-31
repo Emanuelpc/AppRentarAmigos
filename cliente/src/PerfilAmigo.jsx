@@ -1,5 +1,6 @@
 import Button from "react-bootstrap/esm/Button";
 import Navbar from "./Componentes/Navbar";
+import InterestType from "./InterestType";
 import './PerfilAmigo.css';
 import React from 'react';
 import { Link } from 'react-router-dom'; // Importa Link desde react-router-dom
@@ -35,8 +36,7 @@ return (
               <strong>Intereses:</strong>
               <div style={{ flexDirection: 'row' }}>
                   {profile.interests.map((interest, index) => (
-                      //<InterestType key={index} interest={interest} />
-                      <div></div>
+                      <InterestType key={index} interest={interest} />
                   ))}
               </div>
           </div>
