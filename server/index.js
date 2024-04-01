@@ -206,3 +206,4 @@ function quitarParte(cadena, parte) {
 function quitarPalabraDeArray(array, palabra) {
     return array.map(cadena => quitarParte(cadena, palabra));
 }
+
