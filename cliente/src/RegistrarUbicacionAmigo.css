@@ -1,3 +1,11 @@
 .Form h3 {
     margin-right: 400px; 
 }
+.Form {
+    border: 4px solid black; /*crear un recuadro color negro*/
+    padding: 10px;
+    margin: 20px auto;
+    border-radius: 30px;/*suavizar los bordes */
+    margin-left: 100px;/* Ajustar el margen horizontal derecho*/
+    margin-right: 100px;/*Ajustar el margen horizontal izquiero*/
+  }

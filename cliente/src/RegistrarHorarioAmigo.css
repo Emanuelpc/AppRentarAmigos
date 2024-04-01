@@ -1,11 +1,45 @@
+
 .Checkbox label {
-    margin-right: 75px; /* Espacio horizontal entre cada checkbox y su etiqueta */
+    margin-right: 65px; /* Espacio horizontal entre cada checkbox y su etiqueta */
   }
 
   .Turnos select {
-    margin-right: 65px; /* Ajusta el tamaño del margen según tus preferencias */
+    margin-right: 55px; /* Ajusta el tamaño del margen según tus preferencias */
   }
   .Horarios h5 {
     display: inline-block;
-    margin-right: 90px; /* Ajusta el margen entre los elementos según tus preferencias */
+    margin-right: 70px; /* Ajusta el margen entre los elementos según tus preferencias */
+  }
+
+  .datagrid-container {
+    width: 100%;
+    overflow-x: auto;
+  }
+  
+  .datagrid {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .datagrid th,
+  .datagrid td {
+    padding: 8px;
+    border: 1px solid #ddd;
+  }
+  
+  .datagrid th {
+    background-color: #f2f2f2;
+  }
+  
+  .datagrid tbody tr:nth-child(even) {
+    background-color: #f2f2f2;
+  }
+  .border3 {
+    font-weight: bold;  /*Darle negrita a las letras de los checkbox*/
+    border: 4px solid black; /*crear un recuadro color negro*/
+    padding: 10px;
+    margin: 20px auto;
+    border-radius: 30px;/*suavizar los bordes */
+    margin-left: 100px;/* Ajustar el margen horizontal derecho*/
+    margin-right: 100px;/*Ajustar el margen horizontal izquiero*/
   }

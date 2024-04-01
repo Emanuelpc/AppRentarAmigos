@@ -74,7 +74,6 @@ function BuscadorAmigo() {
     
     //Arreglo y funciones para el CheckBox
      const optionsGeneros = [
-      { label:'Seleccion un Genero',value: null },
       { label: 'Hombre', value: 'option1' },
       { label: 'Mujer', value: 'option2' },
       { label: 'Otro', value: 'option3' },
@@ -171,7 +170,6 @@ function BuscadorAmigo() {
       return cadena.split(" ");
     }
 
-
     return (
       <div>
         <Navbar/>
@@ -190,13 +188,10 @@ function BuscadorAmigo() {
         {departamentosList.length > 0 && (
         <ComboBox
         label="Departamentos"
-        options={[
-          { label: 'Selecciona un departamento', value: null }, // Opción nula agregada aquí
-          ...departamentosList.map(departamento => ({
-            label: departamento.Departamento,
-            value: departamento.idDepartamento
-          }))
-        ]} // Aquí se utiliza departamentosList
+        options={departamentosList.map(departamento => ({
+          label: departamento.Departamento, // Ajusta a la propiedad correcta del departamento
+          value: departamento.idDepartamento // Ajusta a la propiedad correcta del departamento
+        }))} // Aquí se utiliza departamentosList
         selectedValue={selectedOptionDepartamentos}
         onChange={handleComboBoxChangeDepartamentos}
         />
@@ -204,13 +199,10 @@ function BuscadorAmigo() {
         {ciudadesList.length > 0 && (
         <ComboBox
         label="Ciudad"
-        options={[
-          { label: 'Selecciona una ciudad', value: null }, // Opción nula agregada aquí
-          ...ciudadesList.map(ciudad => ({
-            label: ciudad.Ciudad,
-            value: ciudad.idCiudad
-          }))
-        ]}
+        options={ciudadesList.map(ciudades => ({
+          label: ciudades.Ciudad, // Ajusta a la propiedad correcta del departamento
+          value: ciudades.idCiudad // Ajusta a la propiedad correcta del departamento
+        }))}
         selectedValue={selectedOptionCiudades}
         onChange={handleComboBoxChangeCiudades}
         />
@@ -260,4 +252,4 @@ function BuscadorAmigo() {
   }
   
   export default BuscadorAmigo;
-  
+
