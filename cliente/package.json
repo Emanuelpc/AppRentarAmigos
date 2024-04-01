@@ -40,10 +40,9 @@
     ]
   },
   "devDependencies": {
-<<<<<<< HEAD
-    "react-scripts": "^5.0.1"
-=======
     "@babel/plugin-proposal-private-property-in-object": "^7.21.11"
->>>>>>> b121e66a30b48e33afbcfa2b47927864cb0b89c1
   }
 }
+
+
+
