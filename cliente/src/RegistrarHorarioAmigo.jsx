@@ -2,14 +2,17 @@ import Navbar from "./Componentes/Navbar";
 import './RegistrarHorarioAmigo.css';
 import React from "react";
 import {  Link } from 'react-router-dom';
-import { useState } from 'react';
+import { useState,useEffect } from 'react';
 
 function RegistrarHorarioAmigo() {
-  const [data, setData] = useState([
-    { id: 1, lunes: '', martes: '', miercoles: '', jueves: '', viernes: '', sabado: '', domingo: '' },
-    { id: 2, lunes: '', martes: '', miercoles: '', jueves: '', viernes: '', sabado: '', domingo: '' },
-    { id: 3, lunes: '', martes: '', miercoles: '', jueves: '', viernes: '', sabado: '', domingo: '' }
-  ]);
+  const [data, setData] = useState(() => {
+    const savedData = localStorage.getItem('turnoFormData');
+    return savedData ? JSON.parse(savedData) : [
+      { id: 1, lunes: '', martes: '', miercoles: '', jueves: '', viernes: '', sabado: '', domingo: '' },
+      { id: 2, lunes: '', martes: '', miercoles: '', jueves: '', viernes: '', sabado: '', domingo: '' },
+      { id: 3, lunes: '', martes: '', miercoles: '', jueves: '', viernes: '', sabado: '', domingo: '' }
+    ];
+  });
 
   const [showOptions, setShowOptions] = useState({
     lunes: false,
@@ -21,6 +24,7 @@ function RegistrarHorarioAmigo() {
     domingo: false
   });
 
+  const [selectedDay, setSelectedDay] = useState('');
 
   const handleCheckboxChange = (e, day) => {
     const { checked } = e.target;
@@ -28,6 +32,7 @@ function RegistrarHorarioAmigo() {
       ...prevState,
       [day]: checked
     }));
+    setSelectedDay(checked ? day : '');
     if (!checked) {
       setData(prevData =>
         prevData.map(item => ({
@@ -51,6 +56,10 @@ function RegistrarHorarioAmigo() {
       });
     });
   };
+
+  useEffect(() => {
+    localStorage.setItem('turnoFormData', JSON.stringify(data));
+  }, [data]);
     return (
       <div>
         <Navbar/> 
