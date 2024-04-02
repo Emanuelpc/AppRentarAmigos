@@ -33,7 +33,7 @@ function RegistrarFotosAmigo(props) {
     <div>
       <Navbar/>
     <h1>Subir foto de perfil(*)</h1>
-    <h5>SUbe al menos 1 foto a 4</h5>
+    <h5>Sube al menos 1 foto a 4</h5>
     <div
         className={`dropped-items-container ${backgroundImages ? 'with-background' : ''}`}
         onDragOver={(e) => handleDragOver(e)}

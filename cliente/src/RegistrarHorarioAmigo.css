@@ -43,3 +43,23 @@
     margin-left: 100px;/* Ajustar el margen horizontal derecho*/
     margin-right: 100px;/*Ajustar el margen horizontal izquiero*/
   }
+
+  
+  .container {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  
+  .day-container {
+    width: calc(100% / 7); /* Dividir en 7 columnas */
+    text-align: center; /* Centrar el contenido */
+    margin-bottom: 20px;
+  }
+  
+  .day-label {
+    margin-bottom: 2%; /* Espacio entre la etiqueta de día y el select box */
+  }
+  
+  .select-container {
+    margin-top: 30px;
+  }
