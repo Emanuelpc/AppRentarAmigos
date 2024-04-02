@@ -3,8 +3,6 @@ import Navbar from "./Componentes/Navbar";
 import './RegistrarDatosAmigo.css';
 import Axios from "axios";
 import {  Link } from 'react-router-dom';
-
-
 function RegistrarDatosAmigo() {
 
   const[Nombre,setNombre] = useState("");
@@ -75,17 +73,17 @@ function RegistrarDatosAmigo() {
           <br></br>
 
           <h3>Elige cuánto que te gustaría obtener por hora(*)</h3>
-          <select name="precios" id="precios">
-              <option value="1">Quiero ganar 10Bs por hora</option>
-              <option value="2">Quiero ganar 20Bs por hora</option>
-              <option value="3">Quiero ganar 30Bs por hora</option>
-              <option value="4">Quiero ganar 40Bs por hora</option>
-              <option value="5">Quiero ganar 50Bs por hora</option>
+          <select name="tarifa" id="tarifa">
+              <option value="ganar10">Quiero ganar 10Bs por hora</option>
+              <option value="ganar20">Quiero ganar 20Bs por hora</option>
+              <option value="ganar30">Quiero ganar 30Bs por hora</option>
+              <option value="ganar40">Quiero ganar 40Bs por hora</option>
+              <option value="ganar50">Quiero ganar 50Bs por hora</option>
           </select>
           <br></br>
           <br></br>
-              <button class = "btn-1">Cancelar</button>
-              <button class = "btn-2">Siguiente</button>
+
+          <br></br>
               <button onClick={add} > Registrar</button>
               <br></br>
         </form>

@@ -1,17 +1,25 @@
 import Navbar from "./Componentes/Navbar";
-import { useState } from "react";
 import './RegistrarHorarioAmigo.css';
 import React from "react";
 import {  Link } from 'react-router-dom';
 
-
-
 function RegistrarHorarioAmigo() {
+  const data = [
+    { id: 1, lunes: '', martes: '', miercoles: '',
+  jueves:'',viernes:'',sabado:'',domingo:'' },
+    { id: 2, lunes: '', martes: '', miercoles: '',
+  jueves:'',viernes:'',sabado:'',domingo:'' },
+  { id: 3, lunes: '', martes: '', miercoles: '',
+  jueves:'',viernes:'',sabado:'',domingo:'' },
+  { id: 4, lunes: '', martes: '', miercoles: '',
+  jueves:'',viernes:'',sabado:'',domingo:'' },
+    // contenedor de datos para la tabla
+  ];
     return (
       <div>
         <Navbar/> 
       <h1>Seleccionar Horarios</h1>
-
+      <div class = "border3">
       <h3>Selecciona los dias que tiene disponible</h3>
           <div className="Checkbox">
             <form>
@@ -97,17 +105,54 @@ function RegistrarHorarioAmigo() {
                   <h5>Tarde (12:00 PM - 8:00 PM)</h5>
                   <h5>Noche (9:00 AM - 1:00 AM)</h5> 
               </div>
+          </div>
 
-          </div>
           <div>
-              <Link to ="/RegistrarFotosAmigo">
-                  <button class = "btn-1">Volver</button>
-              </Link>
-              <Link to ="/RegistrarUbicacionAmigo">
-                  <button class = "btn-2">Siguiente</button>
-              </Link>
-          </div>
+            <br></br>
+              <h2>Previsualización del Horario </h2>
+              
+              <div className="datagrid-container">
+                  <table className="datagrid"> 
+                  <thead>
+                    <tr>
+                      <th>Horarios</th>
+                      <th>Lunes</th>
+                      <th>Martes</th>
+                      <th>Miercoles</th>
+                      <th>Jueves</th>
+                      <th>Viernes</th>
+                      <th>Sabado</th>
+                      <th>Domingo</th>
+                    </tr>
+                  </thead>
+        <tbody>
+          {data.map((item) => (
+            <tr key={item.id}>
+              <td>{item.id}</td>
+              <td>{item.lunes}</td>
+              <td>{item.martes}</td>
+              <td>{item.miercoles}</td>
+              <td>{item.jueves}</td>
+              <td>{item.viernes}</td>
+              <td>{item.sabado}</td>
+              <td>{item.domingo}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
       </div>
+    </div>
+        </div>
+          <div>
+            <Link to ="/RegistrarFotosAmigo">
+                <button class = "btn-1">Volver</button>
+            </Link>
+            <Link to ="/RegistrarUbicacionAmigo">
+                <button class = "btn-2">Siguiente</button>
+            </Link>
+          </div>
+            
+          </div>
     );
   }
   

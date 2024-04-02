@@ -100,17 +100,18 @@ app.get("/amigosfiltrado", (req, res) => {
     let query = 'SELECT * FROM amigo WHERE 1=1';
 
     // Agregar condiciones según los parámetros recibidos
-    if (Departamento) {
+    if (Departamento && !isNaN(Departamento.valor)) {
         const departamentoId = parseInt(Departamento.valor);
         query += ` AND Departamento_idDepartamento = '${departamentoId}'`;
         console.log("Entro 1");
     }
-    if (Ciudad) {
+    if (Ciudad && !isNaN(Ciudad.valor)) {
         const ciudadId = parseInt(Ciudad.valor);
         query += ` AND Ciudad_idCiudad = '${ciudadId}'`;
         console.log("Entro 2");
     }
-    if (Genero) {
+    console.log(Genero)
+    if (Genero !== undefined && Genero.valor !== "Seleccion un Genero") {
         let valorgenero="";
         if(Genero.valor==="option1"){valorgenero="Hombre"}
         if(Genero.valor==="option2"){valorgenero="Mujer"}
@@ -134,6 +135,14 @@ app.get("/amigosfiltrado", (req, res) => {
         console.log(interesesSinoption);
         let interesesEnteros = interesesSinoption.map(string => parseInt(string, 10));
         console.log(interesesEnteros);
+
+        // Construir la parte de la consulta para buscar amigos por intereses
+        //let subQuery = `SELECT Amigo_idAmigo FROM amigo_has_intereses WHERE Intereses_idIntereses IN (${interesesEnteros.join(',')})`;
+        let subQuery = `SELECT Amigo_idamigo, COUNT(*) AS num_intereses FROM amigo_has_intereses WHERE Intereses_idIntereses IN (${interesesEnteros.join(',')}) GROUP BY Amigo_idamigo`;
+
+        // Agregar la subconsulta a la consulta principal usando un JOIN
+        //query += ` AND idAmigo IN (${subQuery})`;
+        query += ` AND idAmigo IN (SELECT Amigo_idamigo FROM (${subQuery}) AS sub WHERE num_intereses = ${interesesEnteros.length})`;
 
         //query += ` AND interes IN (${Intereses.join(',')})`;
     }

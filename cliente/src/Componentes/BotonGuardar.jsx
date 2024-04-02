@@ -1,15 +1,15 @@
 import React from 'react';
 import Button from 'react-bootstrap/Button';
-import './BotonBuscar.css';
+import './BotonGuardar.css';
 
-const BotonBuscar = ({ onClick }) => {
+const BotonGuardar = ({ onClick }) => {
   return (
     <div className='EditarBotonGuardar'>
     <Button variant="primary" onClick={onClick}>
-      Buscar Amigo
+      Guardar
     </Button>
     </div>
   );
 };
 
-export default BotonBuscar;
+export default BotonGuardar;
