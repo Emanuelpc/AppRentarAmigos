@@ -110,7 +110,8 @@ app.get("/amigosfiltrado", (req, res) => {
         query += ` AND Ciudad_idCiudad = '${ciudadId}'`;
         console.log("Entro 2");
     }
-    if (Genero) {
+    console.log(Genero.valor);
+    if (Genero !== undefined && Genero.valor !== "Seleccion un Genero") {
         let valorgenero="";
         if(Genero.valor==="option1"){valorgenero="Hombre"}
         if(Genero.valor==="option2"){valorgenero="Mujer"}
