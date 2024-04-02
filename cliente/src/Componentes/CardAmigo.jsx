@@ -14,5 +14,15 @@ const CardAmigo = ({ titulo, descripcion, imagenUrl }) => {
     </Card>
   );
 };
-
+const PerfilAmigo = ( {Nombre})=>{
+  return (
+    <Card style={{width: '18rem'}}>
+      <Card.Body>
+        <Card.Title>{Nombre}</Card.Title>
+      </Card.Body>
+    </Card>
+  )
+}
 export default CardAmigo;
+
+

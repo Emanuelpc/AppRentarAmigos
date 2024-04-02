@@ -1,81 +1,102 @@
 import { useState } from "react";
 import Navbar from "./Componentes/Navbar";
+import './RegistrarDatosAmigo.css';
+import Axios from "axios";
+import {  Link } from 'react-router-dom';
+
+
 function RegistrarDatosAmigo() {
 
-  const[nombre,setNombre] = useState("");
+  const[Nombre,setNombre] = useState("");
 
-  const[apellidos,setApellidos] = useState("");
+  const[Apellido,setApellido] = useState("");
 
-  const[email,setEmail] = useState("");
+  const[CorreoElectronico,setCorreoElectronico] = useState("");
 
-  const[contraseña, setContraseña] = useState("");
+  const[Password, setPassword] = useState("");
 
-  const[fecha_nacimiento, setFecha_Nacimiento] = useState(""); 
+  const[fechaNacimiento, setfechaNacimiento] = useState(""); 
 
-  const[genero, setGenero] = useState("Masculino")
+  const[Genero, setGenero] = useState("Masculino")
   
   function handleChange(e) {
     console.log(e.target.va);
     setGenero(e.target.value);
   }
 
-  const mostrarDatos = ()=> {  // llamar al atributo y ve como se esta guardando el dato
-    alert(nombre);
+  const add = () => {
+    Axios.post("http://localhost:3001/create",{
+      Nombre:Nombre,
+      Apellido:Apellido,
+      CorreoElectronico:CorreoElectronico,
+      Passwod:Password,
+      fechaNacimiento:fechaNacimiento,
+      Genero:Genero
+    }).then(()=>{
+      alert("Amigo registrado");
+    });
   }
-  return (
-      <div>
-        <Navbar/>
-      <h1>Crear Perfil alqui-amigo</h1>
-        <form>
 
+  return (
+      <div >
+        <Navbar/>
+      
+        <form class = "border3">
+          <h1>Crear Perfil alqui-amigo</h1>
           <h3>Nombre(*)</h3>
           <input type="text" onChange={(event)=> setNombre(event.target.value)}required="" /> 
           <br></br>
 
           <h3>Apellidos(*)</h3>
-          <input type="text" onChange={(event)=> setApellidos(event.target.value)} required="" />
+          <input type="text" onChange={(event)=> setApellido(event.target.value)} required="" />
           <br></br>
 
           <h3>Correo Electronico(*)</h3>
-          <input type="email" onChange={(event)=> setEmail(event.target.value)} required="" />
+          <input type="email" onChange={(event)=> setCorreoElectronico(event.target.value)} required="" />
           <br></br>
 
           <h3>Contraseña(*)</h3>
-          <input type="password" onChange={(event)=> setContraseña(event.target.value)} required=""/>
+          <input type="password" onChange={(event)=> setPassword(event.target.value)} required=""/>
           <br></br>
 
           <h3>Fecha de nacimiento(*)</h3>
-          <input type="date" onChange={(event)=> setFecha_Nacimiento(event.target.value)} required="" />
+          <input type="date" onChange={(event)=> setfechaNacimiento(event.target.value)} required="" />
           <br></br>
 
           <h3>Género(*)</h3>
-          <input type="radio" name="Genero" id="Masculino" value="Masculino" onChange={handleChange} required/>  
-          <label htmlFor="masculino">Masculino</label>
-          <input type="radio" name="Genero" id="Femenino" value="Femenino" onChange={handleChange} />
-          <label htmlFor="femenino">Femenino</label>
-          <input type="radio" name="Genero" id="Otro" value="Otro" onChange={handleChange}/>
-          <label htmlFor="otro">Otro</label>
+            <div className="RadioButtons">
+              <input type="radio" name="Genero" id="Masculino" value="Masculino" onChange={handleChange} required/>  
+              <label htmlFor="masculino">Masculino</label>
+              <input type="radio" name="Genero" id="Femenino" value="Femenino" onChange={handleChange} />
+              <label htmlFor="femenino">Femenino</label>
+              <input type="radio" name="Genero" id="Otro" value="Otro" onChange={handleChange}/>
+              <label htmlFor="otro">Otro</label>
+            </div>
           <br></br>
 
           <h3>Elige cuánto que te gustaría obtener por hora(*)</h3>
-          <select name="tarifa" id="tarifa">
-              <option value="ganar10">Quiero ganar 10Bs por hora</option>
-              <option value="ganar20">Quiero ganar 20Bs por hora</option>
-              <option value="ganar30">Quiero ganar 30Bs por hora</option>
-              <option value="ganar40">Quiero ganar 40Bs por hora</option>
-              <option value="ganar50">Quiero ganar 50Bs por hora</option>
+          <select name="precios" id="precios">
+              <option value="1">Quiero ganar 10Bs por hora</option>
+              <option value="2">Quiero ganar 20Bs por hora</option>
+              <option value="3">Quiero ganar 30Bs por hora</option>
+              <option value="4">Quiero ganar 40Bs por hora</option>
+              <option value="5">Quiero ganar 50Bs por hora</option>
           </select>
           <br></br>
           <br></br>
-          <input type="submit" value="Cancelar" />
-          <input type="submit" value="Siguiente" />
-          <br></br>
-
-
-          <button onClick={mostrarDatos}>Probar</button> //Es para ver como se estan guardando los datos
-
+              <button class = "btn-1">Cancelar</button>
+              <button class = "btn-2">Siguiente</button>
+              <button onClick={add} > Registrar</button>
+              <br></br>
         </form>
-       
+        <div>
+          <Link to ="/BuscadorAmigo">
+              <button class = "btn-1">Cancelar</button>
+          </Link>
+          <Link to ="/RegistrarInteresesAmigo">
+              <button class = "btn-2">Siguiente</button>
+          </Link>
+      </div>
       </div> 
     );
   }

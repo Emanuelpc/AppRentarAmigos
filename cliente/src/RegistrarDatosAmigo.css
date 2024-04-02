@@ -1,14 +1,19 @@
-#titulo{
-    display: flex;
-    justify-content: center; /* Centra horizontalmente */
-    align-items: center; /* Centra verticalmente */
-    flex-direction: column; /* Apila los elementos verticalmente */
-    color: #1d9bf0;
+.btn-1{
+    border: 2px;
+    padding: 10px;
+    margin-right: 20px;
+    justify-content: center;
+    color: black;
 }
-div{
-    margin: auto;
 
+.btn-2{
+    border: 30px;
+    padding: 10px;
+    margin-left: 20px;
+    justify-content: center;
+    color: black;
 }
+
 .border3 {
     font-weight: bold;  /*Darle negrita a las letras de los checkbox*/
     border: 4px solid black; /*crear un recuadro color negro*/
@@ -18,5 +23,3 @@ div{
     margin-left: 100px;/* Ajustar el margen horizontal derecho*/
     margin-right: 100px;/*Ajustar el margen horizontal izquiero*/
   }
-
-  
