@@ -42,7 +42,7 @@ app.get("/departamentos", (req, res) => {
         }
     );
 });
-//Endpoint para obtener todos los Datos de : Departamento
+//Endpoint para obtener todos los Datos de : Ciudad
 app.get("/ciudades", (req, res) => {
     // Consultar todos los departamentos en la base de datos
     db.query('SELECT * FROM ciudad',
@@ -72,6 +72,21 @@ app.get("/intereses", (req, res) => {
     );
 });
 
+//Endpoint para obtener todos los Datos de : intereses
+app.get("/precioshora", (req, res) => {
+    // Consultar todos los intereses en la base de datos
+    db.query('SELECT * FROM preciosporhora',
+        (err, result) => {
+            if (err) {
+                console.log(err);
+                res.status(500).send("Error al obtener preciosporhora");
+            } else {
+                res.send(result);
+            }
+        }
+    );
+});
+
 app.post("/create", (req,res)=>{
     const Nombre = req.body.Nombre;
     const Apellido = req.body.Apellido;
@@ -79,8 +94,14 @@ app.post("/create", (req,res)=>{
     const Password = req.body.Password;
     const fechaNacimiento = req.body.fechaNacimiento;
     const Genero = req.body.Genero;
+    const PreciosPorHora_idPreciosPorHora=req.body.PreciosPorHora_idPreciosPorHora;
+    const Acercademi=req.body.Acercademi;
+    const Departamento_idDepartamento=req.body.Departamento_idDepartamento;
+    const Ciudad_idCiudad=req.body.Ciudad_idCiudad;
+    console.log(Nombre,Apellido,CorreoElectronico,Password,fechaNacimiento,Genero,PreciosPorHora_idPreciosPorHora,Acercademi,Departamento_idDepartamento,Ciudad_idCiudad)
 
-        db.query('INSERT INTO amigo(Nombre,Apellido,CorreoElectronico,Password,fechaNacimiento,Genero) VALUES(?,?,?,?,?,?)',[Nombre,Apellido,CorreoElectronico,Password,fechaNacimiento,Genero],
+        db.query('INSERT INTO amigo(Nombre,Apellido,CorreoElectronico,Password,fechaNacimiento,Genero,PreciosPorHora_idPreciosPorHora,Acercademi,Departamento_idDepartamento,Ciudad_idCiudad) VALUES(?,?,?,?,?,?,?,?,?,?)',
+        [Nombre,Apellido,CorreoElectronico,Password,fechaNacimiento,Genero,PreciosPorHora_idPreciosPorHora,Acercademi,Departamento_idDepartamento,Ciudad_idCiudad],
         (err, result) => {
             if(err){
                 console.log(err);
@@ -100,17 +121,18 @@ app.get("/amigosfiltrado", (req, res) => {
     let query = 'SELECT * FROM amigo WHERE 1=1';
 
     // Agregar condiciones según los parámetros recibidos
-    if (Departamento) {
+    if (Departamento && !isNaN(Departamento.valor)) {
         const departamentoId = parseInt(Departamento.valor);
         query += ` AND Departamento_idDepartamento = '${departamentoId}'`;
         console.log("Entro 1");
     }
-    if (Ciudad) {
+    if (Ciudad && !isNaN(Ciudad.valor)) {
         const ciudadId = parseInt(Ciudad.valor);
         query += ` AND Ciudad_idCiudad = '${ciudadId}'`;
         console.log("Entro 2");
     }
-    if (Genero) {
+    console.log(Genero)
+    if (Genero !== undefined && Genero.valor !== "Seleccion un Genero") {
         let valorgenero="";
         if(Genero.valor==="option1"){valorgenero="Hombre"}
         if(Genero.valor==="option2"){valorgenero="Mujer"}
@@ -134,6 +156,14 @@ app.get("/amigosfiltrado", (req, res) => {
         console.log(interesesSinoption);
         let interesesEnteros = interesesSinoption.map(string => parseInt(string, 10));
         console.log(interesesEnteros);
+
+        // Construir la parte de la consulta para buscar amigos por intereses
+        //let subQuery = `SELECT Amigo_idAmigo FROM amigo_has_intereses WHERE Intereses_idIntereses IN (${interesesEnteros.join(',')})`;
+        let subQuery = `SELECT Amigo_idamigo, COUNT(*) AS num_intereses FROM amigo_has_intereses WHERE Intereses_idIntereses IN (${interesesEnteros.join(',')}) GROUP BY Amigo_idamigo`;
+
+        // Agregar la subconsulta a la consulta principal usando un JOIN
+        //query += ` AND idAmigo IN (${subQuery})`;
+        query += ` AND idAmigo IN (SELECT Amigo_idamigo FROM (${subQuery}) AS sub WHERE num_intereses = ${interesesEnteros.length})`;
 
         //query += ` AND interes IN (${Intereses.join(',')})`;
     }

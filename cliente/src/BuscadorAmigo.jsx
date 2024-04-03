@@ -10,12 +10,11 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Axios from "axios";
 import './BuscadorAmigo.css';
-
 function BuscadorAmigo() {
-
     const [amigosList, setamigos] = useState([])
     const [departamentosList, setdepartamentos] = useState([])
     const [ciudadesList, setciudades] = useState([])
+    const [ciudadesListOriginal, setCiudadesOriginal] = useState([]);
     const [interesesList, setintereses] = useState([])
     const [guardarSeleccionComboboxDepartamento, setGuardarSeleccionComboboxDepartamento] = useState([]);
     const [guardarSeleccionComboboxCiudad, setGuardarSeleccionComboboxCiudad] = useState([]);
@@ -23,7 +22,6 @@ function BuscadorAmigo() {
     const [guardarSeleccionSlider, setGuardarSeleccionSlider] = useState([]);
     const [guardarSeleccionCheckbox, setGuardarSeleccionCheckbox] = useState([]);
     const [searchQuery, setSearchQuery] = useState('');
-
     // Manejar cambios en la búsqueda
     const handleSearchChange = (event) => {
     setSearchQuery(event.target.value);
@@ -43,7 +41,6 @@ function BuscadorAmigo() {
               console.error("Error en la solicitud:", error);
           });
     }
-
     // Función para obtener la lista de amigos del backend
     const getAmigo = () => {
     Axios.get("http://localhost:3001/amigos").then((response) => {
@@ -60,6 +57,7 @@ function BuscadorAmigo() {
     const getCiudades = () => {
       Axios.get("http://localhost:3001/ciudades").then((response) => {
         setciudades(response.data);
+        setCiudadesOriginal(response.data); // Guardar la lista original
       });
     }
     // Función para obtener la lista de Intereses del backend
@@ -72,19 +70,24 @@ function BuscadorAmigo() {
     
     //Arreglo y funciones para el CheckBox
      const optionsGeneros = [
+      { label:'Seleccion un Genero',value: null },
       { label: 'Hombre', value: 'option1' },
       { label: 'Mujer', value: 'option2' },
       { label: 'Otro', value: 'option3' },
      ];
-
      const [selectedOptionDepartamentos, setSelectedOptionDepartamentos] = useState([]);
      const [selectedOptionCiudades, setSelectedOptionCiudades] = useState([]);
      const [selectedOptionGeneros, setSelectedOptionGeneros] = useState([]);
-     
+
 
      const handleComboBoxChangeDepartamentos = (event) => {
+      const selectedDepartamentoId = parseInt(event.target.value, 10);
       setSelectedOptionDepartamentos(event.target.value);
       setGuardarSeleccionComboboxDepartamento([...guardarSeleccionComboboxDepartamento, { tipo: 'departamento', valor: event.target.value }]);
+      console.log(ciudadesList);
+      const filteredCiudades = ciudadesListOriginal.filter(ciudad => ciudad.Departamento_idDepartamento === selectedDepartamentoId);
+
+      setciudades(filteredCiudades);
       };
      const handleComboBoxChangeCiudades = (event) => {
      setSelectedOptionCiudades(event.target.value);
@@ -96,7 +99,6 @@ function BuscadorAmigo() {
      };
     //Arreglo y funciones para el Slide Edad
     const [sliderValue, setSliderValue] = useState(50);
-
     const handleSliderChange = (event) => {
     setSliderValue(event.target.value);
     const filteredSelections = guardarSeleccionSlider.filter(selection => selection.tipo !== 'edad');
@@ -112,7 +114,6 @@ function BuscadorAmigo() {
       const isChecked = event.target.checked;
       console.log("Checkbox value:", value);
       console.log("Checkbox checked:", isChecked);
-
       if (isChecked) {
        setSelectedOptions([...selectedOptions, value]);
        setGuardarSeleccionCheckbox(prevState => [...prevState, { tipo: 'interes', valor: value }]);
@@ -157,13 +158,10 @@ function BuscadorAmigo() {
       let primerosCuatro = cadena.substring(0, 4);
       let edad=2024-parseInt(primerosCuatro, 10); // La base 10 se usa para garantizar la interpretación correcta del número
       return edad;
-
     }
     function separarPorEspacios(cadena) {
       return cadena.split(" ");
     }
-
-
     return (
       <div>
         <Navbar/>
@@ -178,14 +176,16 @@ function BuscadorAmigo() {
         />
         <div className="contenedor">
         <div className="Filtrosdiv">
-
         {departamentosList.length > 0 && (
         <ComboBox
         label="Departamentos"
-        options={departamentosList.map(departamento => ({
-          label: departamento.Departamento, // Ajusta a la propiedad correcta del departamento
-          value: departamento.idDepartamento // Ajusta a la propiedad correcta del departamento
-        }))} // Aquí se utiliza departamentosList
+        options={[
+          { label: 'Selecciona un departamento', value: null }, // Opción nula agregada aquí
+          ...departamentosList.map(departamento => ({
+            label: departamento.Departamento,
+            value: departamento.idDepartamento
+          }))
+        ]} // Aquí se utiliza departamentosList
         selectedValue={selectedOptionDepartamentos}
         onChange={handleComboBoxChangeDepartamentos}
         />
@@ -193,10 +193,13 @@ function BuscadorAmigo() {
         {ciudadesList.length > 0 && (
         <ComboBox
         label="Ciudad"
-        options={ciudadesList.map(ciudades => ({
-          label: ciudades.Ciudad, // Ajusta a la propiedad correcta del departamento
-          value: ciudades.idCiudad // Ajusta a la propiedad correcta del departamento
-        }))}
+        options={[
+          { label: 'Selecciona una ciudad', value: null }, // Opción nula agregada aquí
+          ...ciudadesList.map(ciudad => ({
+            label: ciudad.Ciudad,
+            value: ciudad.idCiudad
+          }))
+        ]}
         selectedValue={selectedOptionCiudades}
         onChange={handleComboBoxChangeCiudades}
         />
@@ -232,6 +235,10 @@ function BuscadorAmigo() {
           {amigosList.map((tarjeta, index) => (
           <Col key={index}>
            <CardAmigo
+           genero = {tarjeta.Genero}
+           nombre = {tarjeta.Nombre}
+           apellido ={tarjeta.Apellido}
+           edad   ={obtenerEdad(tarjeta.fechaNacimiento)} 
             titulo={tarjeta.Nombre+" "+tarjeta.Apellido+" Edad "+obtenerEdad(tarjeta.fechaNacimiento)}
             descripcion={tarjeta.Acercademi}
             imagenUrl={"https://media.istockphoto.com/id/522189109/es/foto/no-se-tome-tambi%C3%A9n-en-serio-la-vida.jpg?s=612x612&w=0&k=20&c=4RcKyGRBw_fwH_hl80Fn-COdYk9bjbrVq5v7u97dct4="}
@@ -246,4 +253,3 @@ function BuscadorAmigo() {
   }
   
   export default BuscadorAmigo;
-  
