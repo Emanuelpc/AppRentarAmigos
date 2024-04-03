@@ -1,5 +1,6 @@
 import Navbar from "./Componentes/Navbar";
 import './PerfilAmigo.css';
+import InterestType from "./InterestType";
 import React, { useState ,useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Button } from 'react-bootstrap'; // Importa Button desde react-bootstrap
