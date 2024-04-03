@@ -1,9 +1,13 @@
 import Navbar from "./Componentes/Navbar"
 import './RegistrarFotosAmigo.css';
-import {  Link } from 'react-router-dom';
+import {  Link,useLocation } from 'react-router-dom';
 import React, { useState } from 'react';
 
 function RegistrarFotosAmigo(props) {
+
+  const location = useLocation();
+  const {Nombre, Apellido,CorreoElectronico,Password,fechaNacimiento,Genero,seleccionPrecio,aboutMe} = location.state?.data ||{};
+  console.log(Nombre, Apellido,CorreoElectronico,Password,fechaNacimiento,Genero,seleccionPrecio,aboutMe)
   const [droppedItems, setDroppedItems] = useState([]);
   const [backgroundImages, setBackgroundImages] = useState(true);
 
@@ -57,7 +61,19 @@ function RegistrarFotosAmigo(props) {
             <Link to ="/RegistrarInteresesAmigo">
                 <button class = "btn-1">Volver</button>
             </Link>
-             <Link to ="/RegistrarHorarioAmigo">
+            <Link to="/RegistrarHorarioAmigo" state={
+            {
+              data: {
+                Nombre,
+                Apellido,
+                CorreoElectronico,
+                Password,
+                fechaNacimiento,
+                Genero,
+                seleccionPrecio,
+                aboutMe
+              }
+            }}>
                 <button class = "btn-2">Siguiente</button>
             </Link>
           </div>

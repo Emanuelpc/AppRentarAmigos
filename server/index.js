@@ -42,7 +42,7 @@ app.get("/departamentos", (req, res) => {
         }
     );
 });
-//Endpoint para obtener todos los Datos de : Departamento
+//Endpoint para obtener todos los Datos de : Ciudad
 app.get("/ciudades", (req, res) => {
     // Consultar todos los departamentos en la base de datos
     db.query('SELECT * FROM ciudad',
@@ -72,6 +72,21 @@ app.get("/intereses", (req, res) => {
     );
 });
 
+//Endpoint para obtener todos los Datos de : intereses
+app.get("/precioshora", (req, res) => {
+    // Consultar todos los intereses en la base de datos
+    db.query('SELECT * FROM preciosporhora',
+        (err, result) => {
+            if (err) {
+                console.log(err);
+                res.status(500).send("Error al obtener preciosporhora");
+            } else {
+                res.send(result);
+            }
+        }
+    );
+});
+
 app.post("/create", (req,res)=>{
     const Nombre = req.body.Nombre;
     const Apellido = req.body.Apellido;
@@ -79,8 +94,14 @@ app.post("/create", (req,res)=>{
     const Password = req.body.Password;
     const fechaNacimiento = req.body.fechaNacimiento;
     const Genero = req.body.Genero;
+    const PreciosPorHora_idPreciosPorHora=req.body.PreciosPorHora_idPreciosPorHora;
+    const Acercademi=req.body.Acercademi;
+    const Departamento_idDepartamento=req.body.Departamento_idDepartamento;
+    const Ciudad_idCiudad=req.body.Ciudad_idCiudad;
+    console.log(Nombre,Apellido,CorreoElectronico,Password,fechaNacimiento,Genero,PreciosPorHora_idPreciosPorHora,Acercademi,Departamento_idDepartamento,Ciudad_idCiudad)
 
-        db.query('INSERT INTO amigo(Nombre,Apellido,CorreoElectronico,Password,fechaNacimiento,Genero) VALUES(?,?,?,?,?,?)',[Nombre,Apellido,CorreoElectronico,Password,fechaNacimiento,Genero],
+        db.query('INSERT INTO amigo(Nombre,Apellido,CorreoElectronico,Password,fechaNacimiento,Genero,PreciosPorHora_idPreciosPorHora,Acercademi,Departamento_idDepartamento,Ciudad_idCiudad) VALUES(?,?,?,?,?,?,?,?,?,?)',
+        [Nombre,Apellido,CorreoElectronico,Password,fechaNacimiento,Genero,PreciosPorHora_idPreciosPorHora,Acercademi,Departamento_idDepartamento,Ciudad_idCiudad],
         (err, result) => {
             if(err){
                 console.log(err);
