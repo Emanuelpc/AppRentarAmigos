@@ -235,6 +235,10 @@ function BuscadorAmigo() {
           {amigosList.map((tarjeta, index) => (
           <Col key={index}>
            <CardAmigo
+           genero = {tarjeta.Genero}
+           nombre = {tarjeta.Nombre}
+           apellido ={tarjeta.Apellido}
+           edad   ={obtenerEdad(tarjeta.fechaNacimiento)} 
             titulo={tarjeta.Nombre+" "+tarjeta.Apellido+" Edad "+obtenerEdad(tarjeta.fechaNacimiento)}
             descripcion={tarjeta.Acercademi}
             imagenUrl={"https://media.istockphoto.com/id/522189109/es/foto/no-se-tome-tambi%C3%A9n-en-serio-la-vida.jpg?s=612x612&w=0&k=20&c=4RcKyGRBw_fwH_hl80Fn-COdYk9bjbrVq5v7u97dct4="}

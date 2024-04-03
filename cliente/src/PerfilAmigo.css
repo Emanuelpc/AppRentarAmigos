@@ -33,6 +33,14 @@ max-height: 400px;
 width: auto; /* Ajusta automáticamente el ancho para mantener la proporción de aspecto */
 height: auto; /* Ajusta automáticamente la altura para mantener la proporción de aspecto */
 }
-
+.border3 {
+    font-weight: bold;  /*Darle negrita a las letras de los checkbox*/
+    border: 4px solid black; /*crear un recuadro color negro*/
+    padding: 10px;
+    margin: 20px auto;
+    border-radius: 30px;/*suavizar los bordes */
+    margin-left: 100px;/* Ajustar el margen horizontal derecho*/
+    margin-right: 100px;/*Ajustar el margen horizontal izquiero*/
+}
 
 
