@@ -15,4 +15,12 @@
   .nav-link {
     font-family: Helvetica, sans-serif; /* Cambia este valor a la tipografía deseada */
   }
-  
+
+  .nav-link:hover:hover{
+    background-color: #093b5d;
+  }
+  .nav-link.active {
+    /* Estilos para el hover y cuando el enlace está activo */
+    background-color: #093b5d; /* Color de fondo cuando está activo o en hover */
+     /* Color del texto cuando está activo o en hover */
+  }
