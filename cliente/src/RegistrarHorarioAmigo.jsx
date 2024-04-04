@@ -6,8 +6,8 @@ import {  Link ,useLocation} from 'react-router-dom';
 function RegistrarHorarioAmigo() {
 
   const location = useLocation();
-  const {Nombre, Apellido,CorreoElectronico,Password,fechaNacimiento,Genero,aboutMe,seleccionPrecio} = location.state?.data ||{};
-  console.log(Nombre, Apellido,CorreoElectronico,Password,fechaNacimiento,Genero,aboutMe,seleccionPrecio)
+  const {Nombre, Apellido,CorreoElectronico,Password,fechaNacimiento,Genero,aboutMe,seleccionPrecio,images} = location.state?.data ||{};
+  console.log(Nombre, Apellido,CorreoElectronico,Password,fechaNacimiento,Genero,aboutMe,seleccionPrecio,images)
   const data = [
     { id: 1, lunes: '', martes: '', miercoles: '',
   jueves:'',viernes:'',sabado:'',domingo:'' },
