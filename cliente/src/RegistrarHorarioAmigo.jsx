@@ -1,6 +1,7 @@
 import Navbar from "./Componentes/Navbar";
 import './RegistrarHorarioAmigo.css';
 import React from "react";
+<<<<<<< HEAD
 import {  Link } from 'react-router-dom';
 import { useState,useEffect } from 'react';
 
@@ -60,6 +61,26 @@ function RegistrarHorarioAmigo() {
   useEffect(() => {
     localStorage.setItem('turnoFormData', JSON.stringify(data));
   }, [data]);
+=======
+import {  Link ,useLocation} from 'react-router-dom';
+
+function RegistrarHorarioAmigo() {
+
+  const location = useLocation();
+  const {Nombre, Apellido,CorreoElectronico,Password,fechaNacimiento,Genero,aboutMe,seleccionPrecio} = location.state?.data ||{};
+  console.log(Nombre, Apellido,CorreoElectronico,Password,fechaNacimiento,Genero,aboutMe,seleccionPrecio)
+  const data = [
+    { id: 1, lunes: '', martes: '', miercoles: '',
+  jueves:'',viernes:'',sabado:'',domingo:'' },
+    { id: 2, lunes: '', martes: '', miercoles: '',
+  jueves:'',viernes:'',sabado:'',domingo:'' },
+  { id: 3, lunes: '', martes: '', miercoles: '',
+  jueves:'',viernes:'',sabado:'',domingo:'' },
+  { id: 4, lunes: '', martes: '', miercoles: '',
+  jueves:'',viernes:'',sabado:'',domingo:'' },
+    // contenedor de datos para la tabla
+  ];
+>>>>>>> b6cf2e7608b6fa1b2fd3ad04f118c19e48a830cd
     return (
       <div>
         <Navbar/> 
@@ -135,7 +156,19 @@ function RegistrarHorarioAmigo() {
             <Link to ="/RegistrarFotosAmigo">
                 <button class = "btn-1">Volver</button>
             </Link>
-            <Link to ="/RegistrarUbicacionAmigo">
+            <Link to="/RegistrarUbicacionAmigo" state={
+            {
+              data: {
+                Nombre,
+                Apellido,
+                CorreoElectronico,
+                Password,
+                fechaNacimiento,
+                Genero,
+                aboutMe,
+                seleccionPrecio
+              }
+            }}>
                 <button class = "btn-2">Siguiente</button>
             </Link>
           </div>

@@ -1,11 +1,40 @@
 
 import React from "react";
+import { useState } from "react";
 import Navbar from "./Componentes/Navbar";
 import './RegistrarInteresesAmigo.css';
+<<<<<<< HEAD
 import {  Link} from 'react-router-dom';
 import { useState,useEffect } from 'react';
+=======
+import {  Link,useLocation } from 'react-router-dom';
+//import Axios from "axios";
+>>>>>>> b6cf2e7608b6fa1b2fd3ad04f118c19e48a830cd
 
 function RegistrarInteresesAmigo() {
+
+  //const [interesesList, setintereses] = useState([]);
+  const [aboutMe, setAboutMe] = useState(""); // Estado local para almacenar el valor del textarea
+
+
+  //Obtener los datos de la Pagina Anterior
+  const location = useLocation();
+  const {Nombre, Apellido,CorreoElectronico,Password,fechaNacimiento,Genero,seleccionPrecio} = location.state?.data ||{};
+  console.log(Nombre, Apellido,CorreoElectronico,Password,fechaNacimiento,Genero,seleccionPrecio)
+
+
+  //Funcion obtener lista de intereses
+  /*const getIntereses = () => {
+    Axios.get("http://localhost:3001/intereses").then((response) => {
+      setintereses(response.data);
+    });
+  }*/
+
+  // Manejador de cambio para el textarea
+  const handleAboutMeChange = (event) => {
+    setAboutMe(event.target.value);
+  };
+
   const intereses = [
     { id: "musica", label: "Música" },
     { id: "videojuegos", label: "Videojuegos" },
@@ -88,6 +117,7 @@ function RegistrarInteresesAmigo() {
       ))}
     </div>
       <h1>ACERCA DE MI(*)</h1>
+<<<<<<< HEAD
       <textarea
         id="mensaje"
         name="mensaje"
@@ -96,11 +126,26 @@ function RegistrarInteresesAmigo() {
         value={mensaje}
         onChange={handleMensajeChange}
       />
+=======
+       <textarea id="mensaje" name="mensaje" onChange={handleAboutMeChange} rows="4" cols="60"></textarea>
+>>>>>>> b6cf2e7608b6fa1b2fd3ad04f118c19e48a830cd
       <div>
           <Link to ="/RegistrarDatosAmigo">
               <button class = "btn-1">Volver</button>
           </Link>
-          <Link to ="/RegistrarFotosAmigo">
+          <Link to="/RegistrarFotosAmigo" state={
+            {
+              data: {
+                Nombre,
+                Apellido,
+                CorreoElectronico,
+                Password,
+                fechaNacimiento,
+                Genero,
+                seleccionPrecio,
+                aboutMe
+              }
+            }}>
               <button class = "btn-2">Siguiente</button>
           </Link>
       </div>
