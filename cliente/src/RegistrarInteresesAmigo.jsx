@@ -3,13 +3,8 @@ import React from "react";
 import { useState } from "react";
 import Navbar from "./Componentes/Navbar";
 import './RegistrarInteresesAmigo.css';
-<<<<<<< HEAD
-import {  Link} from 'react-router-dom';
-import { useState,useEffect } from 'react';
-=======
 import {  Link,useLocation } from 'react-router-dom';
 //import Axios from "axios";
->>>>>>> b6cf2e7608b6fa1b2fd3ad04f118c19e48a830cd
 
 function RegistrarInteresesAmigo() {
 
@@ -117,18 +112,7 @@ function RegistrarInteresesAmigo() {
       ))}
     </div>
       <h1>ACERCA DE MI(*)</h1>
-<<<<<<< HEAD
-      <textarea
-        id="mensaje"
-        name="mensaje"
-        rows="4"
-        cols="60"
-        value={mensaje}
-        onChange={handleMensajeChange}
-      />
-=======
        <textarea id="mensaje" name="mensaje" onChange={handleAboutMeChange} rows="4" cols="60"></textarea>
->>>>>>> b6cf2e7608b6fa1b2fd3ad04f118c19e48a830cd
       <div>
           <Link to ="/RegistrarDatosAmigo">
               <button class = "btn-1">Volver</button>
