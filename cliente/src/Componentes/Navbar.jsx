@@ -10,6 +10,7 @@ function BasicNavbar() {
         <Navbar.Brand href="#home" className="brand-text">Amigo Rentable</Navbar.Brand> 
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav" className="justify-content-end">
+          <form className='d-flex'>
           <Nav className="me-auto">
             <Nav.Link href="#home" className="nav-link">Home</Nav.Link> 
             <Nav.Link href="#link" className="nav-link">IniciarSesion</Nav.Link> 
@@ -18,6 +19,7 @@ function BasicNavbar() {
               <NavDropdown.Item href="#action/3.2" className="dropdown-item">Registro Amigo</NavDropdown.Item> 
             </NavDropdown>
           </Nav>
+          </form>
         </Navbar.Collapse>
       </Container>
     </Navbar>

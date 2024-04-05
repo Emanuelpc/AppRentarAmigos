@@ -42,7 +42,10 @@ function PerfilAmigo() {
   return (
     <div>
       <Navbar />
+      <div className="container">
+        <div className="row">
       <div style={{ display: 'flex', alignItems: 'center' }}>
+        <div className="col-lg-6 col-md-8 col-sm-10">
         <div id="carouselExample" className="carousel slide" data-bs-ride="carousel"style={{ marginTop:'90px' }}>
           <div className="carousel-inner">
             <div className="carousel-item active">
@@ -64,33 +67,33 @@ function PerfilAmigo() {
             <span className="visually-hidden">Next</span>
           </button>
         </div>
+        </div>
+        <div className="col-lg-6 col-md-4 col-sm-2">
         <div className="perfil">
           <h1 id="titulo">Perfil</h1>
           <div className="border3">
           <p>Nombre:{profile.name+" " +profile.apellido}</p>
           <p>Edad:{profile.edad}</p>
           <p>genero:{profile.genero}</p>   
-          <p>Registro: {profile.registration}</p>
           <p>Precio: {profile.price}</p>
-          </div>
-          <div className="border3">
             <strong>Intereses:</strong>
             <div style={{ flexDirection: 'row' }}>
               {profile.interests.map((interest, index) => (
                 <InterestType key={index} interest={interest} />
               ))}
             </div>
-          </div>
-          <div className="border3">
           <p>Descripcion:{profile.description}</p>
-          </div>
-          <div className="botones">
+          </div >
+          <div className="botones px-5">
             <Link to="/BuscadorAmigo" style={{ textDecoration: 'none' }}>
               <button className="boton-buscar-amigos">Volver</button>
             </Link>
             <Button variant="success">Rentar Amigo</Button>
           </div>
         </div>
+        </div>
+      </div>
+      </div>
       </div>
     </div>
   );
