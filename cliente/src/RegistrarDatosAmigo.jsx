@@ -1,4 +1,4 @@
-import { useState,useEffect } from "react";
+import { useState, useEffect } from "react";
 import Navbar from "./Componentes/Navbar";
 import {Button,FormCheck,Modal} from 'react-bootstrap';
 import './RegistrarDatosAmigo.css';
@@ -6,6 +6,7 @@ import Axios from "axios";
 import {  Link } from 'react-router-dom';
 
 function RegistrarDatosAmigo() {
+  
 
   const [camposCompletos, setCamposCompletos] = useState(false);
   const [camposIncompletos, setCamposIncompletos] = useState([]);
@@ -24,8 +25,8 @@ function RegistrarDatosAmigo() {
     Axios.get("http://localhost:3001/precioshora").then((response) => {
       setprecioshora(response.data);
     });
-  }
-  
+  };
+
   function handleChange(e) {
     setGenero(e.target.value);
   }
@@ -65,7 +66,7 @@ function RegistrarDatosAmigo() {
 
   return (
       <div >
-        <Navbar/>
+         <Navbar/>
         <form className="form-register">
           <h1>Registrar Amigo Rentable </h1>
 
@@ -77,6 +78,7 @@ function RegistrarDatosAmigo() {
           
           <input className={`controls ${camposIncompletos.includes('apellidos') ? 'campos-incompletos' : ''}`} type="text" name="apellidos" id="apellidos"onChange={(event)=> setApellido(event.target.value)} placeholder="Ingrese su Apellido" required />
           <br></br>
+        
 
 
           <input className={`controls ${camposIncompletos.includes('correo') ? 'campos-incompletos' : ''}`} type="email" name="correo" id="correo" onChange={(event)=> setCorreoElectronico(event.target.value)} placeholder="Ingrese su Correo" required />
@@ -110,7 +112,7 @@ function RegistrarDatosAmigo() {
           <h3>Elige cuánto te gustaría obtener por hora</h3>
           <select className={`controls ${camposIncompletos.includes('nombres') ? 'campos-incompletos' : ''}`} name="tarifa" id="tarifa" onChange={(event)=> setseleccionPrecio(event.target.value)}>
           {precioshora.map((precio, index) => (
-            <option key={index} value={precio.idPreciosPorHora} >
+            <option key={index} value={precio.idPreciosPorHora}>
               {`Quiero ganar ${precio.Precio_Hora}Bs por hora`}
             </option>
           ))}
