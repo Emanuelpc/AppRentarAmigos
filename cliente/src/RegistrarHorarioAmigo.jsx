@@ -2,12 +2,13 @@ import Navbar from "./Componentes/Navbar";
 import './RegistrarHorarioAmigo.css';
 import React from "react";
 import {  Link ,useLocation} from 'react-router-dom';
+import { Button ,FormCheck } from 'react-bootstrap';
 
 function RegistrarHorarioAmigo() {
 
   const location = useLocation();
-  const {Nombre, Apellido,CorreoElectronico,Password,fechaNacimiento,Genero,aboutMe,seleccionPrecio} = location.state?.data ||{};
-  console.log(Nombre, Apellido,CorreoElectronico,Password,fechaNacimiento,Genero,aboutMe,seleccionPrecio)
+  const {Nombre, Apellido,CorreoElectronico,Password,fechaNacimiento,Genero,aboutMe,seleccionPrecio,images} = location.state?.data ||{};
+  console.log(Nombre, Apellido,CorreoElectronico,Password,fechaNacimiento,Genero,aboutMe,seleccionPrecio,images)
   const data = [
     { id: 1, lunes: '', martes: '', miercoles: '',
   jueves:'',viernes:'',sabado:'',domingo:'' },
@@ -15,43 +16,46 @@ function RegistrarHorarioAmigo() {
   jueves:'',viernes:'',sabado:'',domingo:'' },
   { id: 3, lunes: '', martes: '', miercoles: '',
   jueves:'',viernes:'',sabado:'',domingo:'' },
-  { id: 4, lunes: '', martes: '', miercoles: '',
-  jueves:'',viernes:'',sabado:'',domingo:'' },
     // contenedor de datos para la tabla
   ];
     return (
       <div>
         <Navbar/> 
-      <h1>Seleccionar Horarios</h1>
-      <div class = "border3">
-      <h3>Selecciona los dias que tiene disponible</h3>
+      <form className="form-horarios">
+      <h1>Registrar Amigo Rentable </h1>
           <div className="Checkbox">
             <form>
-            <input type="checkbox" id="lunes" name="lunes" value="lunes"/>
+            <form className="form-seleccion">
+            <h3 style={{ textAlign: 'left' }}>Selecciona los dias que tiene disponible</h3>
+            <div className="d-flex">
+            <FormCheck type="checkbox" id="lunes" name="lunes" value="lunes"/>
             <label for="lunes">Lunes</label>
 
-            <input type="checkbox" id="martes" name="martes" value="martes"/>
+            <FormCheck type="checkbox" id="martes" name="martes" value="martes"/>
             <label for="martes"> Martes</label>
 
-            <input type="checkbox" id="miercoles" name="miercoles" value="miercoles"/>
+            <FormCheck type="checkbox" id="miercoles" name="miercoles" value="miercoles"/>
             <label for="miercoles"> Miercoles</label>
 
-            <input type="checkbox" id="jueves" name="jueves" value="jueves"/>
+            <FormCheck type="checkbox" id="jueves" name="jueves" value="jueves"/>
             <label for="jueves"> Jueves</label>
 
-            <input type="checkbox" id="viernes" name="viernes" value="viernes"/>
+            <FormCheck type="checkbox" id="viernes" name="viernes" value="viernes"/>
             <label for="viernes"> Viernes</label>
 
-            <input type="checkbox" id="sabado" name="sabado" value="sabado"/>
+            <FormCheck type="checkbox" id="sabado" name="sabado" value="sabado"/>
             <label for="sabado"> Sabado</label>
     
-            <input type="checkbox" id="domingo" name="domingo" value="domingo"/>
+            <FormCheck  type="checkbox" id="domingo" name="domingo" value="domingo"/>
             <label for="domingo"> Domingo</label>
 
             <br></br>
-            <br></br> 
+            </div>
+            </form>
+            <br></br>
+            <form className="form-seleccion">
 
-            <h3>Seleccionar Turno</h3>
+            <h3 style={{ textAlign: 'left' }}>Seleccionar Turno</h3>
             <div className = "Turnos">
                   <select name="Lunes" id="1">
                     <option selected>Turno</option>
@@ -102,15 +106,15 @@ function RegistrarHorarioAmigo() {
                     <option value="3">Noche</option>
                   </select>
             </div>
-            </form>
-            <br></br> 
+            
+            <br></br>
               <div className="Horarios">
                   <h5>Mañana (5:00 AM - 11:00 AM)</h5>
                   <h5>Tarde (12:00 PM - 8:00 PM)</h5>
                   <h5>Noche (9:00 AM - 1:00 AM)</h5> 
               </div>
-          </div>
-
+            </form> 
+          </form>
           <div>
             <br></br>
               <h2>Previsualización del Horario </h2>
@@ -149,7 +153,7 @@ function RegistrarHorarioAmigo() {
         </div>
           <div>
             <Link to ="/RegistrarFotosAmigo">
-                <button class = "btn-1">Volver</button>
+                <Button variant="secondary" className="ml-2 custom-cancel-button">Volver</Button>
             </Link>
             <Link to="/RegistrarUbicacionAmigo" state={
             {
@@ -161,13 +165,14 @@ function RegistrarHorarioAmigo() {
                 fechaNacimiento,
                 Genero,
                 aboutMe,
-                seleccionPrecio
+                seleccionPrecio,
+                images
               }
             }}>
-                <button class = "btn-2">Siguiente</button>
+                <Button variant = "primary" className="custom-next-button">Siguiente</Button>
             </Link>
           </div>
-            
+          </form>    
           </div>
     );
   }

@@ -14,6 +14,7 @@
   .datagrid-container {
     width: 100%;
     overflow-x: auto;
+    color: #000;
   }
   
   .datagrid {
@@ -24,22 +25,51 @@
   .datagrid th,
   .datagrid td {
     padding: 8px;
-    border: 1px solid #ddd;
+    border: 1px solid #212525;
   }
   
   .datagrid th {
-    background-color: #f2f2f2;
+    background-color: #f2f2f2 ;
   }
   
   .datagrid tbody tr:nth-child(even) {
+    background-color: #f2f2f2 ;
+  }
+  .datagrid tbody tr:nth-child(odd) {
     background-color: #f2f2f2;
   }
-  .border3 {
-    font-weight: bold;  /*Darle negrita a las letras de los checkbox*/
-    border: 4px solid black; /*crear un recuadro color negro*/
-    padding: 10px;
-    margin: 20px auto;
-    border-radius: 30px;/*suavizar los bordes */
-    margin-left: 100px;/* Ajustar el margen horizontal derecho*/
-    margin-right: 100px;/*Ajustar el margen horizontal izquiero*/
+
+
+  .form-horarios{
+    width: 1500px;
+    background: #536471;
+    padding: 30px;
+    margin: auto;
+    margin-top: 50px;
+    margin-bottom: 50px;
+    border-radius: 4px;
+    font-family: 'calibri';
+    color: rgb(255, 255, 255);
+    box-shadow: 7px 13px 37px #000;
+  }
+  .custom-cancel-button,
+  .custom-next-button {
+  margin-top: 20px;
+  }
+
+  .form-register h3 {
+    font-size: 22px;
+    margin-bottom: 20px;
+  }
+  .form-seleccion{
+    margin-bottom: 20px; /* Puedes ajustar este valor según tu preferencia */
+    width: 1000px;
+    background: #315c7a;
+    padding: 20px;
+    margin: auto;
+    margin-top: 20px;
+    border-radius: 4px;
+    font-family: 'calibri';
+    color: rgb(255, 255, 255);
+    box-shadow: 7px 7px 7px #000;
   }
