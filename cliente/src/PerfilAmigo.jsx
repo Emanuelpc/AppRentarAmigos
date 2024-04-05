@@ -37,6 +37,7 @@ function PerfilAmigo() {
   return (
     <div>
       <Navbar />
+<<<<<<< HEAD
       <div className="d-flex align-items-center">
         <div
           id="carouselExample"
@@ -45,6 +46,14 @@ function PerfilAmigo() {
           style={{ marginTop: "90px" }}
         >
           <div className="carousel-inner ps-5">
+=======
+      <div className="container">
+        <div className="row">
+      <div style={{ display: 'flex', alignItems: 'center' }}>
+        <div className="col-lg-6 col-md-8 col-sm-10">
+        <div id="carouselExample" className="carousel slide" data-bs-ride="carousel"style={{ marginTop:'90px' }}>
+          <div className="carousel-inner">
+>>>>>>> 37d8c983e0256824a93c65f23dff192a19bef379
             <div className="carousel-item active">
               <img
                 src="https://img.freepik.com/fotos-premium/guapo-hombre-latino-sonriente-elegante-camiseta-blanca-compras-telefonos-moviles-linea_695242-226.jpg"
@@ -92,6 +101,7 @@ function PerfilAmigo() {
             <span className="visually-hidden">Next</span>
           </button>
         </div>
+<<<<<<< HEAD
         <div className="perfil d-flex flex-column rounded-5 mt-5 container py-3">
           <h1 id="titulo mx-auto">Perfil</h1>
           <div className="text-start px-5">
@@ -102,12 +112,24 @@ function PerfilAmigo() {
             <p>Precio: {profile.price}</p>
           </div>
           <div className="p-4">
+=======
+        </div>
+        <div className="col-lg-6 col-md-4 col-sm-2">
+        <div className="perfil">
+          <h1 id="titulo">Perfil</h1>
+          <div className="border3">
+          <p>Nombre:{profile.name+" " +profile.apellido}</p>
+          <p>Edad:{profile.edad}</p>
+          <p>genero:{profile.genero}</p>   
+          <p>Precio: {profile.price}</p>
+>>>>>>> 37d8c983e0256824a93c65f23dff192a19bef379
             <strong>Intereses:</strong>
             <div style={{ flexDirection: "row" }}>
               {profile.interests.map((interest, index) => (
                 <InterestType key={index} interest={interest} />
               ))}
             </div>
+<<<<<<< HEAD
           </div>
           <div className="p-4">
             <p>Descripcion:{profile.description}</p>
@@ -115,10 +137,20 @@ function PerfilAmigo() {
           <div className="d-flex justify-content-around">
             <Link to="/BuscadorAmigo" style={{ textDecoration: "none" }}>
               <button className="btn btn-primary">Volver</button>
+=======
+          <p>Descripcion:{profile.description}</p>
+          </div >
+          <div className="botones px-5">
+            <Link to="/BuscadorAmigo" style={{ textDecoration: 'none' }}>
+              <button className="boton-buscar-amigos">Volver</button>
+>>>>>>> 37d8c983e0256824a93c65f23dff192a19bef379
             </Link>
             <Button variant="success">Rentar Amigo</Button>
           </div>
         </div>
+        </div>
+      </div>
+      </div>
       </div>
     </div>
   );
