@@ -18,8 +18,8 @@ function RegistrarUbicacionAmigo() {
   const [termsAndConditionsText, setTermsAndConditionsText] = useState(""); // Estado local para el texto de términos y condiciones
 
   const location = useLocation();
-  const {Nombre, Apellido,CorreoElectronico,Password,fechaNacimiento,Genero,seleccionPrecio,aboutMe} = location.state?.data ||{};
-  console.log(Nombre, Apellido,CorreoElectronico,Password,fechaNacimiento,Genero,seleccionPrecio,aboutMe)
+  const {Nombre, Apellido,CorreoElectronico,Password,fechaNacimiento,Genero,seleccionPrecio,aboutMe,images} = location.state?.data ||{};
+  console.log(Nombre, Apellido,CorreoElectronico,Password,fechaNacimiento,Genero,seleccionPrecio,aboutMe,images)
 
   // Función para obtener la lista de Departamentos del backend
   const getDepartamentos = () => {

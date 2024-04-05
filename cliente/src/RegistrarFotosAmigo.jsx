@@ -14,7 +14,6 @@ function RegistrarFotosAmigo() {
   return (
     <div>
       <Navbar/>
-      <h1 style={{ marginBottom: '-10px' }}>Subir Fotos para el Perfil</h1>
       <div className="center-container">
       <DragAndDropImage
           Nombre={Nombre}

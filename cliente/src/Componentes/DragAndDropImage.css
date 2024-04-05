@@ -1,15 +1,18 @@
 .drag-drop-container {
-    background-image: url('https://github.com/trananhtuat/react-drop-file-input/blob/main/src/assets/cloud-upload-regular-240.png?raw=true');
+    background-image: url('../Imagenes/ImagenDescargasFotosFondo.png');
     background-size: contain; /* Ajusta el tamaño de la imagen para que quepa dentro del contenedor */
     background-repeat: no-repeat; /* Evita que la imagen se repita */
     background-position: center; /* Centra la imagen */
-    width: 80%;
+    background-color: rgb(255, 255, 255);
+    width: 90%;
     min-height: 400px;
     border: 2px dashed #aaa;
     border-radius: 10px;
     padding: 20px;
     margin-top: 10px; /* Reducir el margen superior */
     margin-bottom: 10px; /* Reducir el margen inferior */
+    color: #000;
+    font-size: 22px;
   }
   
   .drag-drop-container img {
@@ -49,4 +52,21 @@
     padding: 10px 30px !important;
   }
 
+  .form-subirImagen{
+    width: 1000px;
+    background: #536471;
+    padding: 30px;
+    margin: auto;
+    margin-top: 50px;
+    margin-bottom: 50px;
+    border-radius: 4px;
+    font-family: 'calibri';
+    color: rgb(255, 255, 255);
+    box-shadow: 7px 13px 37px #000;
+  }
+
+  .form-subirImagen h3 {
+    font-size: 22px;
+    margin-bottom: 20px;
+  }
   

@@ -9,7 +9,7 @@ const DragAndDropImage = ({ Nombre, Apellido, CorreoElectronico, Password, fecha
   const [showAlert, setShowAlert] = useState(false);
   const [showMaxImagesAlert, setShowMaxImagesAlert] = useState(false);
   const [isDragging, setIsDragging] = useState(false);
-  const MAX_IMAGES = 5;
+  const MAX_IMAGES = 4;
   const resizeImage = (file) => {
     return new Promise((resolve, reject) => {
       const reader = new FileReader();
@@ -56,24 +56,31 @@ const DragAndDropImage = ({ Nombre, Apellido, CorreoElectronico, Password, fecha
   const handleDrop = async (e) => {
     e.preventDefault();
     setIsDragging(false);
-
+  
     const files = Array.from(e.dataTransfer.files);
     const imageFiles = files.filter(file => file.type.startsWith('image/'));
-
-    // Verifica si el número total de imágenes excede el límite máximo
+  
     if (images.length + imageFiles.length > MAX_IMAGES) {
-      setShowMaxImagesAlert(true); // Muestra el modal de alerta por exceso de imágenes
-      return; // Evita agregar más imágenes
+      setShowMaxImagesAlert(true);
+      return;
     }
-
+  
     try {
       const resizedImages = await Promise.all(imageFiles.map(file => resizeImage(file)));
-      const imageDataUrls = resizedImages.map(blob => URL.createObjectURL(blob));
-      setImages(prevImages => [...prevImages, ...imageDataUrls]);
+      const imageData = resizedImages.map(blob => ({
+        imageUrl: URL.createObjectURL(blob),
+        id: Math.random().toString(36).substr(2, 9) // Generar un ID único para la imagen
+      }));
+      setImages(prevImages => [...prevImages, ...imageData]);
     } catch (error) {
       console.error("Error al redimensionar imágenes:", error);
     }
   };
+  
+  const handleImageRemove = (idToRemove) => {
+    setImages(prevImages => prevImages.filter(image => image.id !== idToRemove));
+  };
+  
   
   
   const handleDragOver = (e) => {
@@ -90,9 +97,7 @@ const DragAndDropImage = ({ Nombre, Apellido, CorreoElectronico, Password, fecha
     setIsDragging(false); // Cuando se sale del área de drop, desactivamos el estado de arrastre
   };
 
-  const handleImageRemove = (index) => {
-    setImages(prevImages => prevImages.filter((_, i) => i !== index));
-  };
+  
 
   const handleSaveImages = () => {
     // Aquí podrías enviar las imágenes al servidor para guardarlas
@@ -108,6 +113,9 @@ const DragAndDropImage = ({ Nombre, Apellido, CorreoElectronico, Password, fecha
 
   return (
     <Container>
+      <form className='form-subirImagen'>
+      <h1>Registrar Amigo Rentable</h1>
+      <h3 style={{ textAlign: 'left' }}>Registrar Fotos para el perfil Amigo</h3>
       <Row>
         <Col>
           <div
@@ -118,20 +126,22 @@ const DragAndDropImage = ({ Nombre, Apellido, CorreoElectronico, Password, fecha
             onDragLeave={handleDragLeave}
           >
             {images.map((image, index) => (
-              <div key={index} className="image-container">
+              <div key={image.id} className="image-container">
                 <img
-                  src={image}
+                  src={image.imageUrl}
                   alt="Dropped"
                 />
                 <button
                   className="btn btn-danger btn-sm remove-button"
-                  onClick={() => handleImageRemove(index)}
+                  onClick={() => handleImageRemove(image.id)}
                 >
                   X
                 </button>
               </div>
             ))}
-            {images.length === 0 && <p>Drag & Drop images here  </p>}
+
+
+            {images.length === 0 && <p>Arrastra y suelta imágenes aquí</p>}
             
           </div>
         </Col>
@@ -159,6 +169,7 @@ const DragAndDropImage = ({ Nombre, Apellido, CorreoElectronico, Password, fecha
           </Link>
         </Col>
       </Row>
+      </form>
 
       
 
@@ -182,7 +193,7 @@ const DragAndDropImage = ({ Nombre, Apellido, CorreoElectronico, Password, fecha
           <Modal.Title>Alerta</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          No se pueden agregar más de 5 imágenes.
+          No se pueden agregar más de 4 Fotos.
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={() => setShowMaxImagesAlert(false)}>

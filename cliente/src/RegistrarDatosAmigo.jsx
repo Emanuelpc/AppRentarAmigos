@@ -78,11 +78,9 @@ function RegistrarDatosAmigo() {
           <input className={`controls ${camposIncompletos.includes('apellidos') ? 'campos-incompletos' : ''}`} type="text" name="apellidos" id="apellidos"onChange={(event)=> setApellido(event.target.value)} placeholder="Ingrese su Apellido" required />
           <br></br>
 
-          
+
           <input className={`controls ${camposIncompletos.includes('correo') ? 'campos-incompletos' : ''}`} type="email" name="correo" id="correo" onChange={(event)=> setCorreoElectronico(event.target.value)} placeholder="Ingrese su Correo" required />
           <br></br>
-
-          
           <input className={`controls ${camposIncompletos.includes('password') ? 'campos-incompletos' : ''}`} type="password" name="password" id="password" onChange={(event)=> setPassword(event.target.value)} placeholder="Ingrese su Contraseña" required/>
           <br></br>
 
