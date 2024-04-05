@@ -94,7 +94,7 @@ function RegistrarDatosAmigo() {
             onChange={(event) => setfechaNacimiento(event.target.value)}
             placeholder="Ingrese su Fecha de Nacimiento"
             required
-            min="2006-01-01" // Establecer la fecha mínima como 2006-01-01
+            max="2006-01-01" // Establecer la fecha mínima como 2006-01-01
           />
 
           <br></br>

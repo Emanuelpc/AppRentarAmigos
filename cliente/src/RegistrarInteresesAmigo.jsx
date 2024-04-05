@@ -1,15 +1,18 @@
 
-import React from "react";
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import Navbar from "./Componentes/Navbar";
 import './RegistrarInteresesAmigo.css';
 import {  Link,useLocation } from 'react-router-dom';
-//import Axios from "axios";
+import { Button ,Form} from 'react-bootstrap';
+import Axios from "axios";
+import CheckboxGroup from './Componentes/CheckboxGroupIntereses';
 
 function RegistrarInteresesAmigo() {
 
   //const [interesesList, setintereses] = useState([]);
   const [aboutMe, setAboutMe] = useState(""); // Estado local para almacenar el valor del textarea
+  const [Listintereses,setListintereses]=useState([]);
+  const [guardarSeleccionCheckbox, setGuardarSeleccionCheckbox] = useState([]);
 
 
   //Obtener los datos de la Pagina Anterior
@@ -19,69 +22,74 @@ function RegistrarInteresesAmigo() {
 
 
   //Funcion obtener lista de intereses
-  /*const getIntereses = () => {
+  const getIntereses = () => {
     Axios.get("http://localhost:3001/intereses").then((response) => {
-      setintereses(response.data);
+      setListintereses(response.data);
     });
-  }*/
+    console.log(Listintereses)
+  };
 
   // Manejador de cambio para el textarea
   const handleAboutMeChange = (event) => {
     setAboutMe(event.target.value);
   };
 
-  const intereses = [
-    { id: "musica", label: "Música" },
-    { id: "videojuegos", label: "Videojuegos" },
-    { id: "idiomas", label: "Idiomas" },
-    { id: "comida", label: "Comida" },
-    { id: "mascotas", label: "Mascotas" },
-    { id: "arte", label: "Arte" },
-    { id: "deporte", label: "Deporte" },
-    { id: "turismo", label: "Turismo" },
-    { id: "cocinar", label: "Cocinar" },
-    { id: "anime", label: "Anime" },
-    { id: "bailar", label: "Bailar" },
-    { id: "fotografia", label: "Fotografía" },
-    { id: "compras", label: "Compras" },
-    { id: "comic-manga", label: "Cómic/Manga" },
-    { id: "cine", label: "Cine" },
-    { id: "libros", label: "Libros" },
-    { id: "fiestas", label: "Fiestas" },
-    { id: "jardineria", label: "Jardinería" }
-  ];
+  useEffect(()=>{
+    getIntereses();
+  }, []);
 
-  const gruposIntereses = [
-    intereses.slice(0, 6),
-    intereses.slice(6, 12),
-    intereses.slice(12)
-  ];
+  const [selectedOptions, setSelectedOptions] = useState([]);
+  
+    const handleCheckboxChange = (event) => {
+      const value = event.target.value;
+      const isChecked = event.target.checked;
+      console.log("Checkbox value:", value);
+      console.log("Checkbox checked:", isChecked);
+      if (isChecked) {
+       setSelectedOptions([...selectedOptions, value]);
+       setGuardarSeleccionCheckbox(prevState => [...prevState, { tipo: 'interes', valor: value }]);
+      } else {
+       setSelectedOptions(selectedOptions.filter(option => option !== value));
+       setGuardarSeleccionCheckbox(prevState => prevState.filter(option => option.valor !== value));
+      } 
+      console.log("Selected options:", selectedOptions);
+    };
+  
+
+  
   
   return(
     <div>
       <Navbar/>
-      <h1>Intereses del Amigo(*)</h1>
-        <h5>selecciona al menos 3</h5>
-      
-      <form>
-        <div class = "border3">
-        {gruposIntereses.map((grupo, index) => (
-          <div key={index} style={{ display: 'flex', flexDirection: 'row' ,justifyContent: 'center'}}>
-          {/* Mapear cada interés dentro del grupo */}
-            {grupo.map(interes => (
-              <div key={interes.id} style={{ marginRight: '40px' , margin:'8px'}}>
-                <input type="checkbox" id={interes.id} />
-                <label htmlFor={interes.id}>{interes.label}</label>
-              </div>
-            ))}
-          </div>
-        ))}
-        </div>
-      <h1>ACERCA DE MI(*)</h1>
-       <textarea id="mensaje" name="mensaje" onChange={handleAboutMeChange} rows="4" cols="60"></textarea>
+      <form className="form-Intereses-AcercaDeMi">
+      <h1>Registrar Amigo Rentable </h1>
+      <h3 style={{ textAlign: 'left' }}>Registrar Intereses Personales</h3>
+
+      {Listintereses.length > 0 &&(
+          <CheckboxGroup
+          options={Listintereses.map(interes => ({
+            label: interes.Interes, // Ajusta a la propiedad correcta del interes
+            value: "option"+interes.idIntereses  // Ajusta a la propiedad correcta del interes
+          }))}
+          selectedOptions={selectedOptions}
+          onChange={handleCheckboxChange}
+          columns={4}
+          labeltitulo={"Selecciona al menos 3 Intereses para tu perfil"}
+          />
+        )}  
+      <h3 style={{ textAlign: 'left' }}>Registrar Descripcion Personal</h3>
+      <Form.Control
+          id="mensaje"
+          name="mensaje"
+          as="textarea"
+          onChange={handleAboutMeChange}
+          rows="4"
+          cols="60"
+          style={{ width: "100%", padding: "10px",margin:"10px", borderRadius: "4px", fontFamily: "calibri",fontSize: "20px" }}
+        />
       <div>
-          <Link to ="/RegistrarDatosAmigo">
-              <button class = "btn-1">Volver</button>
+          <Link to="/RegistrarDatosAmigo">
+            <Button variant="secondary" className="ml-2 custom-cancel-button" >Volver</Button>
           </Link>
           <Link to="/RegistrarFotosAmigo" state={
             {
@@ -96,7 +104,7 @@ function RegistrarInteresesAmigo() {
                 aboutMe
               }
             }}>
-              <button class = "btn-2">Siguiente</button>
+              <Button variant = "primary" className="custom-next-button">Siguiente</Button>
           </Link>
       </div>
       </form>

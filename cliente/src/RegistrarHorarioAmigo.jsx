@@ -2,6 +2,7 @@ import Navbar from "./Componentes/Navbar";
 import './RegistrarHorarioAmigo.css';
 import React from "react";
 import {  Link ,useLocation} from 'react-router-dom';
+import { Button } from 'react-bootstrap';
 
 function RegistrarHorarioAmigo() {
 
@@ -149,7 +150,7 @@ function RegistrarHorarioAmigo() {
         </div>
           <div>
             <Link to ="/RegistrarFotosAmigo">
-                <button class = "btn-1">Volver</button>
+                <Button variant="secondary" className="ml-2 custom-cancel-button">Volver</Button>
             </Link>
             <Link to="/RegistrarUbicacionAmigo" state={
             {
@@ -164,7 +165,7 @@ function RegistrarHorarioAmigo() {
                 seleccionPrecio
               }
             }}>
-                <button class = "btn-2">Siguiente</button>
+                <Button variant = "primary" className="custom-next-button">Siguiente</Button>
             </Link>
           </div>
             

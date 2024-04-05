@@ -225,11 +225,13 @@ function BuscadorAmigo() {
           }))}
           selectedOptions={selectedOptions}
           onChange={handleCheckboxChange}
+          columns={2}
+          labeltitulo={"Intereses"}
           />
         )}
         <BotonBuscar onClick={handleGuardarClick}/>
         </div>
-        <div className="EditarCardsResultadosAmigos" style={{ overflowY: 'auto', maxHeight: '700px' }}>
+        <div className="EditarCardsResultadosAmigos" style={{ overflowY: 'auto', maxHeight: '730px' }}>
           <h3>Resultados Busqueda de Amigos</h3>
           <Row xs={1} md={4} className="g-4">
           {amigosList.map((tarjeta, index) => (
