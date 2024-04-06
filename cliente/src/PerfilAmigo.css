@@ -5,27 +5,6 @@
   flex-direction: column; /* Apila los elementos verticalmente */
   color: #1d9bf0;
 }
-div{
-  margin: auto;
-}
-.boton-buscar-amigos {
-  background-color: #007bff;
-  color: white;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 16px;
-}
-.botones{
-  position: absolute;
-bottom: 20px;
-display: flex;
-justify-content: space-between;
-width: calc(30% - 40px); /* Ancho total del contenedor menos el margen */
-margin-left: 20px; 
-margin-bottom: 40px ;
-}
 /* Establece el tamaño máximo de las imágenes */
 .carousel-item img {
 max-width: 600px;

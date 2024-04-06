@@ -2,14 +2,14 @@ import Navbar from "./Componentes/Navbar";
 import './RegistrarHorarioAmigo.css';
 import React from "react";
 import {  Link ,useLocation} from 'react-router-dom';
+import { Button ,FormCheck } from 'react-bootstrap';
 import { useState,useEffect } from 'react';
 
 function RegistrarHorarioAmigo() {
 
   const location = useLocation();
-  const {Nombre, Apellido,CorreoElectronico,Password,fechaNacimiento,Genero,aboutMe,seleccionPrecio} = location.state?.data ||{};
-  console.log(Nombre, Apellido,CorreoElectronico,Password,fechaNacimiento,Genero,aboutMe,seleccionPrecio)
-  
+  const {Nombre, Apellido,CorreoElectronico,Password,fechaNacimiento,Genero,aboutMe,seleccionPrecio,images} = location.state?.data ||{};
+  console.log(Nombre, Apellido,CorreoElectronico,Password,fechaNacimiento,Genero,aboutMe,seleccionPrecio,images)
   const [data, setData] = useState(() => {
     const savedData = localStorage.getItem('turnoFormData');
     return savedData ? JSON.parse(savedData) : [
@@ -18,6 +18,7 @@ function RegistrarHorarioAmigo() {
       { id: 3, lunes: '', martes: '', miercoles: '', jueves: '', viernes: '', sabado: '', domingo: '' }
     ];
   });
+
   const [showOptions, setShowOptions] = useState({
     lunes: false,
     martes: false,
@@ -65,59 +66,65 @@ function RegistrarHorarioAmigo() {
     localStorage.setItem('turnoFormData', JSON.stringify(data));
   }, [data]);
 
-
     return (
       <div>
         <Navbar/> 
-      <h1>Seleccionar Horarios</h1>
-      <div class = "border3">   
-          <div>
+      <form className="form-horarios">
+      <h1>Registrar Amigo Rentable </h1>
+          <div className="Checkbox">
+            <form>
+            <h3 style={{ textAlign: 'left' }}>Selecciona los dias que tiene disponible</h3>
+            <div className="horario">
+
+  {Object.keys(data[0]).map((day, index) => (
+    index !== 0 && (
+      <div key={day} className="day-container">
+        <div className="checkbox-label-container">
+          <input
+            type="checkbox"
+            checked={showOptions[day]}
+            onChange={e => handleCheckboxChange(e, day)}
+          />
+          <label>{day.charAt(0).toUpperCase() + day.slice(1)}</label>
+        </div>
+        {showOptions[day] && (
+          <select value={data.find(item => item[day] !== '')?.[day] || ''} onChange={e => handleSelectChange(e, day)}>
+            <option value="">Turno</option>
+            <option value="Mañana">Mañana</option>
+            <option value="Tarde">Tarde</option>
+            <option value="Noche">Noche</option>
+          </select>
+        )}
+      </div>
+    )
+  ))}
+</div>
+            
             <br></br>
-            <h3>Selecciona los dias que tiene disponible</h3>
-            <div className="container">
-              {Object.keys(data[0]).map((day, index) => (
-              index !== 0 && (
-                <div key={day} className="day-container">
-                  <input
-                    type="checkbox"
-                    checked={showOptions[day]}
-                    onChange={e => handleCheckboxChange(e, day)}
-                  />
-                    <label>{day.charAt(0).toUpperCase() + day.slice(1)}</label>
-                    {showOptions[day] && (
-                      <div className="select-container">
-                        <select value={data.find(item => item[day] !== '')?.[day] || ''} onChange={e => handleSelectChange(e, day)}>
-                          <option value="">Turno</option>
-                          <option value="Mañana">Mañana</option>
-                          <option value="Tarde">Tarde</option>
-                          <option value="Noche">Noche</option>
-                        </select>
-                     </div>
-                  )}
-               </div>
-              )
-              ))}
-            </div>
-            <div className="Horarios">
+              <div className="Horarios">
                   <h5>Mañana (5:00 AM - 11:00 AM)</h5>
                   <h5>Tarde (12:00 PM - 8:00 PM)</h5>
                   <h5>Noche (9:00 AM - 1:00 AM)</h5> 
-             </div>
-      <h2>Previsualización del Horario </h2>
-      <div className="datagrid-container">
-      <table className="datagrid"> 
-        <thead>
-          <tr>
-            <th>Horario</th>
-            <th>Lunes</th>
-            <th>Martes</th>
-            <th>Miercoles</th>
-            <th>Jueves</th>
-            <th>Viernes</th>
-            <th>Sabado</th>
-            <th>Domingo</th>
-          </tr>
-        </thead>
+              </div>
+          </form>
+          <div>
+            <br></br>
+              <h2>Previsualización del Horario </h2>
+              
+              <div className="datagrid-container">
+                  <table className="datagrid"> 
+                  <thead>
+                    <tr>
+                      <th>Horarios</th>
+                      <th>Lunes</th>
+                      <th>Martes</th>
+                      <th>Miercoles</th>
+                      <th>Jueves</th>
+                      <th>Viernes</th>
+                      <th>Sabado</th>
+                      <th>Domingo</th>
+                    </tr>
+                  </thead>
         <tbody>
             {data.map((item) => (
             <tr key={item.id}>
@@ -139,7 +146,7 @@ function RegistrarHorarioAmigo() {
         </div>
           <div>
             <Link to ="/RegistrarFotosAmigo">
-                <button class = "btn-1">Volver</button>
+                <Button variant="secondary" className="ml-2 custom-cancel-button">Volver</Button>
             </Link>
             <Link to="/RegistrarUbicacionAmigo" state={
             {
@@ -151,13 +158,14 @@ function RegistrarHorarioAmigo() {
                 fechaNacimiento,
                 Genero,
                 aboutMe,
-                seleccionPrecio
+                seleccionPrecio,
+                images
               }
             }}>
-                <button class = "btn-2">Siguiente</button>
+                <Button variant = "primary" className="custom-next-button">Siguiente</Button>
             </Link>
           </div>
-            
+          </form>    
           </div>
     );
   }
