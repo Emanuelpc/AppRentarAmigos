@@ -2,6 +2,8 @@ import React from 'react';
 import { MDBCol, MDBContainer, MDBRow, MDBCard, MDBCardText, MDBCardBody, MDBCardImage, MDBBtn, MDBTypography } from 'mdb-react-ui-kit';
 import { Link, useLocation } from "react-router-dom";
 import Axios from "axios";
+import Navbar from "./Componentes/Navbar";
+
 export default function PerfilAmigo() {
   const location = useLocation();
   const { nombre, apellido, descripcion, imagenUrl, genero, edad, id } =
@@ -19,6 +21,9 @@ export default function PerfilAmigo() {
 
   return (
     <div className="gradient-custom-2" style={{ backgroundColor: '#536471' }}>
+      <div>
+        <Navbar/>
+      </div>
       <MDBContainer className="py-5 h-100">
         <MDBRow className="justify-content-center align-items-center h-100">
           <MDBCol lg="9" xl="7">
