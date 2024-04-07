@@ -1,13 +1,24 @@
 import React from 'react';
 import { MDBCol, MDBContainer, MDBRow, MDBCard, MDBCardText, MDBCardBody, MDBCardImage, MDBBtn, MDBTypography } from 'mdb-react-ui-kit';
-import Navbar from "./Componentes/Navbar";
-
+import { Link, useLocation } from "react-router-dom";
+import Axios from "axios";
 export default function PerfilAmigo() {
+  const location = useLocation();
+  const { nombre, apellido, descripcion, imagenUrl, genero, edad, id } =
+  location.state?.data || {};
+  const profile = {
+    name: nombre,
+    id: id,
+    apellido: apellido,
+    edad: edad,
+    genero: genero,
+    price: "100 BS/Hora",
+    interests: ["Cine", "Baile", "Natación"],
+    description: descripcion,
+  };
+
   return (
     <div className="gradient-custom-2" style={{ backgroundColor: '#536471' }}>
-        <div>
-        <Navbar/>
-        </div>
       <MDBContainer className="py-5 h-100">
         <MDBRow className="justify-content-center align-items-center h-100">
           <MDBCol lg="9" xl="7">
@@ -21,38 +32,34 @@ export default function PerfilAmigo() {
                   </MDBBtn>
                 </div>
                 <div className="ms-3" style={{ marginTop: '130px' }}>
-                  <MDBTypography tag="h5">Andy Horwitz</MDBTypography>
-                  <MDBCardText>New York</MDBCardText>
+                <p>{profile.name + " " + profile.apellido}</p>
+
+                  <MDBCardText>BOLIVIA</MDBCardText>
                 </div>
               </div>
               <div className="p-4 text-black" style={{ backgroundColor: '#f8f9fa' }}>
                 <div className="d-flex justify-content-end text-center py-1">
                   <div>
-                    <MDBCardText className="mb-1 h5">253</MDBCardText>
-                    <MDBCardText className="small text-muted mb-0">Photos</MDBCardText>
+                    <MDBCardText className="mb-1 h5">Natacion</MDBCardText>
                   </div>
                   <div className="px-3">
-                    <MDBCardText className="mb-1 h5">1026</MDBCardText>
-                    <MDBCardText className="small text-muted mb-0">Followers</MDBCardText>
+                    <MDBCardText className="mb-1 h5">Musica</MDBCardText>
                   </div>
                   <div>
-                    <MDBCardText className="mb-1 h5">478</MDBCardText>
-                    <MDBCardText className="small text-muted mb-0">Following</MDBCardText>
+                    <MDBCardText className="mb-1 h5">Anime</MDBCardText>
                   </div>
                 </div>
               </div>
               <MDBCardBody className="text-black p-4">
                 <div className="mb-5">
-                  <p className="lead fw-normal mb-1">About</p>
+                  <p className="lead fw-normal mb-1">Acerca de mi</p>
                   <div className="p-4" style={{ backgroundColor: '#f8f9fa' }}>
-                    <MDBCardText className="font-italic mb-1">Web Developer</MDBCardText>
-                    <MDBCardText className="font-italic mb-1">Lives in New York</MDBCardText>
-                    <MDBCardText className="font-italic mb-0">Photographer</MDBCardText>
+                    <p>{profile.description}</p>
                   </div>
                 </div>
                 <div className="d-flex justify-content-between align-items-center mb-4">
-                  <MDBCardText className="lead fw-normal mb-0">Recent photos</MDBCardText>
-                  <MDBCardText className="mb-0"><a href="#!" className="text-muted">Show all</a></MDBCardText>
+                  <MDBCardText className="lead fw-normal mb-0">Mis fotos</MDBCardText>
+                  <MDBCardText className="mb-0"><a href="#!" className="text-muted">alquilar</a></MDBCardText>
                 </div>
                 <MDBRow>
                   <MDBCol className="mb-2">

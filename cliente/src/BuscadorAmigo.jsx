@@ -237,6 +237,7 @@ function BuscadorAmigo() {
           {amigosList.map((tarjeta, index) => (
           <Col key={index}>
            <CardAmigo
+           id = {tarjeta.idAmigo}
            genero = {tarjeta.Genero}
            nombre = {tarjeta.Nombre}
            apellido ={tarjeta.Apellido}
