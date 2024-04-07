@@ -58,6 +58,29 @@ function RegistrarInteresesAmigo() {
 
   
   
+    const [checkedIntereses, setCheckedIntereses] = useState(() => {
+      const savedIntereses = localStorage.getItem('checkedIntereses');
+      return savedIntereses ? JSON.parse(savedIntereses) : {};
+    });
+  
+    const [mensaje, setMensaje] = useState(() => {
+      const savedMensaje = localStorage.getItem('mensaje');
+      return savedMensaje || '';
+    });
+  
+    useEffect(() => {
+      localStorage.setItem('checkedIntereses', JSON.stringify(checkedIntereses));
+    }, [checkedIntereses]);
+  
+    useEffect(() => {
+      localStorage.setItem('mensaje', mensaje);
+    }, [mensaje]);
+  
+    const handleMensajeChange = (e) => {
+      const { value } = e.target;
+      setMensaje(value);
+    };
+  
   return(
     <div>
       <Navbar/>
@@ -108,8 +131,7 @@ function RegistrarInteresesAmigo() {
           </Link>
       </div>
       </form>
-    </div>
-      
+    </div>   
     );
   }
   

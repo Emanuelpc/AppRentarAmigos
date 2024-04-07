@@ -3,21 +3,69 @@ import './RegistrarHorarioAmigo.css';
 import React from "react";
 import {  Link ,useLocation} from 'react-router-dom';
 import { Button ,FormCheck } from 'react-bootstrap';
+import { useState,useEffect } from 'react';
 
 function RegistrarHorarioAmigo() {
 
   const location = useLocation();
   const {Nombre, Apellido,CorreoElectronico,Password,fechaNacimiento,Genero,aboutMe,seleccionPrecio,images} = location.state?.data ||{};
   console.log(Nombre, Apellido,CorreoElectronico,Password,fechaNacimiento,Genero,aboutMe,seleccionPrecio,images)
-  const data = [
-    { id: 1, lunes: '', martes: '', miercoles: '',
-  jueves:'',viernes:'',sabado:'',domingo:'' },
-    { id: 2, lunes: '', martes: '', miercoles: '',
-  jueves:'',viernes:'',sabado:'',domingo:'' },
-  { id: 3, lunes: '', martes: '', miercoles: '',
-  jueves:'',viernes:'',sabado:'',domingo:'' },
-    // contenedor de datos para la tabla
-  ];
+  const [data, setData] = useState(() => {
+    const savedData = localStorage.getItem('turnoFormData');
+    return savedData ? JSON.parse(savedData) : [
+      { id: 1, lunes: '', martes: '', miercoles: '', jueves: '', viernes: '', sabado: '', domingo: '' },
+      { id: 2, lunes: '', martes: '', miercoles: '', jueves: '', viernes: '', sabado: '', domingo: '' },
+      { id: 3, lunes: '', martes: '', miercoles: '', jueves: '', viernes: '', sabado: '', domingo: '' }
+    ];
+  });
+
+  const [showOptions, setShowOptions] = useState({
+    lunes: false,
+    martes: false,
+    miercoles: false,
+    jueves: false,
+    viernes: false,
+    sabado: false,
+    domingo: false
+  });
+
+  const [selectedDay, setSelectedDay] = useState('');
+
+  const handleCheckboxChange = (e, day) => {
+    const { checked } = e.target;
+    setShowOptions(prevState => ({
+      ...prevState,
+      [day]: checked
+    }));
+    setSelectedDay(checked ? day : '');
+    if (!checked) {
+      setData(prevData =>
+        prevData.map(item => ({
+          ...item,
+          [day]: ''
+        }))
+      );
+    }
+  };
+
+  const handleSelectChange = (e, day) => {
+    const { value } = e.target;
+    const id = value === 'Mañana' ? 1 : value === 'Tarde' ? 2 : value === 'Noche' ? 3 : 0;
+    setData(prevData => {
+      return prevData.map(item => {
+        const newItem = { ...item };
+        if (item.id === id) {
+          newItem[day] = value;
+        }
+        return newItem;
+      });
+    });
+  };
+
+  useEffect(() => {
+    localStorage.setItem('turnoFormData', JSON.stringify(data));
+  }, [data]);
+
     return (
       <div>
         <Navbar/> 
@@ -25,87 +73,32 @@ function RegistrarHorarioAmigo() {
       <h1>Registrar Amigo Rentable </h1>
           <div className="Checkbox">
             <form>
-            <form className="form-seleccion">
             <h3 style={{ textAlign: 'left' }}>Selecciona los dias que tiene disponible</h3>
-            <div className="d-flex">
-            <FormCheck type="checkbox" id="lunes" name="lunes" value="lunes"/>
-            <label for="lunes">Lunes</label>
+            <div className="horario">
 
-            <FormCheck type="checkbox" id="martes" name="martes" value="martes"/>
-            <label for="martes"> Martes</label>
-
-            <FormCheck type="checkbox" id="miercoles" name="miercoles" value="miercoles"/>
-            <label for="miercoles"> Miercoles</label>
-
-            <FormCheck type="checkbox" id="jueves" name="jueves" value="jueves"/>
-            <label for="jueves"> Jueves</label>
-
-            <FormCheck type="checkbox" id="viernes" name="viernes" value="viernes"/>
-            <label for="viernes"> Viernes</label>
-
-            <FormCheck type="checkbox" id="sabado" name="sabado" value="sabado"/>
-            <label for="sabado"> Sabado</label>
-    
-            <FormCheck  type="checkbox" id="domingo" name="domingo" value="domingo"/>
-            <label for="domingo"> Domingo</label>
-
-            <br></br>
-            </div>
-            </form>
-            <br></br>
-            <form className="form-seleccion">
-
-            <h3 style={{ textAlign: 'left' }}>Seleccionar Turno</h3>
-            <div className = "Turnos">
-                  <select name="Lunes" id="1">
-                    <option selected>Turno</option>
-                    <option value="1">Mañana</option>
-                    <option value="2">Tarde</option>
-                    <option value="3">Noche</option>
-                  </select>
-    
-                  <select name="Martes" id="2">
-                  <option selected>Turno</option>
-                    <option value="1">Mañana</option>
-                    <option value="2">Tarde</option>
-                    <option value="3">Noche</option>
-                  </select>
-
-                  <select name="Miercoles" id="3">
-                  <option selected>Turno</option>
-                    <option value="1">Mañana</option>
-                    <option value="2">Tarde</option>
-                    <option value="3">Noche</option>
-                  </select>
-
-                  <select name="Jueves" id="4">
-                  <option selected>Turno</option>
-                    <option value="1">Mañana</option>
-                    <option value="2">Tarde</option>
-                    <option value="3">Noche</option>
-                  </select>
-
-                  <select name="Viernes" id="5">
-                  <option selected>Turno</option>
-                    <option value="1">Mañana</option>
-                    <option value="2">Tarde</option>
-                    <option value="3">Noche</option>
-                  </select>
-
-                  <select name="Sabado" id="6">
-                  <option selected>Turno</option>
-                    <option value="1">Mañana</option>
-                    <option value="2">Tarde</option>
-                    <option value="3">Noche</option>
-                  </select>
-
-                  <select name="Domingo" id="7">
-                  <option selected>Turno</option>
-                    <option value="1">Mañana</option>
-                    <option value="2">Tarde</option>
-                    <option value="3">Noche</option>
-                  </select>
-            </div>
+  {Object.keys(data[0]).map((day, index) => (
+    index !== 0 && (
+      <div key={day} className="day-container">
+        <div className="checkbox-label-container">
+          <input
+            type="checkbox"
+            checked={showOptions[day]}
+            onChange={e => handleCheckboxChange(e, day)}
+          />
+          <label>{day.charAt(0).toUpperCase() + day.slice(1)}</label>
+        </div>
+        {showOptions[day] && (
+          <select value={data.find(item => item[day] !== '')?.[day] || ''} onChange={e => handleSelectChange(e, day)}>
+            <option value="">Turno</option>
+            <option value="Mañana">Mañana</option>
+            <option value="Tarde">Tarde</option>
+            <option value="Noche">Noche</option>
+          </select>
+        )}
+      </div>
+    )
+  ))}
+</div>
             
             <br></br>
               <div className="Horarios">
@@ -113,7 +106,6 @@ function RegistrarHorarioAmigo() {
                   <h5>Tarde (12:00 PM - 8:00 PM)</h5>
                   <h5>Noche (9:00 AM - 1:00 AM)</h5> 
               </div>
-            </form> 
           </form>
           <div>
             <br></br>
@@ -134,7 +126,7 @@ function RegistrarHorarioAmigo() {
                     </tr>
                   </thead>
         <tbody>
-          {data.map((item) => (
+            {data.map((item) => (
             <tr key={item.id}>
               <td>{item.id}</td>
               <td>{item.lunes}</td>
@@ -148,6 +140,7 @@ function RegistrarHorarioAmigo() {
           ))}
         </tbody>
       </table>
+
       </div>
     </div>
         </div>
