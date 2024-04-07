@@ -1,31 +1,25 @@
+.btn-1{
+    border: 2px;
+    padding: 10px;
+    margin-right: 20px;
+    justify-content: center;
+    color: black;
+}
 
-  .form-Intereses-AcercaDeMi{
-    width: 600px;
-  background: #536471;
-  padding: 30px;
-  margin: auto;
-  margin-top: 50px;
-  margin-bottom: 50px;
-  border-radius: 4px;
-  font-family: 'calibri';
-  color: rgb(255, 255, 255);
-  box-shadow: 7px 13px 37px #000;
-  }
+.btn-2{
+    border: 30px;
+    padding: 10px;
+    margin-left: 20px;
+    justify-content: center;
+    color: black;
+}
 
-  .form-Intereses-AcercaDeMi .custom-checkbox {
-    margin-bottom: 20px; /* Puedes ajustar este valor según tu preferencia */
-    background: #315c7a !important;
-    padding: 20px;
-    margin: auto;
-    margin-top: 20px;
-    border-radius: 4px;
-    font-family: 'calibri';
-    color: rgb(255, 255, 255);
-    box-shadow: 7px 7px 7px #000;
+  .border3 {
+    font-weight: bold;  /*Darle negrita a las letras de los checkbox*/
+    border: 4px solid black; /*crear un recuadro color negro*/
+    padding: 10px;
+    margin: 30px auto;
+    border-radius: 30px;/*suavizar los bordes */
+    margin-left: 100px;/* Ajustar el margen horizontal derecho*/
+    margin-right: 100px;/*Ajustar el margen horizontal izquiero*/
   }
-
-  .form-Intereses-AcercaDeMi h3 {
-    font-size: 22px;
-    margin-bottom: 20px;
-  }
-  
