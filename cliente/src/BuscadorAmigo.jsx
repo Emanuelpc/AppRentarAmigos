@@ -41,9 +41,9 @@ function BuscadorAmigo() {
               console.error("Error en la solicitud:", error);
           });
     }
-    // Función para obtener la lista de amigos del backend
+    // Función para obtener la lista de amigos y con su departamentoCorrespondiente del backend
     const getAmigo = () => {
-    Axios.get("http://localhost:3001/amigos").then((response) => {
+    Axios.get("http://localhost:3001/amigosconDepartamento").then((response) => {
       setamigos(response.data);
     });
     }
@@ -84,9 +84,7 @@ function BuscadorAmigo() {
       const selectedDepartamentoId = parseInt(event.target.value, 10);
       setSelectedOptionDepartamentos(event.target.value);
       setGuardarSeleccionComboboxDepartamento([...guardarSeleccionComboboxDepartamento, { tipo: 'departamento', valor: event.target.value }]);
-      console.log(ciudadesList);
       const filteredCiudades = ciudadesListOriginal.filter(ciudad => ciudad.Departamento_idDepartamento === selectedDepartamentoId);
-
       setciudades(filteredCiudades);
       };
      const handleComboBoxChangeCiudades = (event) => {
@@ -133,11 +131,6 @@ function BuscadorAmigo() {
       }, []); // El segundo argumento [] indica que este efecto solo se ejecuta una vez, 
       //Funcion para ver las seleccion al clikear el boton
       const handleGuardarClick = () => {
-        console.log("Selecciones guardadas (Combobox Departamento):", guardarSeleccionComboboxDepartamento);
-        console.log("Selecciones guardadas (Combobox Ciudad):", guardarSeleccionComboboxCiudad);
-        console.log("Selecciones guardadas (Combobox Genero):", guardarSeleccionComboboxGenero);
-        console.log("Selecciones guardadas (Slider):", guardarSeleccionSlider);
-        console.log("Selecciones guardadas (Checkbox):", guardarSeleccionCheckbox);
           Axios.get("http://localhost:3001/amigosfiltrado", {
               params: {
                 Departamento:guardarSeleccionComboboxDepartamento[guardarSeleccionComboboxDepartamento.length-1],
@@ -243,6 +236,7 @@ function BuscadorAmigo() {
            apellido ={tarjeta.Apellido}
            edad   ={obtenerEdad(tarjeta.fechaNacimiento)} 
             titulo={tarjeta.Nombre+" "+tarjeta.Apellido+" Edad "+obtenerEdad(tarjeta.fechaNacimiento)}
+            ubicacion={tarjeta.Departamento+" "+tarjeta.Ciudad}
             descripcion={tarjeta.Acercademi}
             imagenUrl={"https://media.istockphoto.com/id/522189109/es/foto/no-se-tome-tambi%C3%A9n-en-serio-la-vida.jpg?s=612x612&w=0&k=20&c=4RcKyGRBw_fwH_hl80Fn-COdYk9bjbrVq5v7u97dct4="}
            />
