@@ -28,6 +28,24 @@ app.get("/amigos", (req, res) => {
         }
     );
 });
+
+//Endpoint para obtener todos los Datos de : Amigo con su Departamentos y Ciudad
+app.get("/amigosconDepartamento", (req, res) => {
+    // Consultar todos los departamentos en la base de datos
+    db.query(`SELECT amigo.idAmigo,amigo.Nombre,amigo.Apellido,amigo.Correoelectronico,amigo.fechaNacimiento,amigo.Genero,amigo.Acercademi,departamento.Departamento,ciudad.Ciudad
+    FROM amigo,ciudad,departamento
+    WHERE amigo.Departamento_idDepartamento=departamento.idDepartamento AND amigo.Ciudad_idCiudad=ciudad.idCiudad
+    ORDER BY amigo.idAmigo `,
+        (err, result) => {
+            if (err) {
+                console.log(err);
+                res.status(500).send("Error al obtener amigos");
+            } else {
+                res.send(result);
+            }
+        }
+    );
+});
 //Endpoint para obtener todos los Datos de : Departamento
 app.get("/departamentos", (req, res) => {
     // Consultar todos los departamentos en la base de datos
@@ -116,19 +134,25 @@ app.post("/create", (req,res)=>{
 app.get("/amigosfiltrado", (req, res) => {
     //Obtener Valores de los parámetros de la URL
     const { Departamento, Ciudad,Slider, Genero, Intereses } = req.query;
+    let departamentoId=null;
 
     // Construir la consulta SQL base
-    let query = 'SELECT * FROM amigo WHERE 1=1';
+    let query = `SELECT amigo.idAmigo,amigo.Nombre,amigo.Apellido,amigo.Correoelectronico,amigo.fechaNacimiento,amigo.Genero,amigo.Acercademi,departamento.Departamento,
+    ciudad.Ciudad
+    FROM amigo,ciudad,departamento 
+    WHERE amigo.Ciudad_idCiudad=ciudad.idCiudad
+    AND amigo.Departamento_idDepartamento=departamento.idDepartamento`;
 
     // Agregar condiciones según los parámetros recibidos
     if (Departamento && !isNaN(Departamento.valor)) {
-        const departamentoId = parseInt(Departamento.valor);
-        query += ` AND Departamento_idDepartamento = '${departamentoId}'`;
+        departamentoId = parseInt(Departamento.valor);
+        query += ` AND amigo.Departamento_idDepartamento = '${departamentoId}'`;
         console.log("Entro 1");
     }
     if (Ciudad && !isNaN(Ciudad.valor)) {
         const ciudadId = parseInt(Ciudad.valor);
-        query += ` AND Ciudad_idCiudad = '${ciudadId}'`;
+        query += `AND amigo.Departamento_idDepartamento = '${departamentoId}' 
+        AND amigo.Ciudad_idCiudad = '${ciudadId}'`;
         console.log("Entro 2");
     }
     console.log(Genero)
@@ -137,13 +161,13 @@ app.get("/amigosfiltrado", (req, res) => {
         if(Genero.valor==="option1"){valorgenero="Hombre"}
         if(Genero.valor==="option2"){valorgenero="Mujer"}
         if(Genero.valor==="option3"){valorgenero="Otro"}
-        query += ` AND Genero = '${valorgenero}'`;
+        query += ` AND amigo.Genero='${valorgenero}'`;
         console.log("Entro 3"+Genero.valor);
     }
     if (Slider) {
         let SliderEdad = parseInt(Slider.valor);
         let YearSlider = 2024-SliderEdad;
-        query += ` AND YEAR(fechaNacimiento) = '${YearSlider}'`;
+        query += ` AND YEAR(amigo.fechaNacimiento) = '${YearSlider}'`;
         console.log("Entro 4");
     }
     if (Intereses) {
@@ -185,11 +209,15 @@ app.get("/amigoBusqueda", (req, res) => {
     const { Nombre , Apellido } = req.query;
 
     // Construir la consulta SQL base
-    let query = 'SELECT * FROM amigo WHERE 1=1';
+    let query = `SELECT amigo.idAmigo,amigo.Nombre,amigo.Apellido,amigo.Correoelectronico,amigo.fechaNacimiento,amigo.Genero,amigo.Acercademi,departamento.Departamento,
+    ciudad.Ciudad
+    FROM amigo,ciudad,departamento 
+    WHERE amigo.Ciudad_idCiudad=ciudad.idCiudad
+    AND amigo.Departamento_idDepartamento=departamento.idDepartamento`;
 
     // Agregar condiciones según los parámetros recibidos
     if (Nombre) {
-        query += ` AND Nombre = '${Nombre}'`;
+        query += ` AND amigo.Nombre = '${Nombre}'`;
         console.log("Entro 1");
     }
 
