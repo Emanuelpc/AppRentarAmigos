@@ -41,9 +41,6 @@ export default function PerfilAmigo() {
                 <div className="ms-4 mt-5 d-flex flex-column" style={{ width: '150px' }}>
                   <MDBCardImage src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-profiles/avatar-1.webp"
                     alt="Generic placeholder image" className="mt-4 mb-2 img-thumbnail" fluid style={{ width: '150px', zIndex: '1' }} />
-                  <MDBBtn outline color="dark" style={{height: '36px', overflow: 'visible'}}>
-                    Edit profile
-                  </MDBBtn>
                 </div>
                 <div className="ms-3" style={{ marginTop: '130px' }}>
                 <MDBCardText style={{ justifyContent: 'flex-start' }}>{profile.name + " " + profile.apellido}</MDBCardText>
