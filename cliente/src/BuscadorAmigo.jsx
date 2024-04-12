@@ -70,7 +70,7 @@ function BuscadorAmigo() {
     
     //Arreglo y funciones para el CheckBox
      const optionsGeneros = [
-      { label:'Seleccion un Genero',value: null },
+      { label:'Seleccion un Género',value: null },
       { label: 'Hombre', value: 'option1' },
       { label: 'Mujer', value: 'option2' },
       { label: 'Otro', value: 'option3' },
@@ -159,8 +159,7 @@ function BuscadorAmigo() {
       <div>
         <Navbar/>
         <div className="EsloganBuscador">
-        <h1>Busca a tu Amigo Rentable Ahora!! </h1>
-        <h2>Rentar fácil, rentar inteligente. Amigo Rentable, tu mejor opción siempre.</h2>
+        <h1>¡¡Busca a tu amigo ahora!! Encuentra amistad al instante</h1>
         </div>
         <Buscador
         searchQuery={searchQuery}
@@ -198,7 +197,7 @@ function BuscadorAmigo() {
         />
         )}
         <ComboBox
-        label="Genero"
+        label="Género"
         options={optionsGeneros}
         selectedValue={selectedOptionGeneros}
         onChange={handleComboBoxChangeGeneros}
