@@ -22,6 +22,15 @@ function RegistrarUbicacionAmigo() {
   const {Nombre, Apellido,CorreoElectronico,Password,fechaNacimiento,Genero,seleccionPrecio,aboutMe,images} = location.state?.data ||{};
   console.log(Nombre, Apellido,CorreoElectronico,Password,fechaNacimiento,Genero,seleccionPrecio,aboutMe,images)
 
+  const hasSelectedSchedule = () => {
+    return selectedOptionDepartamentos !== null &&
+      selectedOptionDepartamentos !== undefined &&
+      selectedOptionDepartamentos !== "Selecciona un departamento" &&
+      selectedOptionCiudades !== null &&
+      selectedOptionCiudades !== undefined &&
+      selectedOptionCiudades !== "Selecciona una ciudad";
+  };
+
   // Función para obtener la lista de Departamentos del backend
   const getDepartamentos = () => {
     Axios.get("http://localhost:3001/departamentos").then((response) => {
@@ -154,9 +163,14 @@ function RegistrarUbicacionAmigo() {
           <Link to ="/RegistrarHorarioAmigo">
             <Button variant="secondary" className="ml-2 custom-cancel-button" >Volver</Button>
           </Link>
+
+          {hasSelectedSchedule ? (
           <Link to ="/BuscadorAmigo">
             <Button variant="success" className="custom-next-button" onClick={add}>Registrar Perfil</Button>
           </Link>
+          ) : (
+            <Button variant="success" className="custom-next-button" disabled>Registrar Perfil</Button>
+          )}
         </div>
       </form>
     </div>

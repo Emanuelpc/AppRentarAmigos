@@ -3,7 +3,7 @@ import './RegistrarHorarioAmigo.css';
 import React from "react";
 import {  Link ,useLocation} from 'react-router-dom';
 import { Button } from 'react-bootstrap';
-import { useState } from 'react';
+import { useState,useEffect } from 'react';
 import Axios from 'axios';
 
 function RegistrarHorarioAmigo() {
@@ -82,26 +82,52 @@ function RegistrarHorarioAmigo() {
     Object.values(day).slice(1).some(schedule => schedule !== '')
   );
 
-
   const [horario, setHorario] = useState({
-    diaLunes: '',
-    diaMartes: '',
-    diaMiercoles: '',
-    diaJueves: '',
-    diaViernes: '',
-    diaSabado: '',
-    diaDomingo: ''
+    diaLunes: "(No Trabaja)",
+    diaMartes: "(No Trabaja)",
+    diaMiércoles: "(No Trabaja)",
+    diaJueves: "(No Trabaja)",
+    diaViernes: "(No Trabaja)",
+    diaSábado: "(No Trabaja)",
+    diaDomingo: "(No Trabaja)"
   });
 
+  const [lunes, setLunes] = useState("");
+  const [martes, setMartes] = useState("");
+  const [miercoles, setMiercoles] = useState("");
+  const [jueves, setJueves] = useState("");
+  const [viernes, setViernes] = useState("");
+  const [sabado, setSabado] = useState("");
+  const [domingo, setDomingo] = useState("");
+  
+  useEffect(() => {
+    setLunes(horario.diaLunes);
+    setMartes(horario.diaMartes);
+    setMiercoles(horario.diaMiércoles);
+    setJueves(horario.diaJueves);
+    setViernes(horario.diaViernes);
+    setSabado(horario.diaSábado);
+    setDomingo(horario.diaDomingo);
+  }, [horario]);
+
+
   const handleNextButtonClick = () => {
-    console.log("Contenido de horario:", horario);
+    console.log("Contenido de horario:", lunes);
   };
 
   const add = () => {
-      Axios.post("http://localhost:3001/horarios",horario).then(()=>{
-        alert("Horario registrado");
-      });
+      Axios.post("http://localhost:3001/horarios",{
+        lunes: lunes,
+        martes: martes,
+        miercoles: miercoles,
+        jueves: jueves,
+        viernes: viernes,
+        sabado: sabado,
+        domingo: domingo
+      })
   }
+
+
 
     return (
       <div>
@@ -184,22 +210,28 @@ function RegistrarHorarioAmigo() {
             <Link to ="/RegistrarFotosAmigo">
                 <Button variant="secondary" className="ml-2 custom-cancel-button">Volver</Button>
             </Link>
+
+            {hasSelectedSchedule ? (
             <Link to="/RegistrarUbicacionAmigo" state={
             {
-              data: {
-                Nombre,
-                Apellido,
-                CorreoElectronico,
-                Password,
+             data: {
+               Nombre,
+               Apellido,
+               CorreoElectronico,
+               Password,
                 fechaNacimiento,
                 Genero,
-                aboutMe,
-                seleccionPrecio,
-                images
+              aboutMe,
+              seleccionPrecio,
+              images
               }
             }}>
-            <Button variant = "primary" disabled={!hasSelectedSchedule} onClick={add} className="custom-next-button">Siguiente</Button>
+              <Button variant="primary" onClick={add} className="custom-next-button">Siguiente</Button>
             </Link>
+            ) : (
+              <Button variant="primary" disabled className="custom-next-button">Siguiente</Button>
+            )}
+
           </div>
           </form>    
           </div>
