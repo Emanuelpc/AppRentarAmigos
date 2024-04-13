@@ -74,6 +74,22 @@ app.get("/ciudades", (req, res) => {
         }
     );
 });
+//Endpoint para obtener todos los Datos de : intereses
+app.get("/intereses2", (req, res) => {
+    // Consultar todos los intereses en la base de datos
+    
+    db.query('SELECT intereses.Interes FROM amigo, amigo_has_intereses, intereses WHERE amigo.idAmigo = 2   AND   amigo.idAmigo = amigo_has_intereses.Amigo_idAmigo AND amigo_has_intereses.Intereses_idIntereses = intereses.idIntereses',
+        (err, result) => {
+            if (err) {
+                console.log(err);
+                res.status(500).send("Error al obtener amigos");
+            } else {
+                res.send(result);
+            }
+        }
+    );
+});
+
 
 //Endpoint para obtener todos los Datos de : intereses
 app.get("/intereses", (req, res) => {
