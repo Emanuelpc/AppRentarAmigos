@@ -52,13 +52,18 @@
     color: rgb(255, 255, 255);
     box-shadow: 7px 13px 37px #000;
   }
+
+  .Turnos{
+    color:#030303;
+  }
+
   .custom-cancel-button,
   .custom-next-button {
-  margin-top: 20px;
+  margin-top: 90px;
   }
 
   .form-register h3 {
-    font-size: 22px;
+    font-size: 24px;
     margin-bottom: 20px;
   }
   .horario{
@@ -72,7 +77,7 @@
     margin-top: 40px;
     border-radius: 4px;
     font-family: 'calibri';
-    color: rgb(255, 255, 255);
+    color: rgb(254, 251, 251);
     box-shadow: 7px 7px 7px #000;
 
   }
