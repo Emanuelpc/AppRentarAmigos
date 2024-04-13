@@ -127,7 +127,21 @@ app.post("/create", (req,res)=>{
         } 
         );
 });
+app.get("/ListaInteresesAmigo",(req, res) =>{
+    const{idAmigo}= req.query
 
+    let query = `select * from amigo where idAmigo = ${idAmigo}`;
+    console.log(query);
+    // Ejecutar la consulta en la base de datos
+    db.query(query, (err, result) => {
+        if (err) {
+            console.log(err);
+            res.status(500).send("Error al obtener amigos");
+        } else {
+            res.send(result);
+        }
+    });
+})
 //Endpoint para obtener todos los Datos de : AmigoFiltrado
 app.get("/amigosfiltrado", (req, res) => {
     //Obtener Valores de los parámetros de la URL

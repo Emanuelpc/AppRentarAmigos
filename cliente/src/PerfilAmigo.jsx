@@ -12,10 +12,11 @@ export default function PerfilAmigo() {
   const [intereses2,setintereses2] = useState([]);
      // Función para obtener la lista de Intereses del backend
      const getIntereses2 = () => {
-      Axios.get("http://localhost:3001/intereses2").then((response) => {
+      Axios.get("http://localhost:3001/ListaInteresesAmigo",{params:{idAmigo : id}}).then((response) => {
         setintereses2(response.data);
       });
     }
+
 
   const profile = {
     name: nombre,
@@ -24,9 +25,17 @@ export default function PerfilAmigo() {
     edad: edad,
     genero: genero,
     price: "100 BS/Hora",
-      
     description: descripcion,
   };
+
+  //Funcion para Crear Card de Amigos al entrar a la pagina 
+  useEffect(() => {
+    // Esta función se ejecutará cuando el componente se monte por primera vez
+    getIntereses2();
+    console.log(intereses2)
+  }, []);
+
+
     
   return (
     <div className="gradient-custom-2" style={{ backgroundColor: '#536471' }}>
@@ -52,7 +61,7 @@ export default function PerfilAmigo() {
               <div className="p-4 text-black" style={{ backgroundColor: '#f8f9fa' }}>
                 <div className="d-flex justify-content-end text-center py-1">
                   <div>
-                    <MDBCardText className="mb-2 h6">Natacion</MDBCardText>
+                    
                   </div>
                   <div className="px-3">
                     <MDBCardText className="mb-2 h6">Musica</MDBCardText>
