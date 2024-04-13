@@ -15,6 +15,7 @@ function RegistrarUbicacionAmigo() {
   const [selectedOptionDepartamentos, setSelectedOptionDepartamentos] = useState([]);
   const [selectedOptionCiudades, setSelectedOptionCiudades] = useState([]);
   const [termsAndConditionsAccepted, setTermsAndConditionsAccepted] = useState(false); // Estado local para el estado de aceptación de términos y condiciones
+  const [privacyPolicyAccepted, setPrivacyPolicyAccepted] = useState(false);
   const [termsAndConditionsText, setTermsAndConditionsText] = useState(""); // Estado local para el texto de términos y condiciones
 
   const location = useLocation();
@@ -40,7 +41,7 @@ function RegistrarUbicacionAmigo() {
     let resDep=selectedOptionDepartamentos !== null && selectedOptionDepartamentos !== undefined &&selectedOptionDepartamentos !== "Selecciona un departamento";
     let resCiudad=selectedOptionCiudades !== null && selectedOptionCiudades !== undefined && selectedOptionCiudades !== "Selecciona una ciudad";
     console.log(resDep && resCiudad);
-    return resDep && resCiudad && termsAndConditionsAccepted; 
+    return resDep && resCiudad && termsAndConditionsAccepted && privacyPolicyAccepted; 
   };
 
   // Función para ingresar un amigo
@@ -62,7 +63,7 @@ function RegistrarUbicacionAmigo() {
         alert("Amigo registrado");
       });
     } else {
-      alert("Por favor, selecciona una opción en los combobox y acepta los términos y condiciones.");
+      alert("Por favor, selecciona una opción en los combobox , acepta los términos y condiciones ademas de las Politicas de Privacidad.");
     }
   }
 
@@ -82,6 +83,7 @@ function RegistrarUbicacionAmigo() {
     getCiudades();
     // Aquí puedes establecer el texto predeterminado para los términos y condiciones
     setTermsAndConditionsText(termsAndConditionsTextCompleto);
+    setPrivacyPolicyAccepted("");
   }, []);
 
   return (
@@ -89,6 +91,7 @@ function RegistrarUbicacionAmigo() {
       <Navbar/>        
       <form className="form-ubicacion">
         <h1>Registrar Amigo Rentable</h1>
+        <h3 style={{ textAlign: 'left' }}>Registrar Ubicacion del Amigo Rentable</h3>
         <h3 style={{ textAlign: 'left' }}>Seleccionar Departamento</h3>
         <ComboBox
           label=""
@@ -120,21 +123,32 @@ function RegistrarUbicacionAmigo() {
         {/* Textarea con el texto de términos y condiciones */}
         <textarea
           readOnly
-          rows={5}
+          rows={10}
           cols={60}
           value={termsAndConditionsText} // Valor del textarea
           onChange={(e) => setTermsAndConditionsText(e.target.value)} // Función para actualizar el estado local
+          style={{ textAlign: 'justify', margin: 'auto', display: 'block' }}
         />
         <div style={{ textAlign: 'left' }}>
           <input
             type="checkbox"
-            id="accept"
+            id="acceptTerms"
             name="option"
             value="accept"
             checked={termsAndConditionsAccepted}
             onChange={(e) => setTermsAndConditionsAccepted(e.target.checked)}
           />
-          <label htmlFor="accept">Aceptar Términos y Condiciones</label>
+          <label htmlFor="acceptTerms">Aceptar Términos y Condiciones</label>
+          <br></br>
+          <input
+            type="checkbox"
+            id="acceptPrivacyPolicy"
+            name="option"
+            value="accept"
+            checked={privacyPolicyAccepted}
+            onChange={(e) => setPrivacyPolicyAccepted(e.target.checked)}
+          />
+          <label htmlFor="acceptPrivacyPolicy">Aceptar las politicas de privacidad</label>
         </div>
         <div>  
           <Link to ="/RegistrarHorarioAmigo">

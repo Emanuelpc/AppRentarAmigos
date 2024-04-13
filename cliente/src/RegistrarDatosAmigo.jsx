@@ -19,6 +19,23 @@ function RegistrarDatosAmigo() {
   const[Genero, setGenero] = useState("Masculino");
   const[precioshora,setprecioshora]=useState([]);//Lista de Precios Hora Bd
   const[seleccionPrecio,setseleccionPrecio]=useState("");
+  const [showPlaceholderAsterisk, setShowPlaceholderAsterisk] = useState(false);
+  const [modalContent, setModalContent] = useState({
+    title: "",
+    body: "",
+    actionButtonText: "",
+    actionButtonClickHandler: () => {},
+  });
+
+  const handleShowModal = (title, body, actionButtonText, actionButtonClickHandler) => {
+    setModalContent({
+      title: title,
+      body: body,
+      actionButtonText: actionButtonText,
+      actionButtonClickHandler: actionButtonClickHandler,
+    });
+    setShowModal(true);
+  };
 
   //funcion para obtener la lista de precios
   const getPreciosHora = () => {
@@ -32,6 +49,7 @@ function RegistrarDatosAmigo() {
   }
 
   const verificarCamposCompletos = () => {
+      
     if (Nombre && Apellido && CorreoElectronico && Password && fechaNacimiento && Genero && seleccionPrecio) {
       setCamposCompletos(true);
     } else {
@@ -49,7 +67,34 @@ function RegistrarDatosAmigo() {
 
     // Si hay campos incompletos, mostramos el modal
     if (camposIncompletos.length > 0) {
-      setShowModal(true);
+      handleShowModal("Datos personales incompletos", "Por favor, llene los campos marcados en rojo.", "Cerrar", handleCloseModal);
+      setShowPlaceholderAsterisk(true);
+      return
+    }
+    // Verificar si el nombre contiene caracteres especiales
+    const caracteresEspeciales = /[^A-Za-z\s]/;
+    if (caracteresEspeciales.test(Nombre)) {
+    // Mostrar el modal para cambiar el nombre
+    handleShowModal("Error", "El nombre solo puede contener letras y espacios.", "Cerrar", handleCloseModal);
+    return; // Detener la ejecución
+    }
+    // Verificar si el apellido contiene caracteres especiales
+    if (caracteresEspeciales.test(Apellido)) {
+    // Mostrar el modal para cambiar el apellido
+    handleShowModal("Error", "El apellido solo puede contener letras y espacios.", "Cerrar", handleCloseModal);
+    return; // Detener la ejecución
+    }
+
+    if (Password.length < 8) {
+      // Mostrar el modal para cambiar la contraseña
+      handleShowModal("Error", "La contraseña debe tener al menos 8 caracteres.", "Cerrar", handleCloseModal);
+      return; // Detener la ejecución
+    }
+
+    const correoEspecial = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!correoEspecial.test(CorreoElectronico)) {
+      handleShowModal("Error", "Por favor, ingresa un correo electrónico válido.", "Cerrar", handleCloseModal);
+      return; // Detener la ejecución
     }
   };
   
@@ -72,18 +117,54 @@ function RegistrarDatosAmigo() {
 
           <h3 style={{ textAlign: 'left' }}>Registrar Datos Personales</h3>
           
-          <input className={`controls ${camposIncompletos.includes('nombres') ? 'campos-incompletos' : ''}`} type="text" name="nombres" id="nombres" onChange={(event)=> setNombre(event.target.value)} placeholder="Ingrese su Nombre" required /> 
+          <input className={`controls ${camposIncompletos.includes('nombres') ? 'campos-incompletos' : ''}`} 
+          type="text" 
+          name="nombres" 
+          id="nombres" 
+          onChange={(event)=> setNombre(event.target.value)} 
+          placeholder={`Ingrese su Nombre ${
+            showPlaceholderAsterisk ? "*" : ""
+          }`} 
+          required 
+          maxLength={24}/> 
           <br></br>
 
           
-          <input className={`controls ${camposIncompletos.includes('apellidos') ? 'campos-incompletos' : ''}`} type="text" name="apellidos" id="apellidos"onChange={(event)=> setApellido(event.target.value)} placeholder="Ingrese su Apellido" required />
+          <input className={`controls ${camposIncompletos.includes('apellidos') ? 'campos-incompletos' : ''}`} 
+          type="text" 
+          name="apellidos" 
+          id="apellidos"
+          onChange={(event)=> setApellido(event.target.value)} 
+          placeholder={`Ingrese su Apellido ${
+            showPlaceholderAsterisk ? "*" : ""
+          }`}
+          required 
+          maxLength={24}/>
           <br></br>
         
 
 
-          <input className={`controls ${camposIncompletos.includes('correo') ? 'campos-incompletos' : ''}`} type="email" name="correo" id="correo" onChange={(event)=> setCorreoElectronico(event.target.value)} placeholder="Ingrese su Correo" required />
+          <input className={`controls ${camposIncompletos.includes('correo') ? 'campos-incompletos' : ''}`} 
+          type="email" 
+          name="correo" 
+          id="correo" 
+          onChange={(event)=> setCorreoElectronico(event.target.value)} 
+          placeholder={`Ingrese su Correo ${
+            showPlaceholderAsterisk ? "*" : ""
+          }`} 
+          required 
+          maxLength={24}/>
           <br></br>
-          <input className={`controls ${camposIncompletos.includes('password') ? 'campos-incompletos' : ''}`} type="password" name="password" id="password" onChange={(event)=> setPassword(event.target.value)} placeholder="Ingrese su Contraseña" required/>
+          <input className={`controls ${camposIncompletos.includes('password') ? 'campos-incompletos' : ''}`} 
+          type="password" 
+          name="password" 
+          id="password" 
+          onChange={(event)=> setPassword(event.target.value)} 
+          placeholder={`Ingrese su Contraseña ${
+            showPlaceholderAsterisk ? "*" : ""
+          }`}
+          required 
+          maxLength={20}/>
           <br></br>
 
           <input
@@ -91,8 +172,22 @@ function RegistrarDatosAmigo() {
             type="date"
             name="date"
             id="date"
-            onChange={(event) => setfechaNacimiento(event.target.value)}
-            placeholder="Ingrese su Fecha de Nacimiento"
+            onChange={(event) => {
+              const selectedDate = new Date(event.target.value);
+              const maxDate = new Date('2006-12-31'); // Fecha máxima permitida
+              if (selectedDate > maxDate) {
+                // Si la fecha seleccionada es posterior a 2006-12-31, se restablece el valor a la fecha máxima permitida
+                event.target.value = '2006-12-31';
+                handleShowModal("Error", "La Aplicacion solo Acepta Personas Mayores 18", "Cerrar", handleCloseModal);
+                setfechaNacimiento('2006-12-31');
+              } else {
+                // Si la fecha seleccionada es válida, se actualiza el estado con la fecha seleccionada por el usuario
+                setfechaNacimiento(event.target.value);
+              }
+            }}
+            placeholder={`Ingrese su Fecha de Nacimiento ${
+              showPlaceholderAsterisk ? "*" : ""
+            }`}
             required
             max="2006-01-01" // Establecer la fecha mínima como 2006-01-01
           />
@@ -147,18 +242,17 @@ function RegistrarDatosAmigo() {
 
         {/* Modal para mostrar cuando los campos no estén completos */}
         <Modal show={showModal} onHide={handleCloseModal}>
-          <Modal.Header closeButton>
-            <Modal.Title>Datos personales incompletos</Modal.Title>
-          </Modal.Header>
-          <Modal.Body>
-            Por favor, llene los campos marcados en rojo.
-          </Modal.Body>
-          <Modal.Footer>
-            <Button variant="secondary" onClick={handleCloseModal}>
-              Cerrar
-            </Button>
-          </Modal.Footer>
-        </Modal>
+        <Modal.Header closeButton>
+        <Modal.Title>{modalContent.title}</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>{modalContent.body}</Modal.Body>
+        <Modal.Footer>
+        <Button variant="secondary" onClick={modalContent.actionButtonClickHandler}>
+          {modalContent.actionButtonText}
+        </Button>
+        </Modal.Footer>
+        </Modal>;
+
       </div> 
     );
   }

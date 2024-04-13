@@ -23,3 +23,16 @@
     margin-left: 100px;/* Ajustar el margen horizontal derecho*/
     margin-right: 100px;/*Ajustar el margen horizontal izquiero*/
   }
+
+  .form-Intereses-AcercaDeMi {
+    width: 600px;
+    background: #536471;
+    padding: 30px;
+    margin: auto;
+    margin-top: 50px;
+    margin-bottom: 50px;
+    border-radius: 4px;
+    font-family: 'calibri';
+    color: rgb(255, 255, 255);
+    box-shadow: 7px 13px 37px #000;
+  }

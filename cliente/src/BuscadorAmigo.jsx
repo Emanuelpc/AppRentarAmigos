@@ -1,5 +1,6 @@
 import Buscador from "./Componentes/Buscador";
 import Navbar from "./Componentes/Navbar";
+import { Modal, Button } from 'react-bootstrap';
 import React, { useState ,useEffect  } from 'react';
 import ComboBox from './Componentes/ComboBox';
 import Slider from './Componentes/ControldeslizanteEdad';
@@ -11,6 +12,7 @@ import Col from 'react-bootstrap/Col';
 import Axios from "axios";
 import './BuscadorAmigo.css';
 function BuscadorAmigo() {
+    const [showModal, setShowModal] = useState(false);
     const [amigosList, setamigos] = useState([])
     const [departamentosList, setdepartamentos] = useState([])
     const [ciudadesList, setciudades] = useState([])
@@ -41,9 +43,9 @@ function BuscadorAmigo() {
               console.error("Error en la solicitud:", error);
           });
     }
-    // Función para obtener la lista de amigos del backend
+    // Función para obtener la lista de amigos y con su departamentoCorrespondiente del backend
     const getAmigo = () => {
-    Axios.get("http://localhost:3001/amigos").then((response) => {
+    Axios.get("http://localhost:3001/amigosconDepartamento").then((response) => {
       setamigos(response.data);
     });
     }
@@ -70,7 +72,7 @@ function BuscadorAmigo() {
     
     //Arreglo y funciones para el CheckBox
      const optionsGeneros = [
-      { label:'Seleccion un Genero',value: null },
+      { label:'Seleccion un Género',value: null },
       { label: 'Hombre', value: 'option1' },
       { label: 'Mujer', value: 'option2' },
       { label: 'Otro', value: 'option3' },
@@ -84,9 +86,7 @@ function BuscadorAmigo() {
       const selectedDepartamentoId = parseInt(event.target.value, 10);
       setSelectedOptionDepartamentos(event.target.value);
       setGuardarSeleccionComboboxDepartamento([...guardarSeleccionComboboxDepartamento, { tipo: 'departamento', valor: event.target.value }]);
-      console.log(ciudadesList);
       const filteredCiudades = ciudadesListOriginal.filter(ciudad => ciudad.Departamento_idDepartamento === selectedDepartamentoId);
-
       setciudades(filteredCiudades);
       };
      const handleComboBoxChangeCiudades = (event) => {
@@ -131,20 +131,25 @@ function BuscadorAmigo() {
         getCiudades();
         getIntereses()
       }, []); // El segundo argumento [] indica que este efecto solo se ejecuta una vez, 
-      //Funcion para ver las seleccion al clikear el boton
-      const handleGuardarClick = () => {
-        console.log("Selecciones guardadas (Combobox Departamento):", guardarSeleccionComboboxDepartamento);
-        console.log("Selecciones guardadas (Combobox Ciudad):", guardarSeleccionComboboxCiudad);
-        console.log("Selecciones guardadas (Combobox Genero):", guardarSeleccionComboboxGenero);
-        console.log("Selecciones guardadas (Slider):", guardarSeleccionSlider);
-        console.log("Selecciones guardadas (Checkbox):", guardarSeleccionCheckbox);
+     // Función para realizar la búsqueda de amigos cuando se hacen clic en el botón de búsqueda
+    const handleBuscarClick = () => {
+      // Verifica si se han seleccionado filtros antes de realizar la búsqueda
+      if (guardarSeleccionComboboxDepartamento.length === 0 &&
+          guardarSeleccionComboboxCiudad.length === 0 &&
+          guardarSeleccionComboboxGenero.length === 0 &&
+          guardarSeleccionSlider.length === 0 &&
+          guardarSeleccionCheckbox.length === 0) {
+          // Muestra el modal si no se han seleccionado filtros
+          handleShowModal();
+      } else {
+          // Realiza la búsqueda si se han seleccionado filtros
           Axios.get("http://localhost:3001/amigosfiltrado", {
               params: {
-                Departamento:guardarSeleccionComboboxDepartamento[guardarSeleccionComboboxDepartamento.length-1],
-                Ciudad:guardarSeleccionComboboxCiudad[guardarSeleccionComboboxCiudad.length-1],
-                Genero:guardarSeleccionComboboxGenero[guardarSeleccionComboboxGenero.length-1],
-                Slider:guardarSeleccionSlider[guardarSeleccionSlider.length-1],
-                Intereses:guardarSeleccionCheckbox
+                  Departamento: guardarSeleccionComboboxDepartamento[guardarSeleccionComboboxDepartamento.length - 1],
+                  Ciudad: guardarSeleccionComboboxCiudad[guardarSeleccionComboboxCiudad.length - 1],
+                  Genero: guardarSeleccionComboboxGenero[guardarSeleccionComboboxGenero.length - 1],
+                  Slider: guardarSeleccionSlider[guardarSeleccionSlider.length - 1],
+                  Intereses: guardarSeleccionCheckbox
               }
           }).then((response) => {
               // Manejar la respuesta
@@ -152,22 +157,38 @@ function BuscadorAmigo() {
           }).catch((error) => {
               console.error("Error en la solicitud:", error);
           });
-      
+      }
+  };
+
+    const handleShowModal = () => {
+      setShowModal(true);
     };
+
+    // Función para cerrar el modal
+    const handleCloseModal = () => {
+      setShowModal(false);
+    };
+
     function obtenerEdad(cadena) {
       let primerosCuatro = cadena.substring(0, 4);
       let edad=2024-parseInt(primerosCuatro, 10); // La base 10 se usa para garantizar la interpretación correcta del número
       return edad;
     }
     function separarPorEspacios(cadena) {
-      return cadena.split(" ");
-    }
+      // Elimina los espacios en blanco al principio y al final de la cadena usando la función trim()
+      const cadenaSinEspaciosInicioFin = cadena.trim();
+      // Divide la cadena sin espacios en palabras usando split()
+      const palabras = cadenaSinEspaciosInicioFin.split(" ");
+      // Filtra las palabras para eliminar cualquier palabra vacía
+      const palabrasSinEspaciosInicio = palabras.filter(palabra => palabra.trim() !== '');
+      return palabrasSinEspaciosInicio;
+  }
+  
     return (
       <div>
         <Navbar/>
         <div className="EsloganBuscador">
-        <h1>Busca a tu Amigo Rentable Ahora!! </h1>
-        <h2>Rentar fácil, rentar inteligente. Amigo Rentable, tu mejor opción siempre.</h2>
+        <h1>¡¡Busca a tu amigo ahora!! Encuentra amistad al instante</h1>
         </div>
         <Buscador
         searchQuery={searchQuery}
@@ -205,7 +226,7 @@ function BuscadorAmigo() {
         />
         )}
         <ComboBox
-        label="Genero"
+        label="Género"
         options={optionsGeneros}
         selectedValue={selectedOptionGeneros}
         onChange={handleComboBoxChangeGeneros}
@@ -229,7 +250,7 @@ function BuscadorAmigo() {
           labeltitulo={"Intereses"}
           />
         )}
-        <BotonBuscar onClick={handleGuardarClick}/>
+        <BotonBuscar onClick={handleBuscarClick}/>
         </div>
         <div className="EditarCardsResultadosAmigos" style={{ overflowY: 'auto', maxHeight: '730px' }}>
           <h3>Resultados Busqueda de Amigos</h3>
@@ -237,11 +258,13 @@ function BuscadorAmigo() {
           {amigosList.map((tarjeta, index) => (
           <Col key={index}>
            <CardAmigo
+           id = {tarjeta.idAmigo}
            genero = {tarjeta.Genero}
            nombre = {tarjeta.Nombre}
            apellido ={tarjeta.Apellido}
            edad   ={obtenerEdad(tarjeta.fechaNacimiento)} 
             titulo={tarjeta.Nombre+" "+tarjeta.Apellido+" Edad "+obtenerEdad(tarjeta.fechaNacimiento)}
+            ubicacion={tarjeta.Departamento+" "+tarjeta.Ciudad}
             descripcion={tarjeta.Acercademi}
             imagenUrl={"https://media.istockphoto.com/id/522189109/es/foto/no-se-tome-tambi%C3%A9n-en-serio-la-vida.jpg?s=612x612&w=0&k=20&c=4RcKyGRBw_fwH_hl80Fn-COdYk9bjbrVq5v7u97dct4="}
            />
@@ -250,6 +273,20 @@ function BuscadorAmigo() {
           </Row>
         </div>
         </div>
+
+        <Modal show={showModal} onHide={handleCloseModal}>
+                <Modal.Header closeButton>
+                    <Modal.Title>Selecciona filtros</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    Debes seleccionar al menos un filtro antes de realizar la búsqueda.
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button variant="secondary" onClick={handleCloseModal}>
+                        Cerrar
+                    </Button>
+                </Modal.Footer>
+          </Modal>
       </div>
     );
   }

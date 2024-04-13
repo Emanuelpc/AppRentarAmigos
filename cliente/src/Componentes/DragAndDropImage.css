@@ -4,7 +4,7 @@
     background-repeat: no-repeat; /* Evita que la imagen se repita */
     background-position: center; /* Centra la imagen */
     background-color: rgb(255, 255, 255);
-    width: 90%;
+    width: 100%;
     min-height: 400px;
     border: 2px dashed #aaa;
     border-radius: 10px;
