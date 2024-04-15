@@ -147,13 +147,13 @@ app.get("/amigosfiltrado", (req, res) => {
     if (Departamento && !isNaN(Departamento.valor)) {
         departamentoId = parseInt(Departamento.valor);
         query += ` AND amigo.Departamento_idDepartamento = '${departamentoId}'`;
-        console.log("Entro 1");
+        //console.log("Entro 1");
     }
     if (Ciudad && !isNaN(Ciudad.valor)) {
         const ciudadId = parseInt(Ciudad.valor);
         query += `AND amigo.Departamento_idDepartamento = '${departamentoId}' 
         AND amigo.Ciudad_idCiudad = '${ciudadId}'`;
-        console.log("Entro 2");
+        //console.log("Entro 2");
     }
     console.log(Genero)
     if (Genero !== undefined && Genero.valor !== "Seleccion un Genero") {
@@ -162,24 +162,24 @@ app.get("/amigosfiltrado", (req, res) => {
         if(Genero.valor==="option2"){valorgenero="Mujer"}
         if(Genero.valor==="option3"){valorgenero="Otro"}
         query += ` AND amigo.Genero='${valorgenero}'`;
-        console.log("Entro 3"+Genero.valor);
+        //console.log("Entro 3"+Genero.valor);
     }
     if (Slider) {
         let SliderEdad = parseInt(Slider.valor);
         let YearSlider = 2024-SliderEdad;
         query += ` AND YEAR(amigo.fechaNacimiento) = '${YearSlider}'`;
-        console.log("Entro 4");
+        //console.log("Entro 4");
     }
     if (Intereses) {
         // Suponiendo que Intereses es un array de IDs de intereses
         console.log(Intereses)
         let interesopciones = extraerDatos(Intereses, 'valor');
-        console.log(interesopciones); // Output: [25, 30, 28] 
+        //console.log(interesopciones); // Output: [25, 30, 28] 
         let palabraABorrar = "option";
         let interesesSinoption = quitarPalabraDeArray(interesopciones, palabraABorrar);
-        console.log(interesesSinoption);
+        //console.log(interesesSinoption);
         let interesesEnteros = interesesSinoption.map(string => parseInt(string, 10));
-        console.log(interesesEnteros);
+        //console.log(interesesEnteros);
 
         // Construir la parte de la consulta para buscar amigos por intereses
         //let subQuery = `SELECT Amigo_idAmigo FROM amigo_has_intereses WHERE Intereses_idIntereses IN (${interesesEnteros.join(',')})`;
@@ -218,15 +218,15 @@ app.get("/amigoBusqueda", (req, res) => {
     // Agregar condiciones según los parámetros recibidos
     if (Nombre) {
         query += ` AND amigo.Nombre = '${Nombre}'`;
-        console.log("Entro 1");
+        //console.log("Entro 1");
     }
 
     if (Apellido) {
         query += ` AND Apellido = '${Apellido}'`;
-        console.log("Entro 2");
+        //console.log("Entro 2");
     }
     
-    console.log(query);
+    //console.log(query);
     // Ejecutar la consulta en la base de datos
     db.query(query, (err, result) => {
         if (err) {
@@ -238,6 +238,18 @@ app.get("/amigoBusqueda", (req, res) => {
     });
 });
 
+//Endpoint para obtener el último ID de usuario registrado
+app.get("/lastUserID", (req, res) => {
+    // Consultar el último ID de usuario en la base de datos
+    db.query('SELECT MAX(idAmigo) AS lastUserID FROM amigo', (err, result) => {
+        if (err) {
+            console.log(err);
+            res.status(500).send("Error al obtener el último ID de usuario");
+        } else {
+            res.send(result[0]); // Devuelve el resultado que contiene el último ID de usuario
+        }
+    });
+});
 
 //Inicialización del servidor:
 

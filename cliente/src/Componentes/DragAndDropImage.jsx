@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState,useRef } from 'react';
 import { Container, Row, Col, Button, Modal } from 'react-bootstrap';
 import './DragAndDropImage.css';
 import { Link } from 'react-router-dom';
@@ -9,7 +9,8 @@ const DragAndDropImage = ({ Nombre, Apellido, CorreoElectronico, Password, fecha
   const [showAlert, setShowAlert] = useState(false);
   const [showMaxImagesAlert, setShowMaxImagesAlert] = useState(false);
   const [isDragging, setIsDragging] = useState(false);
-  const MAX_IMAGES = 4;
+  const fileInputRef = useRef(null);
+  const MAX_IMAGES = 5;
   const resizeImage = (file) => {
     return new Promise((resolve, reject) => {
       const reader = new FileReader();
@@ -50,8 +51,6 @@ const DragAndDropImage = ({ Nombre, Apellido, CorreoElectronico, Password, fecha
       };
     });
   };
-  
-
   // Función handleDrop para manejar el evento de soltar las imágenes
   const handleDrop = async (e) => {
     e.preventDefault();
@@ -76,6 +75,29 @@ const DragAndDropImage = ({ Nombre, Apellido, CorreoElectronico, Password, fecha
       console.error("Error al redimensionar imágenes:", error);
     }
   };
+
+  const handleFileSelect = async (e) => {
+    fileInputRef.current.click();
+    const files = Array.from(e.target.files);
+    const imageFiles = files.filter(file => file.type.startsWith('image/'));
+  
+    if (images.length + imageFiles.length > MAX_IMAGES) {
+      setShowMaxImagesAlert(true);
+      return;
+    }
+  
+    try {
+      const resizedImages = await Promise.all(imageFiles.map(file => resizeImage(file)));
+      const imageData = resizedImages.map(blob => ({
+        imageUrl: URL.createObjectURL(blob),
+        id: Math.random().toString(36).substr(2, 9) // Generar un ID único para la imagen
+      }));
+      setImages(prevImages => [...prevImages, ...imageData]);
+    } catch (error) {
+      console.error("Error al redimensionar imágenes:", error);
+    }
+  };
+
   
   const handleImageRemove = (idToRemove) => {
     setImages(prevImages => prevImages.filter(image => image.id !== idToRemove));
@@ -139,11 +161,18 @@ const DragAndDropImage = ({ Nombre, Apellido, CorreoElectronico, Password, fecha
                 </button>
               </div>
             ))}
-
-
             {images.length === 0 && <p>Arrastra y suelta imágenes aquí</p>}
-            
           </div>
+          {/* Botón personalizado para seleccionar archivos */}
+          <Button variant="primary" onClick={handleFileSelect}>Seleccionar Archivos</Button>
+          {/* Input de archivo oculto */}
+          <input
+            ref={fileInputRef}
+            type="file"
+            style={{ display: 'none' }}
+            multiple
+            onChange={handleFileSelect}
+          />
         </Col>
       </Row>
       <Row className="mt-3">
@@ -193,7 +222,7 @@ const DragAndDropImage = ({ Nombre, Apellido, CorreoElectronico, Password, fecha
           <Modal.Title>Alerta</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          No se pueden agregar más de 4 Fotos.
+          No se pueden agregar más de 5 Fotos.
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={() => setShowMaxImagesAlert(false)}>
