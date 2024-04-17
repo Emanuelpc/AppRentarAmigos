@@ -238,7 +238,8 @@ function RegistrarDatosAmigo() {
 
       </form>
 
-      <Modal show={showModal} onHide={handleCloseModal}>
+        {/* Modal para mostrar cuando los campos no estén completos */}
+        <Modal show={showModal} onHide={handleCloseModal} centered>
         <Modal.Header closeButton>
           <Modal.Title>{modalContent.title}</Modal.Title>
         </Modal.Header>
