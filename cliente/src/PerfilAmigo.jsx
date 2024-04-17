@@ -17,7 +17,7 @@ export default function PerfilAmigo() {
     edad: edad,
     genero: genero,
     price: "100 BS/Hora",
-      
+    interests: ["Cine", "Baile", "Natación"],
     description: descripcion,
   };
 
