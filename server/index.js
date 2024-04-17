@@ -29,6 +29,26 @@ app.get("/amigos", (req, res) => {
     );
 });
 
+//Endpoint para obtener todos los Datos de : AmigoPerfil
+app.get("/AmigoPerfil", (req, res) => {
+    //Obtener Valores de los parámetros de la URL
+    const { idAmigo } = req.query;
+    let id = parseInt(idAmigo);
+    console.log(id);
+    let query=`SELECT intereses.Interes FROM amigo, amigo_has_intereses, intereses WHERE amigo.idAmigo = '${id}'  AND   amigo.idAmigo = amigo_has_intereses.Amigo_idAmigo AND amigo_has_intereses.Intereses_idIntereses = intereses.idIntereses`
+    console.log(query)
+    db.query(query,
+        (err, result) => {
+            if (err) {
+                console.log(err);
+                res.status(500).send("Error al obtener amigo");
+            } else {
+                res.send(result);
+            }
+        }
+    );
+});
+
 //Endpoint para obtener todos los Datos de : Amigo con su Departamentos y Ciudad
 app.get("/amigosconDepartamento", (req, res) => {
     // Consultar todos los departamentos en la base de datos
