@@ -45,7 +45,7 @@
     background: #536471;
     padding: 30px;
     margin: auto;
-    margin-top: 50px;
+    margin-top: 0px;
     margin-bottom: 50px;
     border-radius: 4px;
     font-family: 'calibri';
@@ -55,6 +55,7 @@
 
   .Turnos{
     color:#030303;
+    margin-left: 55px;
   }
 
   .custom-cancel-button,
@@ -69,7 +70,7 @@
   .horario{
     display: flex;
     flex-wrap: wrap;
-    margin-bottom: 30px; /* Puedes ajustar este valor según tu preferencia */
+    margin-bottom: 3 0px; /* Puedes ajustar este valor según tu preferencia */
     width: 1200px;
     background: #315c7a;
     padding: 20px;
