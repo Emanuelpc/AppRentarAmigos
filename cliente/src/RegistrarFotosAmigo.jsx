@@ -18,7 +18,7 @@ function RegistrarFotosAmigo() {
     data.append("upload_preset", "Presets_react");
 
     const response = await axios.post(
-      "https://api.cloudinary.com/v1_1/drqinpni3/image/upload",
+      "https://api.cloudinary.com/v1_1/dgaq8kh0o/image/upload",
       data
     );
 
