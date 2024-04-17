@@ -1,129 +1,98 @@
-import React, { useState,useRef } from 'react';
+import React, { useState, useRef } from 'react';
 import { Container, Row, Col, Button, Modal } from 'react-bootstrap';
 import './DragAndDropImage.css';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
 
 const DragAndDropImage = ({ Nombre, Apellido, CorreoElectronico, Password, fechaNacimiento, Genero, seleccionPrecio, aboutMe }) => {
-  console.log(Nombre, Apellido, CorreoElectronico, Password, fechaNacimiento, Genero, seleccionPrecio, aboutMe )
+  console.log(Nombre, Apellido, CorreoElectronico, Password, fechaNacimiento, Genero, seleccionPrecio, aboutMe);
   const [images, setImages] = useState([]);
-  const [showAlert, setShowAlert] = useState(false);
   const [showMaxImagesAlert, setShowMaxImagesAlert] = useState(false);
   const [isDragging, setIsDragging] = useState(false);
   const fileInputRef = useRef(null);
   const MAX_IMAGES = 5;
-  const resizeImage = (file) => {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onload = function (event) {
-        const img = new Image();
-        img.src = event.target.result;
-        img.onload = function () {
-          const canvas = document.createElement('canvas');
-          canvas.width = 286;
-          canvas.height = 180;
-  
-          const ctx = canvas.getContext('2d');
-  
-          // Calcular la escala para mantener la relación de aspecto
-          const scale = Math.max(canvas.width / img.width, canvas.height / img.height);
-          const newWidth = img.width * scale;
-          const newHeight = img.height * scale;
-  
-          // Calcular la posición para centrar la imagen
-          const offsetX = (canvas.width - newWidth) / 2;
-          const offsetY = (canvas.height - newHeight) / 2;
-  
-          // Dibujar la imagen redimensionada en el lienzo
-          ctx.drawImage(img, offsetX, offsetY, newWidth, newHeight);
-  
-          // Convertir el lienzo a un blob y resolver la promesa con el blob resultante
-          canvas.toBlob((blob) => {
-            resolve(blob);
-          }, file.type);
-        };
-        img.onerror = function (error) {
-          reject(error);
-        };
-      };
-      reader.onerror = function (error) {
-        reject(error);
-      };
-    });
+
+  // Función para subir una imagen a Cloudinary
+  const uploadImageToCloudinary = async (file) => {
+    const data = new FormData();
+    data.append('file', file);
+    data.append('upload_preset', 'Presets_react');
+
+    try {
+      const response = await axios.post(
+        'https://api.cloudinary.com/v1_1/dgaq8kh0o/image/upload',
+        data
+      );
+      return response.data.secure_url;
+    } catch (error) {
+      console.error('Error al subir imagen a Cloudinary:', error);
+      throw error;
+    }
   };
+
   // Función handleDrop para manejar el evento de soltar las imágenes
   const handleDrop = async (e) => {
     e.preventDefault();
     setIsDragging(false);
-  
+
     const files = Array.from(e.dataTransfer.files);
-    const imageFiles = files.filter(file => file.type.startsWith('image/'));
-  
+    const imageFiles = files.filter((file) => file.type.startsWith('image/'));
+
     if (images.length + imageFiles.length > MAX_IMAGES) {
       setShowMaxImagesAlert(true);
       return;
     }
-  
+
     try {
-      const resizedImages = await Promise.all(imageFiles.map(file => resizeImage(file)));
-      const imageData = resizedImages.map(blob => ({
-        imageUrl: URL.createObjectURL(blob),
-        id: Math.random().toString(36).substr(2, 9) // Generar un ID único para la imagen
-      }));
-      setImages(prevImages => [...prevImages, ...imageData]);
+      const uploadedImageURLs = await Promise.all(imageFiles.map(uploadImageToCloudinary));
+      setImages((prevImages) => [...prevImages, ...uploadedImageURLs]);
     } catch (error) {
-      console.error("Error al redimensionar imágenes:", error);
+      console.error('Error al subir imágenes a Cloudinary:', error);
     }
   };
 
   const handleFileSelect = async (e) => {
     fileInputRef.current.click();
+  };
+
+  const handleFileInputChange = async (e) => {
     const files = Array.from(e.target.files);
-    const imageFiles = files.filter(file => file.type.startsWith('image/'));
-  
+    const imageFiles = files.filter((file) => file.type.startsWith('image/'));
+
     if (images.length + imageFiles.length > MAX_IMAGES) {
       setShowMaxImagesAlert(true);
       return;
     }
-  
+
     try {
-      const resizedImages = await Promise.all(imageFiles.map(file => resizeImage(file)));
-      const imageData = resizedImages.map(blob => ({
-        imageUrl: URL.createObjectURL(blob),
-        id: Math.random().toString(36).substr(2, 9) // Generar un ID único para la imagen
-      }));
-      setImages(prevImages => [...prevImages, ...imageData]);
+      const uploadedImageURLs = await Promise.all(imageFiles.map(uploadImageToCloudinary));
+      setImages((prevImages) => [...prevImages, ...uploadedImageURLs]);
     } catch (error) {
-      console.error("Error al redimensionar imágenes:", error);
+      console.error('Error al subir imágenes a Cloudinary:', error);
     }
   };
 
-  
-  const handleImageRemove = (idToRemove) => {
-    setImages(prevImages => prevImages.filter(image => image.id !== idToRemove));
+  const handleImageRemove = (imageURLToRemove) => {
+    setImages((prevImages) => prevImages.filter((image) => image !== imageURLToRemove));
   };
-  
-  
-  
+
   const handleDragOver = (e) => {
     e.preventDefault();
   };
 
   const handleDragEnter = (e) => {
     e.preventDefault();
-    setIsDragging(true); // Cuando se arrastra sobre el área de drop, activamos el estado de arrastre
+    setIsDragging(true);
   };
 
   const handleDragLeave = (e) => {
     e.preventDefault();
-    setIsDragging(false); // Cuando se sale del área de drop, desactivamos el estado de arrastre
+    setIsDragging(false);
   };
 
-  
-
   const handleSaveImages = () => {
-    // Aquí podrías enviar las imágenes al servidor para guardarlas
-    console.log("Imágenes guardadas:", images);
+    console.log('Imágenes guardadas:', images);
+    // Aquí podrías enviar las URLs de las imágenes al servidor para guardarlas
     // Luego podrías limpiar el estado de las imágenes
     setImages([]);
   };
@@ -136,52 +105,52 @@ const DragAndDropImage = ({ Nombre, Apellido, CorreoElectronico, Password, fecha
   return (
     <Container>
       <form className='form-subirImagen'>
-      <h1>Registrar Amigo Rentable</h1>
-      <h3 style={{ textAlign: 'left' }}>Registrar Fotos para el perfil Amigo</h3>
-      <Row>
-        <Col>
-          <div
-            className={`drag-drop-container d-flex flex-wrap justify-content-center ${isDragging ? 'dragging-over' : ''}`}
-            onDrop={handleDrop}
-            onDragOver={handleDragOver}
-            onDragEnter={handleDragEnter}
-            onDragLeave={handleDragLeave}
-          >
-            {images.map((image, index) => (
-              <div key={image.id} className="image-container">
-                <img
-                  src={image.imageUrl}
-                  alt="Dropped"
-                />
-                <button
-                  className="btn btn-danger btn-sm remove-button"
-                  onClick={() => handleImageRemove(image.id)}
-                >
-                  X
-                </button>
-              </div>
-            ))}
-            {images.length === 0 && <p>Arrastra y suelta imágenes aquí</p>}
-          </div>
-          {/* Botón personalizado para seleccionar archivos */}
-          <Button variant="primary" onClick={handleFileSelect}>Seleccionar Archivos</Button>
-          {/* Input de archivo oculto */}
-          <input
-            ref={fileInputRef}
-            type="file"
-            style={{ display: 'none' }}
-            multiple
-            onChange={handleFileSelect}
-          />
-        </Col>
-      </Row>
-      <Row className="mt-3">
-        <Col className="d-flex justify-content-center">
-          <Link to="/RegistrarInteresesAmigo">
-          <Button variant="secondary" className="ml-2 custom-cancel-button" onClick={handleCancel}>Volver</Button>
-          </Link>
-          <Link to="/RegistrarHorarioAmigo" state={
-            {
+        <h1>Registrar Amigo Rentable</h1>
+        <h3 style={{ textAlign: 'left' }}>Registrar Fotos para el perfil Amigo</h3>
+        <Row>
+          <Col>
+            <div
+              className={`drag-drop-container d-flex flex-wrap justify-content-center ${isDragging ? 'dragging-over' : ''}`}
+              onDrop={handleDrop}
+              onDragOver={handleDragOver}
+              onDragEnter={handleDragEnter}
+              onDragLeave={handleDragLeave}
+            >
+              {images.map((imageUrl, index) => (
+                <div key={index} className="image-container">
+                  <img
+                    src={imageUrl}
+                    alt="Dropped"
+                    style={{ maxWidth: '300px', maxHeight: '300px' }} 
+                  />
+                  <button
+                    className="btn btn-danger btn-sm remove-button"
+                    onClick={() => handleImageRemove(imageUrl)}
+                  >
+                    X
+                  </button>
+                </div>
+              ))}
+              {images.length === 0 && <p>Arrastra y suelta imágenes aquí</p>}
+            </div>
+            {/* Botón personalizado para seleccionar archivos */}
+            <Button variant="primary" onClick={handleFileSelect}>Seleccionar Archivos</Button>
+            {/* Input de archivo oculto */}
+            <input
+              ref={fileInputRef}
+              type="file"
+              style={{ display: 'none' }}
+              multiple
+              onChange={handleFileInputChange}
+            />
+          </Col>
+        </Row>
+        <Row className="mt-3">
+          <Col className="d-flex justify-content-center">
+            <Link to="/RegistrarInteresesAmigo">
+              <Button variant="secondary" className="ml-2 custom-cancel-button" onClick={handleCancel}>Volver</Button>
+            </Link>
+            <Link to="/RegistrarHorarioAmigo" state={{
               data: {
                 Nombre,
                 Apellido,
@@ -194,29 +163,13 @@ const DragAndDropImage = ({ Nombre, Apellido, CorreoElectronico, Password, fecha
                 images
               }
             }}>
-          <Button variant="primary" className="custom-next-button" onClick={handleSaveImages}>Siguiente</Button>
-          </Link>
-        </Col>
-      </Row>
+              <Button variant="primary" className="custom-next-button" onClick={handleSaveImages}>Siguiente</Button>
+            </Link>
+          </Col>
+        </Row>
       </form>
 
-      
-
-      {/* Modal de alerta archivos que no son Imagenes*/}
-      <Modal show={showAlert} onHide={() => setShowAlert(false)}>
-        <Modal.Header closeButton>
-          <Modal.Title>Alerta</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          Solo se pueden subir imágenes.
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={() => setShowAlert(false)}>
-            Cerrar
-          </Button>
-        </Modal.Footer>
-      </Modal>
-    {/* Modal de alerta Maximo de Imagenes 4*/}
+      {/* Modal de alerta Maximo de Imagenes 4*/}
       <Modal show={showMaxImagesAlert} onHide={() => setShowMaxImagesAlert(false)}>
         <Modal.Header closeButton>
           <Modal.Title>Alerta</Modal.Title>
@@ -231,8 +184,6 @@ const DragAndDropImage = ({ Nombre, Apellido, CorreoElectronico, Password, fecha
         </Modal.Footer>
       </Modal>
     </Container>
-
-    
   );
 };
 

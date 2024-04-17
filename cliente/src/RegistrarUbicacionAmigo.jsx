@@ -60,6 +60,12 @@ function RegistrarUbicacionAmigo() {
           const lastUserID = response.data.lastUserID; // Obtener el último ID de usuario creado
           console.log("Último ID de usuario creado:", lastUserID);
           setShowSuccessModal(true); // Abre el modal de éxito después de registrar con éxito
+          Axios.post("http://localhost:3001/lastUserIDFotos",{
+            idAmigo:lastUserID,
+            images:images
+          }).catch(() => {
+            setShowErrorModal(true); // Abre el modal de error si no se pudo obtener el ID del usuario
+          });
         }).catch(() => {
           setShowErrorModal(true); // Abre el modal de error si no se pudo obtener el ID del usuario
         });

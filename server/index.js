@@ -29,13 +29,33 @@ app.get("/amigos", (req, res) => {
     );
 });
 
-//Endpoint para obtener todos los Datos de : AmigoPerfil
+//Endpoint para obtener todos los Datos de : AmigoPerfil intereses
 app.get("/AmigoPerfil", (req, res) => {
     //Obtener Valores de los parámetros de la URL
     const { idAmigo } = req.query;
     let id = parseInt(idAmigo);
     console.log(id);
     let query=`SELECT intereses.Interes FROM amigo, amigo_has_intereses, intereses WHERE amigo.idAmigo = '${id}'  AND   amigo.idAmigo = amigo_has_intereses.Amigo_idAmigo AND amigo_has_intereses.Intereses_idIntereses = intereses.idIntereses`
+    console.log(query)
+    db.query(query,
+        (err, result) => {
+            if (err) {
+                console.log(err);
+                res.status(500).send("Error al obtener amigo");
+            } else {
+                res.send(result);
+            }
+        }
+    );
+});
+
+//Endpoint para obtener todos los Datos de : AmigoPerfil fotos
+app.get("/AmigoPerfilFotos", (req, res) => {
+    //Obtener Valores de los parámetros de la URL
+    const { idAmigo } = req.query;
+    let id = parseInt(idAmigo);
+    console.log(id);
+    let query=`SELECT foto From amigo_fotos  WHERE Amigo_idAmigo = '${id}' `
     console.log(query)
     db.query(query,
         (err, result) => {
@@ -149,6 +169,24 @@ app.post("/create", (req,res)=>{
         } 
         );
 });
+
+app.post("/lastUserIDFotos", async (req, res) => {
+    const idAmigo = req.body.idAmigo;
+    const images = req.body.images;
+
+    // Recorre el array de imágenes y ejecuta una inserción en la base de datos para cada una
+    images.forEach(async (imageUrl) => {
+        try {
+            await db.query('INSERT INTO amigo_fotos (Amigo_idAmigo, foto) VALUES (?, ?)', [idAmigo, imageUrl]);
+            console.log(`Imagen ${imageUrl} asociada al usuario con ID ${idAmigo} guardada en la base de datos.`);
+        } catch (error) {
+            console.error(`Error al guardar la imagen ${imageUrl} asociada al usuario con ID ${idAmigo} en la base de datos:`, error);
+        }
+    });
+
+    res.send("Imágenes guardadas correctamente.");
+});
+
 
 //Endpoint para obtener todos los Datos de : AmigoFiltrado
 app.get("/amigosfiltrado", (req, res) => {

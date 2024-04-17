@@ -7,6 +7,7 @@ import Navbar from "./Componentes/Navbar";
 
 export default function PerfilAmigo() {
   const[amigointeres,setamigointeres]=useState([]);
+  const[amigofotos,setamigofotos]=useState([]);
   const location = useLocation();
   const { nombre, apellido, descripcion, imagenUrl, genero, edad, id } = location.state?.data || {};
   const profile = {
@@ -36,9 +37,26 @@ export default function PerfilAmigo() {
         });
   }
 
+  const getAmigoPerfilFotos = () => {
+    console.log(id)
+    Axios.get("http://localhost:3001/AmigoPerfilFotos", {
+            params: {
+              idAmigo:id
+            }
+        }).then((response) => {
+            // Manejar la respuesta
+            console.log(response.data)
+            setamigofotos(response.data);
+
+        }).catch((error) => {
+            console.error("Error en la solicitud:", error);
+        });
+  }
+
   useEffect(() => {
     // Esta función se ejecutará cuando el componente se monte por primera vez
     getAmigoPerfil();
+    getAmigoPerfilFotos();
   }, []);
 
   // Este efecto se ejecutará cada vez que amigointeres se actualice
@@ -72,13 +90,12 @@ export default function PerfilAmigo() {
         <MDBRow className="justify-content-center align-items-center h-100">
           <MDBCol lg="9" xl="7">
             <MDBCard>
-              <div className="rounded-top text-white d-flex flex-row" style={{ backgroundColor: '#000', height: '200px' }}>
-                <div className="ms-4 mt-5 d-flex flex-column" style={{ width: '150px' }}>
-                  <MDBCardImage src="https://media.istockphoto.com/id/522189109/es/foto/no-se-tome-tambi%C3%A9n-en-serio-la-vida.jpg?s=612x612&w=0&k=20&c=4RcKyGRBw_fwH_hl80Fn-COdYk9bjbrVq5v7u97dct4="
-                    alt="Generic placeholder image" className="mt-4 mb-2 img-thumbnail" fluid style={{ width: '150px', zIndex: '1' }} />
-                  <MDBBtn outline color="dark" style={{height: '36px', overflow: 'visible'}}>
-                    Edit profile
-                  </MDBBtn>
+              <div className="rounded-top text-white d-flex flex-row" style={{ backgroundColor: '#000', height: '220px' }}>
+                <div className="ms-4 mt-5 d-flex flex-column" style={{ width: '200px' }}>
+                {amigofotos.length > 0 && (
+                    <MDBCardImage src={amigofotos[0].foto} alt="Foto de perfil" className="mt-4 mb-2 img-thumbnail" fluid style={{ width: '100%', height: 'auto' }}  />
+                  )}
+                  
                 </div>
                 <div className="ms-3" style={{ marginTop: '100px' }}>
                 <h2 style={{ marginBottom: '0' }}>{profile.name + " " + profile.apellido}</h2>
@@ -121,24 +138,18 @@ export default function PerfilAmigo() {
                   
                 </div>
                 <MDBRow>
-                  <MDBCol className="mb-2">
-                    <MDBCardImage src="https://mdbcdn.b-cdn.net/img/Photos/Lightbox/Original/img%20(112).webp"
-                      alt="image 1" className="w-100 rounded-3" />
-                  </MDBCol>
-                  <MDBCol className="mb-2">
-                    <MDBCardImage src="https://mdbcdn.b-cdn.net/img/Photos/Lightbox/Original/img%20(107).webp"
-                      alt="image 1" className="w-100 rounded-3" />
-                  </MDBCol>
+                {amigofotos.slice(0,2).map((foto, index) => (
+                    <MDBCol key={index} className="mb-2">
+                      <MDBCardImage src={foto.foto} alt={`Foto ${index + 2}`} className="w-100 rounded-3" style={{ maxWidth: '280px', maxHeight: '180px', width: 'auto', height: 'auto' }} />
+                    </MDBCol>
+                  ))}
                 </MDBRow>
                 <MDBRow className="mb-2">
-                  <MDBCol className="mb-2">
-                    <MDBCardImage src="https://mdbcdn.b-cdn.net/img/Photos/Lightbox/Original/img%20(108).webp"
-                      alt="image 1" className="w-100 rounded-3" />
-                  </MDBCol>
-                  <MDBCol className="mb-2">
-                    <MDBCardImage src="https://mdbcdn.b-cdn.net/img/Photos/Lightbox/Original/img%20(114).webp"
-                      alt="image 1" className="w-100 rounded-3" />
-                  </MDBCol>
+                {amigofotos.slice(2).map((foto, index) => (
+                    <MDBCol key={index} className="mb-2">
+                      <MDBCardImage src={foto.foto} alt={`Foto ${index + 2}`} className="w-100 rounded-3" style={{ maxWidth: '280px', maxHeight: '180px', width: 'auto', height: 'auto' }} />
+                    </MDBCol>
+                  ))}
                 </MDBRow>
               </MDBCardBody>
               <button style={{alignSelf:'center', width:'80%',textAlign: 'center' ,fontSize: '20px', marginTop: '5px',marginBottom: '15px',backgroundColor:'#627af3',color:'white',borderRadius:'5px'}}>Alquilar Amigo</button>
