@@ -46,14 +46,14 @@ export default function PerfilAmigo() {
         <MDBRow className="justify-content-center align-items-center h-100">
           <MDBCol lg="9" xl="7">
             <MDBCard>
-              <div className="rounded-top text-white d-flex flex-row" style={{ backgroundColor: '#000', height: '250px' }}>
-                <div className="ms-4 mt-5 d-flex flex-column" style={{ width: '150px' }}>
+              <div className="rounded-top text-white d-flex flex-row" style={{ backgroundColor: '#000', height: '250px'}}>
+                <div className="ms-4 mt-5 d-flex flex-column" style={{ width: '160px' }}>
                   <MDBCardImage src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-profiles/avatar-1.webp"
-                    alt="Generic placeholder image" className="mt-4 mb-2 img-thumbnail" fluid style={{ width: '150px', zIndex: '1' }} />
+                    alt="Generic placeholder image" className="mt-4 mb-2 img-thumbnail" fluid style={{ width: '160px', zIndex: '1' }} />
                 </div>
-                <div className="ms-3" style={{ marginTop: '130px' }}>
+                <div className="ms-3" style={{ marginTop: '100px' }}>
                 <MDBCardText style={{ justifyContent: 'flex-start' }}>{profile.name + " " + profile.apellido}</MDBCardText>
-                <MDBCardText style={{ justifyContent: 'flex-start' }} >{profile. edad}</MDBCardText>
+                <MDBCardText style={{ justifyContent: 'flex-start' }} >{profile. edad } años</MDBCardText>
                   <MDBCardText style={{ justifyContent: 'flex-start' }}>{profile.genero}</MDBCardText>
 
                 </div>
@@ -85,21 +85,21 @@ export default function PerfilAmigo() {
                 <MDBRow>
                   <MDBCol className="mb-2">
                     <MDBCardImage src="https://mdbcdn.b-cdn.net/img/Photos/Lightbox/Original/img%20(112).webp"
-                      alt="image 1" className="w-100 rounded-3" />
+                     alt="Generic placeholder image" className="mt-4 mb-2 img-thumbnail" fluid style={{ width: '350px', zIndex: '1' }} />
                   </MDBCol>
                   <MDBCol className="mb-2">
                     <MDBCardImage src="https://mdbcdn.b-cdn.net/img/Photos/Lightbox/Original/img%20(107).webp"
-                      alt="image 1" className="w-100 rounded-3" />
+                       alt="Generic placeholder image" className="mt-4 mb-2 img-thumbnail" fluid style={{ width: '350px', zIndex: '1' }} />
                   </MDBCol>
                 </MDBRow>
-                <MDBRow className="g-2">
+                <MDBRow className="mb-2">
                   <MDBCol className="mb-2">
                     <MDBCardImage src="https://mdbcdn.b-cdn.net/img/Photos/Lightbox/Original/img%20(108).webp"
-                      alt="image 1" className="w-100 rounded-3" />
+                      alt="Generic placeholder image" className="mt-4 mb-2 img-thumbnail" fluid style={{ width: '350px', zIndex: '1' }} />
                   </MDBCol>
                   <MDBCol className="mb-2">
                     <MDBCardImage src="https://mdbcdn.b-cdn.net/img/Photos/Lightbox/Original/img%20(114).webp"
-                      alt="image 1" className="w-100 rounded-3" />
+                      alt="Generic placeholder image" className="mt-4 mb-2 img-thumbnail" fluid style={{ width: '350px', zIndex: '1' }} />
                   </MDBCol>
                 </MDBRow>
               </MDBCardBody>
