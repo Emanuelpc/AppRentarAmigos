@@ -1,113 +1,257 @@
-import { useState,useEffect } from "react";
+import React, { useState, useEffect } from "react";
+import { Button, FormCheck, Modal } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
+import Axios from "axios";
 import Navbar from "./Componentes/Navbar";
 import './RegistrarDatosAmigo.css';
-import Axios from "axios";
-import {  Link } from 'react-router-dom';
+
 function RegistrarDatosAmigo() {
+  const [camposCompletos, setCamposCompletos] = useState(false);
+  const [camposIncompletos, setCamposIncompletos] = useState([]);
+  const [showModal, setShowModal] = useState(false);
+  const [Nombre, setNombre] = useState("");
+  const [Apellido, setApellido] = useState("");
+  const [CorreoElectronico, setCorreoElectronico] = useState("");
+  const [Password, setPassword] = useState("");
+  const [fechaNacimiento, setfechaNacimiento] = useState("");
+  const [Genero, setGenero] = useState("Masculino");
+  const [precioshora, setPreciosHora] = useState([]);
+  const [seleccionPrecio, setSeleccionPrecio] = useState("");
+  const [showPlaceholderAsterisk, setShowPlaceholderAsterisk] = useState(false);
+  const [modalContent, setModalContent] = useState({
+    title: "",
+    body: "",
+    actionButtonText: "",
+    actionButtonClickHandler: () => {},
+  });
 
-  const[Nombre,setNombre] = useState("");
+  const handleShowModal = (title, body, actionButtonText, actionButtonClickHandler) => {
+    setModalContent({
+      title: title,
+      body: body,
+      actionButtonText: actionButtonText,
+      actionButtonClickHandler: actionButtonClickHandler,
+    });
+    setShowModal(true);
+  };
 
-  const[Apellido,setApellido] = useState("");
-
-  const[CorreoElectronico,setCorreoElectronico] = useState("");
-
-  const[Password, setPassword] = useState("");
-
-  const[fechaNacimiento, setfechaNacimiento] = useState(""); 
-
-  const[Genero, setGenero] = useState("Masculino");
-  const[precioshora,setprecioshora]=useState([]);//Lista de Precios Hora Bd
-  const[seleccionPrecio,setseleccionPrecio]=useState("");
-
-  //funcion para obtener la lista de precios
   const getPreciosHora = () => {
     Axios.get("http://localhost:3001/precioshora").then((response) => {
-      setprecioshora(response.data);
+      setPreciosHora(response.data);
     });
-  }
-  
-  function handleChange(e) {
-    console.log(e.target.va);
+  };
+
+  const handleChange = (e) => {
     setGenero(e.target.value);
   }
 
-  useEffect(()=>{
-    getPreciosHora();
-  });
+  const verificarCamposCompletos = () => {
+    if (Nombre && Apellido && CorreoElectronico && Password && fechaNacimiento && Genero && seleccionPrecio) {
+      setCamposCompletos(true);
+    } else {
+      setCamposCompletos(false);
+    }
 
-  
+    const camposIncompletos = [];
+    if (!Nombre) camposIncompletos.push("nombres");
+    if (!Apellido) camposIncompletos.push("apellidos");
+    if (!CorreoElectronico) camposIncompletos.push("correo");
+    if (!Password) camposIncompletos.push("password");
+    if (!fechaNacimiento) camposIncompletos.push("date");
+    if (!Genero) camposIncompletos.push("genero");
+    if (!seleccionPrecio) camposIncompletos.push("tarifa");
+
+    setCamposIncompletos(camposIncompletos);
+
+    if (camposIncompletos.length > 0) {
+      handleShowModal("Datos personales incompletos", "Por favor, llene los campos marcados en rojo.", "Cerrar", handleCloseModal);
+      setShowPlaceholderAsterisk(true);
+      return;
+    }
+
+    const caracteresEspeciales = /[^A-Za-z\s]/;
+    if (caracteresEspeciales.test(Nombre)) {
+      handleShowModal("Error", "El nombre solo puede contener letras y espacios.", "Cerrar", handleCloseModal);
+      return;
+    }
+
+    if (caracteresEspeciales.test(Apellido)) {
+      handleShowModal("Error", "El apellido solo puede contener letras y espacios.", "Cerrar", handleCloseModal);
+      return;
+    }
+
+    if (Password.length < 8) {
+      handleShowModal("Error", "La contraseña debe tener al menos 8 caracteres.", "Cerrar", handleCloseModal);
+      return;
+    }
+
+    const correoEspecial = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!correoEspecial.test(CorreoElectronico)) {
+      handleShowModal("Error", "Por favor, ingresa un correo electrónico válido.", "Cerrar", handleCloseModal);
+      return;
+    }
+  };
+
+  useEffect(() => {
+    getPreciosHora();
+  }, []);
+
+  const handleCloseModal = () => {
+    setShowModal(false);
+  }
 
   return (
-      <div >
-        <Navbar/>
-      
-        <form class = "border3">
-          <h1>Crear Perfil alqui-amigo</h1>
-          <h3>Nombre(*)</h3>
-          <input type="text" onChange={(event)=> setNombre(event.target.value)} required /> 
-          <br></br>
+    <div>
+      <Navbar />
+      <form className="form-register">
+        <h1>Registrar Amigo Rentable</h1>
+        <h3 style={{ textAlign: 'left' }}>Registrar Datos Personales</h3>
 
-          <h3>Apellidos(*)</h3>
-          <input type="text" onChange={(event)=> setApellido(event.target.value)} required />
-          <br></br>
+        <input
+          className={`controls ${camposIncompletos.includes('nombres') ? 'campos-incompletos' : ''}`}
+          type="text"
+          name="nombres"
+          id="nombres"
+          onChange={(event) => setNombre(event.target.value)}
+          placeholder={`Ingrese su Nombre ${showPlaceholderAsterisk ? "*" : ""}`}
+          required
+          maxLength={24}
+        />
+        <br />
 
-          <h3>Correo Electronico(*)</h3>
-          <input type="email" onChange={(event)=> setCorreoElectronico(event.target.value)} required />
-          <br></br>
+        <input
+          className={`controls ${camposIncompletos.includes('apellidos') ? 'campos-incompletos' : ''}`}
+          type="text"
+          name="apellidos"
+          id="apellidos"
+          onChange={(event) => setApellido(event.target.value)}
+          placeholder={`Ingrese su Apellido ${showPlaceholderAsterisk ? "*" : ""}`}
+          required
+          maxLength={24}
+        />
+        <br />
 
-          <h3>Contraseña(*)</h3>
-          <input type="password" onChange={(event)=> setPassword(event.target.value)} required/>
-          <br></br>
+        <input
+          className={`controls ${camposIncompletos.includes('correo') ? 'campos-incompletos' : ''}`}
+          type="email"
+          name="correo"
+          id="correo"
+          onChange={(event) => setCorreoElectronico(event.target.value)}
+          placeholder={`Ingrese su Correo ${showPlaceholderAsterisk ? "*" : ""}`}
+          required
+          maxLength={24}
+        />
+        <br />
 
-          <h3>Fecha de nacimiento(*)</h3>
-          <input type="date" onChange={(event)=> setfechaNacimiento(event.target.value)} required />
-          <br></br>
+        <input
+          className={`controls ${camposIncompletos.includes('password') ? 'campos-incompletos' : ''}`}
+          type="password"
+          name="password"
+          id="password"
+          onChange={(event) => setPassword(event.target.value)}
+          placeholder={`Ingrese su Contraseña ${showPlaceholderAsterisk ? "*" : ""}`}
+          required
+          maxLength={20}
+        />
+        <br />
 
-          <h3>Género(*)</h3>
-            <div className="RadioButtons">
-              <input type="radio" name="Genero" id="Hombre" value="Hombre" onChange={handleChange} required/>  
-              <label htmlFor="masculino">Hombre</label>
-              <input type="radio" name="Genero" id="Mujer" value="Mujer" onChange={handleChange} />
-              <label htmlFor="femenino">Mujer</label>
-              <input type="radio" name="Genero" id="Otro" value="Otro" onChange={handleChange}/>
-              <label htmlFor="otro">Otro</label>
-            </div>
-          <br></br>
+        <input
+          className={`controls ${camposIncompletos.includes('date') ? 'campos-incompletos' : ''}`}
+          type="date"
+          name="date"
+          id="date"
+          onChange={(event) => {
+            const selectedDate = new Date(event.target.value);
+            const maxDate = new Date('2006-12-31');
+            if (selectedDate > maxDate) {
+              event.target.value = '2006-12-31';
+              handleShowModal("Error", "La Aplicacion solo Acepta Personas Mayores 18", "Cerrar", handleCloseModal);
+              setfechaNacimiento('2006-12-31');
+            } else {
+              setfechaNacimiento(event.target.value);
+            }
+          }}
+          placeholder={`Ingrese su Fecha de Nacimiento ${showPlaceholderAsterisk ? "*" : ""}`}
+          required
+          max="2006-01-01"
+        />
+        <br />
 
-          <h3>Elige cuánto que te gustaría obtener por hora(*)</h3>
-          <select name="tarifa" id="tarifa" onChange={(event)=> setseleccionPrecio(event.target.value)}>
+        <div className="RadioButtons" style={{ textAlign: 'left' }}>
+          <h2>Género</h2>
+          <div className="d-flex">
+            <FormCheck
+              className={`gender-radio ${camposIncompletos.includes('Hombre') ? 'campos-incompletos' : ''}`}
+              type="radio" name="Genero" id="Hombre" label="Hombre" value="Hombre" onChange={handleChange} required
+            />
+            <FormCheck
+              className={`gender-radio ${camposIncompletos.includes('Mujer') ? 'campos-incompletos' : ''}`}
+              type="radio" name="Genero" id="Mujer" label="Mujer" value="Mujer" onChange={handleChange}
+            />
+            <FormCheck
+              className={`gender-radio ${camposIncompletos.includes('Otro') ? 'campos-incompletos' : ''}`}
+              type="radio" name="Genero" id="Otro" label="Otro" value="Otro" onChange={handleChange}
+            />
+          </div>
+        </div>
+        <br />
+
+        <h3>Elige cuánto te gustaría obtener por hora</h3>
+        <select
+          className={`controls ${camposIncompletos.includes('tarifa') ? 'campos-incompletos' : ''}`}
+          name="tarifa"
+          id="tarifa"
+          onChange={(event) => setSeleccionPrecio(event.target.value)}
+        >
+          <option value="">Selecciona una tarifa</option>
           {precioshora.map((precio, index) => (
-            <option key={index} value={precio.idPreciosPorHora} >
-              {`Quiero ganar ${precio.Precio_Hora}Bs por hora`}
+            <option key={index} value={precio.idPreciosPorHora}>
+              {`Quiero ganar ${precio.Precio_Hora} Bs por hora`}
             </option>
           ))}
-          </select>
-          <br></br>
-          <br></br>
+        </select>
 
-          
-        </form>
-        <div>
-          <Link to ="/BuscadorAmigo">
-              <button class = "btn-1">Cancelar</button>
-          </Link>
-          <Link to="/RegistrarInteresesAmigo" state={
-            {
-              data: {
-                Nombre,
-                Apellido,
-                CorreoElectronico,
-                Password,
-                fechaNacimiento,
-                Genero,
-                seleccionPrecio
-              }
-            }}>
-              <button class = "btn-2">Siguiente</button>
-          </Link>
-      </div>
-      </div> 
-    );
-  }
-  
-  export default RegistrarDatosAmigo;
+        <Link to="/BuscadorAmigo">
+          <Button variant="danger" className="ml-2 custom-cancel-button" size="lg">Cancelar</Button>
+        </Link>
+        <Link
+          to={camposCompletos ? "/RegistrarInteresesAmigo" : ""}
+          state={{
+            data: {
+              Nombre,
+              Apellido,
+              CorreoElectronico,
+              Password,
+              fechaNacimiento,
+              Genero,
+              seleccionPrecio
+            }
+          }}
+          onClick={() => {
+            if (!camposCompletos) {
+              verificarCamposCompletos();
+            }
+          }}
+        >
+          <Button variant="primary" className="custom-next-button" size="lg">Siguiente</Button>
+        </Link>
+
+      </form>
+
+        {/* Modal para mostrar cuando los campos no estén completos */}
+        <Modal show={showModal} onHide={handleCloseModal} centered>
+        <Modal.Header closeButton>
+          <Modal.Title>{modalContent.title}</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>{modalContent.body}</Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleCloseModal}>
+            {modalContent.actionButtonText}
+          </Button>
+        </Modal.Footer>
+      </Modal>
+    </div>
+  );
+}
+
+export default RegistrarDatosAmigo;

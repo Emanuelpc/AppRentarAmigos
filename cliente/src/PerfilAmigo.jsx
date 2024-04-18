@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import Navbar from "./Componentes/Navbar";
 import './PerfilAmigo.css';
 import InterestType from "./InterestType";
@@ -5,95 +6,167 @@ import React, { useState ,useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Button } from 'react-bootstrap'; // Importa Button desde react-bootstrap
 import * as bootstrap from 'bootstrap'; // Importa todo de bootstrap
+=======
+import React, { useState,useEffect } from 'react';
+import { MDBCol, MDBContainer, MDBRow, MDBCard, MDBCardText, MDBCardBody, MDBCardImage, MDBBtn, MDBTypography } from 'mdb-react-ui-kit';
+import { Link, useLocation } from "react-router-dom";
+>>>>>>> bf6445b34ada05bf4102ea495d77524f224e6382
 import Axios from "axios";
+import Navbar from "./Componentes/Navbar";
 
 
-
-
-
-function PerfilAmigo() {
-  //const [amigos, setamigos] = useState([]);
+export default function PerfilAmigo() {
+  const[amigointeres,setamigointeres]=useState([]);
+  const[amigofotos,setamigofotos]=useState([]);
   const location = useLocation();
-  const {nombre, apellido, descripcion, imagenUrl, genero, edad} = location.state?.data ||{};
-
-  
+  const { nombre, apellido, descripcion, imagenUrl, genero, edad, id } = location.state?.data || {};
   const profile = {
     name: nombre,
+    id: id,
     apellido: apellido,
     edad: edad,
-    genero:genero,
+    genero: genero,
     price: "100 BS/Hora",
     interests: ["Cine", "Baile", "Natación"],
     description: descripcion,
   };
-  //const getAmigo = () => {
-  // Axios.get("http://localhost:3001/amigos").then((response) => {
-    //  setamigos(response.data);
-    //});
-  //}
 
+  const getAmigoPerfil = () => {
+    console.log(id)
+    Axios.get("http://localhost:3001/AmigoPerfil", {
+            params: {
+              idAmigo:id
+            }
+        }).then((response) => {
+            // Manejar la respuesta
+            console.log(response.data)
+            setamigointeres(response.data);
+
+        }).catch((error) => {
+            console.error("Error en la solicitud:", error);
+        });
+  }
+
+  const getAmigoPerfilFotos = () => {
+    console.log(id)
+    Axios.get("http://localhost:3001/AmigoPerfilFotos", {
+            params: {
+              idAmigo:id
+            }
+        }).then((response) => {
+            // Manejar la respuesta
+            console.log(response.data)
+            setamigofotos(response.data);
+
+        }).catch((error) => {
+            console.error("Error en la solicitud:", error);
+        });
+  }
 
   useEffect(() => {
-    const carousel = document.querySelector('#carouselExample');
-    const carouselInstance = new bootstrap.Carousel(carousel);
-    //getAmigo();
-  }, []); // Se ejecuta solo una vez después de que el componente se monta
+    // Esta función se ejecutará cuando el componente se monte por primera vez
+    getAmigoPerfil();
+    getAmigoPerfilFotos();
+  }, []);
+
+  // Este efecto se ejecutará cada vez que amigointeres se actualice
+  useEffect(() => {
+    console.log("amigointeres actualizado:", amigointeres);
+  }, [amigointeres]);
+
+  const getRandomColor = () => {
+    let color;
+    // Genera colores aleatorios hasta que no sean ni muy oscuros ni muy claros
+    do {
+      color = `rgb(${Math.floor(Math.random() * 256)}, ${Math.floor(Math.random() * 256)}, ${Math.floor(Math.random() * 256)})`;
+    } while (isTooDarkOrLight(color));
+    return color;
+  }
+  
+  const isTooDarkOrLight = (color) => {
+    // Convierte el color a luminancia (brillo)
+    const luminance = (0.299 * parseInt(color.substring(4, 7))) + (0.587 * parseInt(color.substring(9, 12))) + (0.114 * parseInt(color.substring(14, 17)));
+    // Retorna true si el color es demasiado oscuro (luminancia < 50) o demasiado claro (luminancia > 200)
+    return luminance < 50 || luminance > 200;
+  }
+  
 
   return (
-    <div>
-      <Navbar />
-      <div style={{ display: 'flex', alignItems: 'center' }}>
-        <div id="carouselExample" className="carousel slide" data-bs-ride="carousel"style={{ marginTop:'90px' }}>
-          <div className="carousel-inner">
-            <div className="carousel-item active">
-              <img src="https://img.freepik.com/fotos-premium/guapo-hombre-latino-sonriente-elegante-camiseta-blanca-compras-telefonos-moviles-linea_695242-226.jpg" className="d-block w-100" alt="..." />
-            </div>
-            <div className="carousel-item">
-              <img src="https://thumbs.dreamstime.com/b/hombre-cauc%C3%A1sico-hermoso-con-la-barba-76425603.jpg" className="d-block w-100" alt="..." />
-            </div>
-            <div className="carousel-item">
-              <img src="https://www.dzoom.org.es/wp-content/uploads/2019/06/fotografia-paisaje-consejos-12.jpg" className="d-block w-100" alt="..." />
-            </div>
-          </div>
-          <button className="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
-            <span className="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span className="visually-hidden">Previous</span>
-          </button>
-          <button className="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
-            <span className="carousel-control-next-icon" aria-hidden="true"></span>
-            <span className="visually-hidden">Next</span>
-          </button>
-        </div>
-        <div className="perfil">
-          <h1 id="titulo">Perfil</h1>
-          <div className="border3">
-          <p>Nombre:{profile.name+" " +profile.apellido}</p>
-          <p>Edad:{profile.edad}</p>
-          <p>genero:{profile.genero}</p>   
-          <p>Registro: {profile.registration}</p>
-          <p>Precio: {profile.price}</p>
-          </div>
-          <div className="border3">
-            <strong>Intereses:</strong>
-            <div style={{ flexDirection: 'row' }}>
-              {profile.interests.map((interest, index) => (
-                <InterestType key={index} interest={interest} />
-              ))}
-            </div>
-          </div>
-          <div className="border3">
-          <p>Descripcion:{profile.description}</p>
-          </div>
-          <div className="botones">
-            <Link to="/BuscadorAmigo" style={{ textDecoration: 'none' }}>
-              <button className="boton-buscar-amigos">Volver</button>
-            </Link>
-            <Button variant="success">Rentar Amigo</Button>
-          </div>
-        </div>
+    <div className="gradient-custom-2" style={{ backgroundColor: '#536471' }}>
+      <div>
+        <Navbar/>
       </div>
+      <MDBContainer className="py-5 h-100">
+        <MDBRow className="justify-content-center align-items-center h-100">
+          <MDBCol lg="9" xl="7">
+            <MDBCard>
+              <div className="rounded-top text-white d-flex flex-row" style={{ backgroundColor: '#000', height: '220px' }}>
+                <div className="ms-4 mt-5 d-flex flex-column" style={{ width: '200px' }}>
+                {amigofotos.length > 0 && (
+                    <MDBCardImage src={amigofotos[0].foto} alt="Foto de perfil" className="mt-4 mb-2 img-thumbnail" fluid style={{ width: '100%', height: 'auto' }}  />
+                  )}
+                  
+                </div>
+                <div className="ms-3" style={{ marginTop: '100px' }}>
+                <h2 style={{ marginBottom: '0' }}>{profile.name + " " + profile.apellido}</h2>
+
+                  <MDBCardText style={{ textAlign: 'left' ,fontSize: '20px', marginTop: '10px'  }}>{profile.genero} Edad:{profile.edad}</MDBCardText>
+                </div>
+              </div>
+              <div className="p-4 text-black" style={{ backgroundColor: '#f8f9fa' }}>
+                <div className="d-flex justify-content-end text-center py-1">
+                <MDBCardText className="lead fw-normal mb-0">Mis intereses:</MDBCardText>
+                {amigointeres.map((interes, index) => (
+                <MDBCardText key={index} className="mb-0"style={{
+                  margin:'10px',
+                  background:getRandomColor(),
+                  color:'white',
+                  padding:'10px',
+                  fontSize:'20px',
+                  borderRadius:'10px'
+                }}>{interes.Interes}</MDBCardText>
+                ))}
+                </div>
+              </div>
+              <MDBCardBody className="text-black p-4">
+                <div className="mb-5" style={{backgroundColor:"#536471"}}>
+                  <p className="lead fw-normal mb-1" style={{
+                     textAlign: 'left',
+                     color:"white" 
+                     }}>Acerca de mi</p>
+                  <div className="p-4" style={{ 
+                    backgroundColor: '#315c7a',
+                    color:'white',
+                    borderRadius:'10px',
+                    fontSize:'20px'
+                    }}>
+                    <p>{profile.description}</p>
+                  </div>
+                </div>
+                <div className="d-flex justify-content-between align-items-center mb-4">
+                  <MDBCardText className="lead fw-normal mb-0">Mis fotos</MDBCardText>
+                  
+                </div>
+                <MDBRow>
+                {amigofotos.slice(0,2).map((foto, index) => (
+                    <MDBCol key={index} className="mb-2">
+                      <MDBCardImage src={foto.foto} alt={`Foto ${index + 2}`} className="w-100 rounded-3" style={{ maxWidth: '280px', maxHeight: '180px', width: 'auto', height: 'auto' }} />
+                    </MDBCol>
+                  ))}
+                </MDBRow>
+                <MDBRow className="mb-2">
+                {amigofotos.slice(2).map((foto, index) => (
+                    <MDBCol key={index} className="mb-2">
+                      <MDBCardImage src={foto.foto} alt={`Foto ${index + 2}`} className="w-100 rounded-3" style={{ maxWidth: '280px', maxHeight: '180px', width: 'auto', height: 'auto' }} />
+                    </MDBCol>
+                  ))}
+                </MDBRow>
+              </MDBCardBody>
+              <button style={{alignSelf:'center', width:'80%',textAlign: 'center' ,fontSize: '20px', marginTop: '5px',marginBottom: '15px',backgroundColor:'#627af3',color:'white',borderRadius:'5px'}}>Alquilar Amigo</button>
+            </MDBCard>
+          </MDBCol>
+        </MDBRow>
+      </MDBContainer>
     </div>
   );
 }
-
-export default PerfilAmigo;
