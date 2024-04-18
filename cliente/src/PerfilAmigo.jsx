@@ -1,16 +1,6 @@
-<<<<<<< HEAD
-import Navbar from "./Componentes/Navbar";
-import './PerfilAmigo.css';
-import InterestType from "./InterestType";
-import React, { useState ,useEffect } from 'react';
-import { Link, useLocation } from 'react-router-dom';
-import { Button } from 'react-bootstrap'; // Importa Button desde react-bootstrap
-import * as bootstrap from 'bootstrap'; // Importa todo de bootstrap
-=======
 import React, { useState,useEffect } from 'react';
 import { MDBCol, MDBContainer, MDBRow, MDBCard, MDBCardText, MDBCardBody, MDBCardImage, MDBBtn, MDBTypography } from 'mdb-react-ui-kit';
 import { Link, useLocation } from "react-router-dom";
->>>>>>> bf6445b34ada05bf4102ea495d77524f224e6382
 import Axios from "axios";
 import Navbar from "./Componentes/Navbar";
 
