@@ -1,7 +1,7 @@
 // termsAndConditions.js
 
 const termsAndConditionsText = `
-Términos y Condiciones de Uso - AmigoRentable
+                    Términos y Condiciones de Uso - AmigoRentable
 
 Por favor, lee detenidamente los siguientes términos y condiciones antes de utilizar los servicios ofrecidos por AmigoRentable. Al acceder o utilizar nuestro sitio web (en adelante, "Sitio"), aceptas cumplir con estos términos y condiciones. Si no estás de acuerdo con alguna parte de estos términos, te solicitamos que no utilices nuestros servicios.
 

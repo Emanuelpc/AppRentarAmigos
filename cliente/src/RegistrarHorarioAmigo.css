@@ -45,26 +45,32 @@
     background: #536471;
     padding: 30px;
     margin: auto;
-    margin-top: 50px;
+    margin-top: 0px;
     margin-bottom: 50px;
     border-radius: 4px;
     font-family: 'calibri';
     color: rgb(255, 255, 255);
     box-shadow: 7px 13px 37px #000;
   }
+
+  .Turnos{
+    color:#030303;
+    margin-left: 55px;
+  }
+
   .custom-cancel-button,
   .custom-next-button {
-  margin-top: 20px;
+  margin-top: 90px;
   }
 
   .form-register h3 {
-    font-size: 22px;
+    font-size: 24px;
     margin-bottom: 20px;
   }
   .horario{
     display: flex;
     flex-wrap: wrap;
-    margin-bottom: 30px; /* Puedes ajustar este valor según tu preferencia */
+    margin-bottom: 3 0px; /* Puedes ajustar este valor según tu preferencia */
     width: 1200px;
     background: #315c7a;
     padding: 20px;
@@ -72,7 +78,7 @@
     margin-top: 40px;
     border-radius: 4px;
     font-family: 'calibri';
-    color: rgb(255, 255, 255);
+    color: rgb(254, 251, 251);
     box-shadow: 7px 7px 7px #000;
 
   }
