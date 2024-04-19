@@ -8,6 +8,7 @@ import RegistrarHorarioAmigo from "./RegistrarHorarioAmigo";
 import RegistrarUbicacionAmigo from "./RegistrarUbicacionAmigo";
 import BuscadorAmigo from "./BuscadorAmigo";
 import PerfilAmigo from "./PerfilAmigo";
+import PerfilCliente from "./PerfilCliente";
 
 
 function App() {
@@ -22,6 +23,7 @@ function App() {
         <Route path="RegistrarUbicacionAmigo" element={ <RegistrarUbicacionAmigo /> } />
         <Route path="BuscadorAmigo" element={ <BuscadorAmigo /> } />
         <Route path="PerfilAmigo" element={ <PerfilAmigo /> } />
+        <Route path="PerfilCliente" element={<PerfilCliente />}/>
       </Routes>
       
     </div>
