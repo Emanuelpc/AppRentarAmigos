@@ -90,10 +90,10 @@ export default function PerfilAmigo() {
         <MDBRow className="justify-content-center align-items-center h-100">
           <MDBCol lg="9" xl="7">
             <MDBCard>
-              <div className="rounded-top text-white d-flex flex-row" style={{ backgroundColor: '#000', height: '250px' }}>
+              <div className="rounded-top text-white d-flex flex-row" style={{ backgroundColor: '#000', height: '260px' }}>
                 <div className="ms-4 mt-5 d-flex flex-column" style={{ width: '185px' }}>
                 {amigofotos.length > 0 && (
-                    <MDBCardImage src={amigofotos[0].foto} alt="Foto de perfil" className="mt-4 mb-2 img-thumbnail" fluid style={{ width: '100%', height: 'auto' }}  />
+                    <MDBCardImage src={amigofotos[0].foto} alt="Foto de perfil" className="mt-4 mb-2 img-thumbnail" fluid style={{ width: '200px', height:'170px' }} />
                   )}
                   
                 </div>
