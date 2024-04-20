@@ -108,7 +108,7 @@ function RegistrarInteresesAmigo() {
           onChange={handleAboutMeChange}
           rows="4"
           cols="60"
-          style={{ width: "100%", padding: "10px",margin:"10px", borderRadius: "4px", fontFamily: "calibri",fontSize: "20px" }}
+          style={{ width: "100%", padding: "10px",margin:"10px", borderRadius: "4px", fontFamily: "calibri",fontSize: "20px"}}
         />
       <div>
           <Link to="/RegistrarDatosAmigo">

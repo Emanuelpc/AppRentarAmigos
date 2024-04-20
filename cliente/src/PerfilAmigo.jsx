@@ -82,7 +82,7 @@ export default function PerfilAmigo() {
   
 
   return (
-    <div className="gradient-custom-2" style={{ backgroundColor: '#536471' }}>
+    <div className="gradient-custom-2" style={{ backgroundColor: '#112A4A' }}>
       <div>
         <Navbar/>
       </div>

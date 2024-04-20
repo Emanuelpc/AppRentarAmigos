@@ -212,7 +212,7 @@ function RegistrarDatosAmigo() {
         </select>
 
         <Link to="/BuscadorAmigo">
-          <Button variant="danger" className="ml-2 custom-cancel-button" size="lg">Cancelar</Button>
+          <Button variant="danger" className="ml-2 custom-cancel-button" size="lg" color="#112A4A" >Cancelar</Button>
         </Link>
         <Link
           to={camposCompletos ? "/RegistrarInteresesAmigo" : ""}
