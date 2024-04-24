@@ -1,13 +1,13 @@
 .form-ubicacion {
     width: 600px;
-    background: #536471;
+    background: #ECF6FF;
     padding: 30px;
     margin: auto;
     margin-top: 50px;
     margin-bottom: 50px;
     border-radius: 4px;
     font-family: 'calibri';
-    color: rgb(255, 255, 255);
+    color: #000;
     box-shadow: 7px 13px 37px #000;
   }
 
@@ -16,3 +16,8 @@
     margin-bottom: 20px;
 }
   
+.form-ubicacion button {
+  color: #ffffff;
+  background-color: #536471;
+  border-color: #536471;
+}

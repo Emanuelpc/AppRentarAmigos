@@ -21,7 +21,7 @@ function RegistrarUbicacionCliente() {
   const [errorMessage, setErrorMessage] = useState(""); // Nuevo estado para el mensaje de error personalizado
 
   const location = useLocation();
-  const { Nombre, Apellido, CorreoElectronico, Password, fechaNacimiento, Genero, seleccionPrecio, aboutMe, images } = location.state?.data || {};
+  const { Nombre, Apellido, CorreoElectronico, Password, fechaNacimiento, Genero, seleccionPrecio, images } = location.state?.data || {};
 
   const getDepartamentos = () => {
     Axios.get("http://localhost:3001/departamentos").then((response) => {
@@ -44,7 +44,7 @@ function RegistrarUbicacionCliente() {
 
   const add = () => {
     if (validateForm()) {
-      Axios.post("http://localhost:3001/create", {
+      Axios.post("http://localhost:3001/crearCliente", {
         Nombre: Nombre,
         Apellido: Apellido,
         CorreoElectronico: CorreoElectronico,
@@ -52,15 +52,14 @@ function RegistrarUbicacionCliente() {
         fechaNacimiento: fechaNacimiento,
         Genero: Genero,
         PreciosPorHora_idPreciosPorHora: seleccionPrecio,
-        Acercademi: aboutMe,
         Departamento_idDepartamento: selectedOptionDepartamentos[selectedOptionDepartamentos.length - 1],
         Ciudad_idCiudad: selectedOptionCiudades[selectedOptionCiudades.length - 1]
       }).then(() => {
-        Axios.get("http://localhost:3001/lastUserID").then((response) => {
-          const lastUserID = response.data.lastUserID; // Obtener el último ID de usuario creado
+        Axios.get("http://localhost:3001/lastUserIDC").then((response) => {
+          const lastUserID = response.data.lastUserIDC; // Obtener el último ID de usuario creado
           console.log("Último ID de usuario creado:", lastUserID);
           setShowSuccessModal(true); // Abre el modal de éxito después de registrar con éxito
-          Axios.post("http://localhost:3001/lastUserIDFotos",{
+          Axios.post("http://localhost:3001/lastUserIDFotosC",{
             idAmigo:lastUserID,
             images:images
           }).catch(() => {
@@ -102,8 +101,8 @@ function RegistrarUbicacionCliente() {
     <div>
       <Navbar />
       <form className="form-ubicacion">
-        <h1>Registrar Amigo Rentable</h1>
-        <h3 style={{ textAlign: 'left' }}>Registrar Ubicacion del Amigo Rentable</h3>
+        <h1>Registrar Cliente</h1>
+        <h3 style={{ textAlign: 'left' }}>Registrar Ubicacion del Cliente</h3>
         <h3 style={{ textAlign: 'left' }}>Seleccionar Departamento</h3>
         <ComboBox
           label=""
@@ -162,7 +161,7 @@ function RegistrarUbicacionCliente() {
           <label htmlFor="acceptPrivacyPolicy">Aceptar las politicas de privacidad</label>
         </div>
         <div>
-          <Link to="/RegistrarHorarioAmigo">
+          <Link to="/RegistrarFotosCliente">
             <Button variant="secondary" className="ml-2 custom-cancel-button" >Volver</Button>
           </Link>
           <Button variant="success" className="custom-next-button" onClick={add}>Registrar Perfil</Button>
@@ -172,10 +171,10 @@ function RegistrarUbicacionCliente() {
       {/* Modal de éxito */}
       <Modal show={showSuccessModal} onHide={() => setShowSuccessModal(false)}>
         <Modal.Header >
-          <Modal.Title>¡Amigo registrado con éxito!</Modal.Title>
+          <Modal.Title>¡Cliente registrado con éxito!</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          El amigo ha sido registrado exitosamente.
+          El Cliente ha sido registrado exitosamente.
         </Modal.Body>
         <Modal.Footer>
         <Link to="/BuscadorAmigo">
@@ -189,7 +188,7 @@ function RegistrarUbicacionCliente() {
       {/* Modal de error */}
       <Modal show={showErrorModal} onHide={() => setShowErrorModal(false)} centered>
         <Modal.Header closeButton>
-          <Modal.Title>Error al registrar amigo</Modal.Title>
+          <Modal.Title>Error al registrar cliente</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           {errorMessage} {/* Mostrar el mensaje de error personalizado */}

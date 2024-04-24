@@ -31,7 +31,6 @@ function App() {
         <Route path="RegistrarFotosCliente" element={<RegistrarFotosCliente />}/>
         <Route path="RegistrarUbicacionCliente" element={<RegistrarUbicacionCliente />}/>
       </Routes>
-      
     </div>
   );
 }

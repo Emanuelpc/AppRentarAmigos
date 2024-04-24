@@ -187,6 +187,58 @@ app.post("/lastUserIDFotos", async (req, res) => {
     res.send("Imágenes guardadas correctamente.");
 });
 
+app.post("/crearCliente", (req,res)=>{
+    const Nombre = req.body.Nombre;
+    const Apellido = req.body.Apellido;
+    const CorreoElectronico = req.body.CorreoElectronico;
+    const Password = req.body.Password;
+    const fechaNacimiento = req.body.fechaNacimiento;
+    const Genero = req.body.Genero;
+    const PreciosPorHora_idPreciosPorHora=req.body.PreciosPorHora_idPreciosPorHora;
+    const Departamento_idDepartamento=req.body.Departamento_idDepartamento;
+    const Ciudad_idCiudad=req.body.Ciudad_idCiudad;
+    console.log(Nombre,Apellido,CorreoElectronico,Password,fechaNacimiento,Genero,PreciosPorHora_idPreciosPorHora,Departamento_idDepartamento,Ciudad_idCiudad)
+
+        db.query('INSERT INTO cliente(nombreCliente,apellidoCliente,correoCliente,contraCliente,fechaNacimientoCliente,generoCliente,acercaDeMiCliente,Departamento_idDepartamento,Ciudad_idCiudad) VALUES(?,?,?,?,?,?,?,?,?)',
+        [Nombre,Apellido,CorreoElectronico,Password,fechaNacimiento,Genero,PreciosPorHora_idPreciosPorHora,Departamento_idDepartamento,Ciudad_idCiudad],
+        (err, result) => {
+            if(err){
+                console.log(err);
+            }else{
+                res.send("Amigo Registrado con exito");
+            }
+        } 
+        );
+});
+
+app.post("/lastUserIDFotosC", async (req, res) => {
+    const idAmigo = req.body.idAmigo;
+    const images = req.body.images;
+
+    // Recorre el array de imágenes y ejecuta una inserción en la base de datos para cada una
+    images.forEach(async (imageUrl) => {
+        try {
+            await db.query('INSERT INTO cliente_fotos (foto, idCliente) VALUES (?, ?)', [imageUrl, idAmigo]);
+            console.log(`Imagen ${imageUrl} asociada al usuario con ID ${idAmigo} guardada en la base de datos.`);
+        } catch (error) {
+            console.error(`Error al guardar la imagen ${imageUrl} asociada al usuario con ID ${idAmigo} en la base de datos:`, error);
+        }
+    });
+
+    res.send("Imágenes guardadas correctamente.");
+});
+
+app.get("/lastUserIDC", (req, res) => {
+    // Consultar el último ID de usuario en la base de datos
+    db.query('SELECT MAX(idCliente) AS lastUserID FROM cliente', (err, result) => {
+        if (err) {
+            console.log(err);
+            res.status(500).send("Error al obtener el último ID de usuario");
+        } else {
+            res.send(result[0]); // Devuelve el resultado que contiene el último ID de usuario
+        }
+    });
+});
 
 //Endpoint para obtener todos los Datos de : AmigoFiltrado
 app.get("/amigosfiltrado", (req, res) => {

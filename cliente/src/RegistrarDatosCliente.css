@@ -25,6 +25,11 @@
     font-size: 22px;
     margin-bottom: 20px;
   }
+  .form-register button {
+    color: #ffffff;
+    background-color: #536471;
+    border-color: #536471;
+  }
   
   .controls {
     width: 100%;
