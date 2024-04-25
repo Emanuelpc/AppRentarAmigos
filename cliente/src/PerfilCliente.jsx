@@ -4,7 +4,7 @@ import Navbar from "./Componentes/NavbarPerfiles";
 
 
 
-export default function PerfilCliente(){
+export default function PerfilCliente({}){
 
 
 
@@ -23,7 +23,7 @@ export default function PerfilCliente(){
                     alt="Generic placeholder image" className="mt-4 mb-2 img-thumbnail" fluid style={{ width: '170px', zIndex: '1' }} />
                 </div>
                 <div className="ms-3" style={{ marginTop: '130px' }}>
-                  <MDBTypography tag="h5">Andy Horwitz</MDBTypography>
+                  <MDBTypography tag="h5"></MDBTypography>
                   <MDBCardText>New York</MDBCardText>
                 </div>
               </div>

@@ -10,9 +10,13 @@ import BuscadorAmigo from "./BuscadorAmigo";
 import PerfilAmigo from "./PerfilAmigo";
 import PerfilCliente from "./PerfilCliente";
 import SolicitudAlquilerAmigo from "./SolicitudAlquilerAmigo";
+import RegistrarDatosCliente from "./RegistrarDatosCliente";
+import RegistrarFotosCliente from "./RegistrarFotosCliente";
+import RegistrarUbicacionCliente from "./RegistrarUbicacionCliente";
 
 
 function App() {
+
   return (
     <div className="App">
       <Routes>
@@ -24,10 +28,13 @@ function App() {
         <Route path="RegistrarUbicacionAmigo" element={ <RegistrarUbicacionAmigo /> } />
         <Route path="BuscadorAmigo" element={ <BuscadorAmigo /> } />
         <Route path="PerfilAmigo" element={ <PerfilAmigo /> } />
+        <Route path="Login" element={<Login />}/>
         <Route path="PerfilCliente" element={<PerfilCliente />}/>
         <Route path="SolicitudAlquilerAmigo" element={<SolicitudAlquilerAmigo />}/>
+        <Route path="RegistrarDatosCliente" element={<RegistrarDatosCliente />}/>
+        <Route path="RegistrarFotosCliente" element={<RegistrarFotosCliente />}/>
+        <Route path="RegistrarUbicacionCliente" element={<RegistrarUbicacionCliente />}/>
       </Routes>
-      
     </div>
   );
 }
