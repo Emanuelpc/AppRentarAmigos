@@ -14,12 +14,11 @@ function BasicNavbar() {
           <Nav className="ms-auto">
           <NavLink to="../" className="nav-link" activeClassName="active-link">Home</NavLink> 
           <NavLink to="../BuscadorAmigo" className="nav-link" activeClassName="active-link">Buscador Amigo</NavLink> 
-          {/*<NavLink to="../IniciarSesion" className="nav-link" activeClassName="active-link">Iniciar Sesión</NavLink>*/} 
           <NavDropdown title="Registro" id="basic-nav-dropdown" className="nav-dropdown">
               <NavLink to="../RegistrarDatosAmigo" className="nav-link" activeClassName="active-link">Registrarse Amigo</NavLink>
               <NavLink to="../RegistrarDatosCliente" className="nav-link" activeClassName="active-link">Registrarse Cliente</NavLink>
           </NavDropdown>
-
+          <NavLink to="../Login" className="nav-link" activeClassName="active-link">Iniciar Sesion</NavLink> 
           </Nav>
         </Navbar.Collapse>
       </Container>

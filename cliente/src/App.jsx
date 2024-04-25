@@ -14,6 +14,7 @@ import RegistrarDatosCliente from "./RegistrarDatosCliente";
 import RegistrarFotosCliente from "./RegistrarFotosCliente";
 import RegistrarUbicacionCliente from "./RegistrarUbicacionCliente";
 import Login from "./Login";
+import VerClientes from "./VerClientes";
 
 
 function App() {
@@ -35,6 +36,7 @@ function App() {
         <Route path="RegistrarDatosCliente" element={<RegistrarDatosCliente />}/>
         <Route path="RegistrarFotosCliente" element={<RegistrarFotosCliente />}/>
         <Route path="RegistrarUbicacionCliente" element={<RegistrarUbicacionCliente />}/>
+        <Route path="VerClientes" element={<VerClientes />}/>
       </Routes>
     </div>
   );
