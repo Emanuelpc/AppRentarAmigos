@@ -56,7 +56,7 @@ function RegistrarUbicacionCliente() {
         Ciudad_idCiudad: selectedOptionCiudades[selectedOptionCiudades.length - 1]
       }).then(() => {
         Axios.get("http://localhost:3001/lastUserIDC").then((response) => {
-          const lastUserID = response.data.lastUserIDC; // Obtener el último ID de usuario creado
+          const lastUserID = response.data.lastUserID; // Obtener el último ID de usuario creado
           console.log("Último ID de usuario creado:", lastUserID);
           setShowSuccessModal(true); // Abre el modal de éxito después de registrar con éxito
           Axios.post("http://localhost:3001/lastUserIDFotosC",{
