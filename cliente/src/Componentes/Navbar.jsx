@@ -14,8 +14,8 @@ function BasicNavbar() {
           <Nav className="ms-auto">
           <NavLink to="../" className="nav-link" activeClassName="active-link">Home</NavLink> 
           <NavLink to="../BuscadorAmigo" className="nav-link" activeClassName="active-link">Buscador Amigo</NavLink> 
-          {/*<NavLink to="../IniciarSesion" className="nav-link" activeClassName="active-link">Iniciar Sesión</NavLink>*/} 
           <NavLink to="../RegistrarDatosAmigo" className="nav-link" activeClassName="active-link">Registrarse</NavLink>
+          <NavLink to="../IniciarSesion" className="nav-link" activeClassName="active-link">Iniciar Sesión</NavLink>
           </Nav>
         </Navbar.Collapse>
       </Container>
