@@ -152,7 +152,7 @@ export default function PerfilAmigo() {
                   ))}
                 </MDBRow>
               </MDBCardBody>
-              <Link to="/SolicitudAlquilerAmigo">
+              <Link to="/SolicitudAlquilerAmigo" state={{ data: { id } }}>
               <button style={{alignSelf:'center', width:'80%',textAlign: 'center' ,fontSize: '20px', marginTop: '5px',marginBottom: '15px',backgroundColor:'#627af3',color:'white',borderRadius:'5px'}}>Alquilar Amigo</button>
               </Link>
             </MDBCard>

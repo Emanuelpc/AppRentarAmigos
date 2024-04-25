@@ -394,6 +394,50 @@ app.get("/lastUserID", (req, res) => {
     });
 });
 
+//Endpoint para obtener todos los Datos de : Amigo Alquiler
+app.get("/amigoalquiler", (req, res) => {
+
+    const { id } = req.query;
+    console.log(id)
+    // Consultar todos los departamentos en la base de datos
+    db.query(`SELECT 
+    amigo.idAmigo,
+    amigo.Nombre,
+    amigo.Apellido,
+    amigo.Correoelectronico,
+    amigo.fechaNacimiento,
+    amigo.Genero,
+    amigo.Acercademi,
+    departamento.Departamento,
+    ciudad.Ciudad,
+    preciosporhora.Precio_Hora,
+    (
+        SELECT foto
+        FROM amigo_fotos
+        WHERE amigo_fotos.Amigo_idAmigo = amigo.idAmigo
+        LIMIT 1
+    ) AS foto
+FROM 
+    amigo
+JOIN 
+    departamento ON amigo.Departamento_idDepartamento = departamento.idDepartamento
+JOIN 
+    ciudad ON amigo.Ciudad_idCiudad = ciudad.idCiudad
+JOIN 
+	 preciosporhora ON amigo.PreciosPorHora_idPreciosPorHora = preciosporhora.idPreciosPorHora
+WHERE amigo.idAmigo='${id}' 
+`,
+        (err, result) => {
+            if (err) {
+                console.log(err);
+                res.status(500).send("Error al obtener amigos");
+            } else {
+                res.send(result);
+            }
+        }
+    );
+});
+
 //Inicialización del servidor:
 
 app.listen(3001, () => {
