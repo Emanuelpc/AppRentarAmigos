@@ -1,7 +1,28 @@
-.formulario{
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
-    align-items: center;
-    gap: 1rem;
-}
+ .form-login {
+    width: 600px;
+    background: #ECF6FF;
+    padding: 30px;
+    margin: auto;
+    margin-top: 50px;
+    margin-bottom: 50px;
+    border-radius: 4px;
+    font-family: 'calibri';
+    color: #000;
+    box-shadow: 7px 13px 37px #000;
+  }
+  
+  .gradient-form {
+    background: none; /* Color de fondo original */
+    border-radius: 10px;
+  }
+  
+  .gradient-custom-2 {
+    background: none; /* Color de fondo original */
+    border-radius: 10px;
+    color: #000; /* Color de texto original */
+  }
+  
+  .gradient-custom-2:hover {
+    background: none; /* Color de fondo original */
+  }
+  
