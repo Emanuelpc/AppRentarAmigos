@@ -1,11 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Button, FormCheck, Modal } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import Axios from "axios";
 import Navbar from "./Componentes/Navbar";
-import './RegistrarDatosAmigo.css';
+import './RegistrarDatosCliente.css';
 
-function RegistrarDatosAmigo() {
+function RegistrarDatosCliente() {
   const [camposCompletos, setCamposCompletos] = useState(false);
   const [camposIncompletos, setCamposIncompletos] = useState([]);
   const [showModal, setShowModal] = useState(false);
@@ -15,7 +14,6 @@ function RegistrarDatosAmigo() {
   const [Password, setPassword] = useState("");
   const [fechaNacimiento, setfechaNacimiento] = useState("");
   const [Genero, setGenero] = useState("Masculino");
-  const [precioshora, setPreciosHora] = useState([]);
   const [seleccionPrecio, setSeleccionPrecio] = useState("");
   const [showPlaceholderAsterisk, setShowPlaceholderAsterisk] = useState(false);
   const [modalContent, setModalContent] = useState({
@@ -35,11 +33,6 @@ function RegistrarDatosAmigo() {
     setShowModal(true);
   };
 
-  const getPreciosHora = () => {
-    Axios.get("http://localhost:3001/precioshora").then((response) => {
-      setPreciosHora(response.data);
-    });
-  };
 
   const handleChange = (e) => {
     setGenero(e.target.value);
@@ -92,9 +85,6 @@ function RegistrarDatosAmigo() {
     }
   };
 
-  useEffect(() => {
-    getPreciosHora();
-  }, []);
 
   const handleCloseModal = () => {
     setShowModal(false);
@@ -104,7 +94,7 @@ function RegistrarDatosAmigo() {
     <div>
       <Navbar />
       <form className="form-register">
-        <h1>Registrar Amigo Rentable</h1>
+        <h1>Registrar Cliente</h1>
         <h3 style={{ textAlign: 'left' }}>Registrar Datos Personales</h3>
 
         <input
@@ -196,26 +186,24 @@ function RegistrarDatosAmigo() {
         </div>
         <br />
 
-        <h3>Elige cuánto te gustaría obtener por hora</h3>
-        <select
-          className={`controls ${camposIncompletos.includes('tarifa') ? 'campos-incompletos' : ''}`}
-          name="tarifa"
-          id="tarifa"
-          onChange={(event) => setSeleccionPrecio(event.target.value)}
-        >
-          <option value="">Selecciona una tarifa</option>
-          {precioshora.map((precio, index) => (
-            <option key={index} value={precio.idPreciosPorHora}>
-              {`Quiero ganar ${precio.Precio_Hora} Bs por hora`}
-            </option>
-          ))}
-        </select>
+        <h3 style={{ textAlign: 'left' }}>Registrar Descripcion Personal</h3>
+        <textarea
+              className={`controls ${camposIncompletos.includes('tarifa') ? 'campos-incompletos' : ''}`}
+              name="password"
+              id="password"
+              onChange={(event) => setSeleccionPrecio(event.target.value)}
+              required
+              maxLength={200}
+              rows={5} 
+              cols={50}
+        />
+        <br />
 
         <Link to="/BuscadorAmigo">
-          <Button variant="danger" className="ml-2 custom-cancel-button" size="lg" color="#112A4A" >Cancelar</Button>
+          <Button variant="danger" className="ml-2 custom-cancel-button" size="lg">Cancelar</Button>
         </Link>
         <Link
-          to={camposCompletos ? "/RegistrarInteresesAmigo" : ""}
+          to={camposCompletos ? "/RegistrarFotosCliente" : ""}
           state={{
             data: {
               Nombre,
@@ -254,4 +242,4 @@ function RegistrarDatosAmigo() {
   );
 }
 
-export default RegistrarDatosAmigo;
+export default RegistrarDatosCliente;
