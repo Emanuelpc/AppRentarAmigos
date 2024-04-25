@@ -72,10 +72,31 @@ app.get("/AmigoPerfilFotos", (req, res) => {
 //Endpoint para obtener todos los Datos de : Amigo con su Departamentos y Ciudad
 app.get("/amigosconDepartamento", (req, res) => {
     // Consultar todos los departamentos en la base de datos
-    db.query(`SELECT amigo.idAmigo,amigo.Nombre,amigo.Apellido,amigo.Correoelectronico,amigo.fechaNacimiento,amigo.Genero,amigo.Acercademi,departamento.Departamento,ciudad.Ciudad
-    FROM amigo,ciudad,departamento
-    WHERE amigo.Departamento_idDepartamento=departamento.idDepartamento AND amigo.Ciudad_idCiudad=ciudad.idCiudad
-    ORDER BY amigo.idAmigo `,
+    db.query(`SELECT 
+    amigo.idAmigo,
+    amigo.Nombre,
+    amigo.Apellido,
+    amigo.Correoelectronico,
+    amigo.fechaNacimiento,
+    amigo.Genero,
+    amigo.Acercademi,
+    departamento.Departamento,
+    ciudad.Ciudad,
+    (
+        SELECT foto
+        FROM amigo_fotos
+        WHERE amigo_fotos.Amigo_idAmigo = amigo.idAmigo
+        LIMIT 1
+    ) AS foto
+FROM 
+    amigo
+JOIN 
+    departamento ON amigo.Departamento_idDepartamento = departamento.idDepartamento
+JOIN 
+    ciudad ON amigo.Ciudad_idCiudad = ciudad.idCiudad
+ORDER BY 
+    amigo.idAmigo;
+`,
         (err, result) => {
             if (err) {
                 console.log(err);
@@ -195,11 +216,17 @@ app.get("/amigosfiltrado", (req, res) => {
     let departamentoId=null;
 
     // Construir la consulta SQL base
-    let query = `SELECT amigo.idAmigo,amigo.Nombre,amigo.Apellido,amigo.Correoelectronico,amigo.fechaNacimiento,amigo.Genero,amigo.Acercademi,departamento.Departamento,
-    ciudad.Ciudad
-    FROM amigo,ciudad,departamento 
-    WHERE amigo.Ciudad_idCiudad=ciudad.idCiudad
-    AND amigo.Departamento_idDepartamento=departamento.idDepartamento`;
+    let query = `SELECT amigo.idAmigo, amigo.Nombre, amigo.Apellido, amigo.Correoelectronico, amigo.fechaNacimiento, amigo.Genero, amigo.Acercademi, departamento.Departamento, ciudad.Ciudad,
+    (
+        SELECT foto
+        FROM amigo_fotos
+        WHERE amigo_fotos.Amigo_idAmigo = amigo.idAmigo
+        LIMIT 1
+    ) AS foto
+    FROM amigo
+    JOIN departamento ON amigo.Departamento_idDepartamento = departamento.idDepartamento
+    JOIN ciudad ON amigo.Ciudad_idCiudad = ciudad.idCiudad
+    WHERE 1`;
 
     // Agregar condiciones según los parámetros recibidos
     if (Departamento && !isNaN(Departamento.valor)) {
@@ -267,11 +294,17 @@ app.get("/amigoBusqueda", (req, res) => {
     const { Nombre , Apellido } = req.query;
 
     // Construir la consulta SQL base
-    let query = `SELECT amigo.idAmigo,amigo.Nombre,amigo.Apellido,amigo.Correoelectronico,amigo.fechaNacimiento,amigo.Genero,amigo.Acercademi,departamento.Departamento,
-    ciudad.Ciudad
-    FROM amigo,ciudad,departamento 
-    WHERE amigo.Ciudad_idCiudad=ciudad.idCiudad
-    AND amigo.Departamento_idDepartamento=departamento.idDepartamento`;
+    let query = `SELECT amigo.idAmigo, amigo.Nombre, amigo.Apellido, amigo.Correoelectronico, amigo.fechaNacimiento, amigo.Genero, amigo.Acercademi, departamento.Departamento, ciudad.Ciudad,
+    (
+        SELECT foto
+        FROM amigo_fotos
+        WHERE amigo_fotos.Amigo_idAmigo = amigo.idAmigo
+        LIMIT 1
+    ) AS foto
+    FROM amigo
+    JOIN departamento ON amigo.Departamento_idDepartamento = departamento.idDepartamento
+    JOIN ciudad ON amigo.Ciudad_idCiudad = ciudad.idCiudad
+    WHERE 1`;
 
     // Agregar condiciones según los parámetros recibidos
     if (Nombre) {
