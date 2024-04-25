@@ -45,3 +45,4 @@ export function Login({setUsuario}){
 
 
 } 
+export default Login;

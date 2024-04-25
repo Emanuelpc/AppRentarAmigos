@@ -13,6 +13,7 @@ import SolicitudAlquilerAmigo from "./SolicitudAlquilerAmigo";
 import RegistrarDatosCliente from "./RegistrarDatosCliente";
 import RegistrarFotosCliente from "./RegistrarFotosCliente";
 import RegistrarUbicacionCliente from "./RegistrarUbicacionCliente";
+import Login from "./Login";
 
 
 function App() {
