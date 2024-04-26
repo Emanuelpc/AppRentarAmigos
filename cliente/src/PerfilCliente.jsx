@@ -8,6 +8,7 @@ export default function PerfilCliente({}){
 
 
 
+
     return(
         <div className="gradient-custom-2" style={{background: '#112A4A'}}>
             <div>

@@ -28,6 +28,38 @@ app.get("/amigos", (req, res) => {
         }
     );
 });
+//Endpoint para obtener todos los Datos de : Amigo
+app.get("/cliente", (req, res) => {
+    // Consultar todos los departamentos en la base de datos
+    const{correoCliente} = req.query;
+    const{contraCliente} = req.query;
+    console.log(correoCliente);
+    db.query(`SELECT cliente.idCliente FROM cliente WHERE cliente.correoCliente = '${correoCliente}' AND cliente.contraCliente = '${contraCliente}'`,
+        (err, result) => {
+            if (err) {
+                console.log(err);
+                res.status(500).send("Error al obtener cliente");
+            } else {
+                res.send(result);
+            }
+        }
+    );
+});
+//Endpoint para obtener todos los Datos de : Amigo
+app.get("/Perfilcliente", (req, res) => {
+    // Consultar todos los departamentos en la base de datos
+    const{id} = req.query
+    db.query(`SELECT * FROM cliente WHERE cliente.idCliente = '${id}'`,
+        (err, result) => {
+            if (err) {
+                console.log(err);
+                res.status(500).send("Error al obtener cliente");
+            } else {
+                res.send(result);
+            }
+        }
+    );
+});
 
 //Endpoint para obtener todos los Datos de : AmigoPerfil intereses
 app.get("/AmigoPerfil", (req, res) => {

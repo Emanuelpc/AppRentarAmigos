@@ -4,11 +4,25 @@ import Navbar from "./Componentes/Navbar";
 import './Login.css';
 import { Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+import Axios from "axios";
 
 function Login() {
+  const [cliente, setCliente] = useState()
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+
+  const getCliente = () => {
+    Axios.get("http://localhost:3001/Cliente", {
+      params: {
+        correoCliente : email,
+        contraCliente : password
+      }
+    }).then((response) => {
+      setCliente(response.data);
+      console.log(cliente[0].idCliente);
+    });
+    }
 
   const handleLogin = (e) => {
     e.preventDefault();
@@ -18,15 +32,16 @@ function Login() {
     }
     
     // Verifica las credenciales
-    if (email === 'AdministradorCliente@gmail.com' && password === 'cliente') {
+    if (cliente ?? true) {
       // Redirige al usuario a la página "VerClientes" si las credenciales son correctas
-      window.location.href = "/VerClientes";
+      window.location.href = `/PerfilCliente?data=${cliente[0].idCliente}`;
       console.log('Inicio de sesión exitoso');
     } else {
       // Muestra un mensaje de error si las credenciales son incorrectas
       setError('Correo electrónico o contraseña incorrectos');
     }
   };
+
 
   return (
     <div>
@@ -64,7 +79,8 @@ function Login() {
                   />
                   {error && <p className="text-danger">{error}</p>}
                   <div className="text-center mb-4">
-                    <MDBBtn type="submit" className="w-100 gradient-custom-2">Iniciar Sesión</MDBBtn>
+
+                    <MDBBtn type="submit" className="w-100 gradient-custom-2" onClick={getCliente}>Iniciar Sesión</MDBBtn>
                   </div>
                   <br />
                   <div className="text-center">
