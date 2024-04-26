@@ -208,6 +208,53 @@ app.post("/lastUserIDFotos", async (req, res) => {
     res.send("Imágenes guardadas correctamente.");
 });
 
+app.post("/lastUserhorario", async (req, res) => {
+    const idAmigo = req.body.idAmigo;
+    const horario = req.body.horario;
+
+    for (const dia in horario) {
+        if (horario.hasOwnProperty(dia)) {
+            const turno = horario[dia];
+            switch (dia) {
+                case 'diaLunes':
+                    var LunesTurno = turno;
+                    break;
+                case 'diaMartes':
+                    var MartesTurno = turno;
+                    break;
+                case 'diaMiércoles':
+                    var MiercolesTurno = turno;
+                    break;
+                case 'diaJueves':
+                    var JuevesTurno = turno;
+                    break;
+                case 'diaViernes':
+                    var ViernesTurno = turno;
+                    break;
+                case 'diaSábado':
+                    var SabadoTurno = turno;
+                    break;
+                case 'diaDomingo':
+                    var DomingoTurno = turno;
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
+    console.log(LunesTurno, MartesTurno, MiercolesTurno, JuevesTurno, ViernesTurno, SabadoTurno, DomingoTurno);
+
+        try {
+            await db.query('INSERT INTO horariodia_amigo (DiaLunes,DiaMartes,DiaMiercoles,DiaJueves,DiaViernes,DiaSabado,DiaDomingo,idAmigo) VALUES (?,?,?,?,?,?,?,?)', [LunesTurno,MartesTurno,MiercolesTurno,JuevesTurno,ViernesTurno,SabadoTurno,DomingoTurno,idAmigo]);
+            console.log(`el horario asociada al usuario con ID ${idAmigo} guardada en la base de datos.`);
+        } catch (error) {
+            console.error(`Error al guardar el horario asociada al usuario con ID ${idAmigo} en la base de datos:`, error);
+        }
+    
+
+    res.send("Se guardo correctamente el Horario");
+});
+
 app.post("/crearCliente", (req,res)=>{
     const Nombre = req.body.Nombre;
     const Apellido = req.body.Apellido;
@@ -431,6 +478,24 @@ WHERE amigo.idAmigo='${id}'
             if (err) {
                 console.log(err);
                 res.status(500).send("Error al obtener amigos");
+            } else {
+                res.send(result);
+            }
+        }
+    );
+});
+
+app.get("/amigohorarioalquiler", (req, res) => {
+
+    const { id } = req.query;
+    console.log(id)
+    // Consultar todos los departamentos en la base de datos
+    db.query(`SELECT * FROM horariodia_amigo WHERE idAmigo='${id}' 
+`,
+        (err, result) => {
+            if (err) {
+                console.log(err);
+                res.status(500).send("Error al obtener amigo horario");
             } else {
                 res.send(result);
             }

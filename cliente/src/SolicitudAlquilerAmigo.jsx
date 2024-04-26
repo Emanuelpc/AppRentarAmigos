@@ -14,12 +14,15 @@ function SolicitudAlquilerAmigo() {
     const [date, setDate] = useState(new Date());
     const [diasLaborables, setDiasLaborables] = useState(['Monday', 'Wednesday', 'Friday']); // Lista de días laborables
     const [amigoalquiler, setamigoalquiler] = useState([]);
+    const [amigoalquilerhorario, setamigoalquilerhorario] = useState([]);
     const [seleccionesUsuario, setSeleccionesUsuario] = useState({
         turno: '',
         horas: []
     });
     const location = useLocation();
     const { id } = location.state?.data || {};
+    const [total, setTotal] = useState(0);
+
 
     const getAmigoAlquiler = () => {
         Axios.get("http://localhost:3001/amigoalquiler", {
@@ -34,10 +37,78 @@ function SolicitudAlquilerAmigo() {
         });
     }
 
+    const getAmigoHorarioAlquiler = () => {
+        Axios.get("http://localhost:3001/amigohorarioalquiler", {
+            params: {
+                id: id
+            }
+        }).then((response) => {
+            console.log(response.data);
+            setamigoalquilerhorario(response.data);
+        }).catch((error) => {
+            console.error("Error en la solicitud:", error);
+        });
+    }
+
     useEffect(() => {
         setDate(new Date());
         getAmigoAlquiler();
+        getAmigoHorarioAlquiler();
     }, []);
+    
+    // Función para convertir los datos de amigoalquilerhorario en diasLaborables
+const convertirHorarioADiasLaborables = (horario) => {
+    const diasLaborables = [];
+    let primerElemento = true; // Variable de control para omitir el primer elemento
+    for (const dia in horario) {
+        if (horario.hasOwnProperty(dia) && horario[dia] !== "(No Trabaja)") {
+            if (primerElemento) {
+                primerElemento = false; // Marcar que se ha omitido el primer elemento
+            } else {
+                diasLaborables.push(dia);
+            }
+        }
+    }
+    // Eliminar el último elemento si existen más de uno
+    if (diasLaborables.length > 1) {
+        diasLaborables.pop();
+    }
+    return diasLaborables;
+};
+
+
+const convertirADiaIngles = (dia) => {
+    switch (dia) {
+        case 'DiaLunes':
+            return 'Monday';
+        case 'DiaMartes':
+            return 'Tuesday';
+        case 'DiaMiercoles':
+            return 'Wednesday';
+        case 'DiaJueves':
+            return 'Thursday';
+        case 'DiaViernes':
+            return 'Friday';
+        case 'DiaSabado':
+            return 'Saturday';
+        case 'DiaDomingo':
+            return 'Sunday';
+        default:
+            return dia;
+    }
+};
+    
+    useEffect(() => {
+        // Si hay datos en amigoalquilerhorario, conviértelos en diasLaborables
+        if (amigoalquilerhorario.length > 0) {
+            let nuevosDiasLaborables = convertirHorarioADiasLaborables(amigoalquilerhorario[0]);
+            nuevosDiasLaborables = nuevosDiasLaborables.map(dia => convertirADiaIngles(dia));
+            console.log(nuevosDiasLaborables)
+            setDiasLaborables(nuevosDiasLaborables);
+        }
+    }, [amigoalquilerhorario]);
+    
+    
 
     const isDayWorking = (date) => {
         const dayOfWeek = new Intl.DateTimeFormat('en-US', { weekday: 'long' }).format(date);
@@ -72,6 +143,18 @@ function SolicitudAlquilerAmigo() {
 
         setSeleccionesUsuario({ ...seleccionesUsuario, horas: nuevasHoras });
     };
+
+    const calcularTotal = (precioPorHora, horasSeleccionadas) => {
+        const precioPorHoraNum = parseFloat(precioPorHora); // Convertir el precio por hora a número
+        const total = precioPorHoraNum * horasSeleccionadas.length; // Calcular el total multiplicando el precio por hora por la cantidad de horas seleccionadas
+        return total.toFixed(2); // Redondear el total a dos decimales
+    };
+    useEffect(() => {
+        if (amigoalquiler.length > 0 && seleccionesUsuario.horas.length > 0) {
+            const nuevoTotal = calcularTotal(amigoalquiler[0].Precio_Hora, seleccionesUsuario.horas);
+            setTotal(nuevoTotal);
+        }
+    }, [seleccionesUsuario.horas]);
 
     return (
         <div>
@@ -160,7 +243,7 @@ function SolicitudAlquilerAmigo() {
                                                 </div>
                                                 <div className="d-flex align-items-center">
                                                 <CiMoneyBill style={{ fontSize: '3rem' }} />
-                                                <h3 className="ms-3 text-primary fw-bold">Total: 60 BS</h3>
+                                                <h3 className="ms-3 text-primary fw-bold">Total: {total} BS</h3>
                                                 </div>
                                             </div>
                                             <MDBBtn>Mandar Solicitud Alquiler</MDBBtn>
