@@ -1,0 +1,23 @@
+.form-ubicacion {
+    width: 600px;
+    background: #ECF6FF;
+    padding: 30px;
+    margin: auto;
+    margin-top: 50px;
+    margin-bottom: 50px;
+    border-radius: 4px;
+    font-family: 'calibri';
+    color: #000;
+    box-shadow: 7px 13px 37px #000;
+  }
+
+.form-ubicacion h3 {
+    font-size: 22px;
+    margin-bottom: 20px;
+}
+  
+.form-ubicacion button {
+  color: #ffffff;
+  background-color: #536471;
+  border-color: #536471;
+}
