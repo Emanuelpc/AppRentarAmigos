@@ -13,15 +13,16 @@ export default function PerfilCliente({}){
   const data = searchParams.get('data');
   const getClientePerfil = () => {
     console.log(data);
-    Axios.get("http://localhost:3001/Perfilcliente", {
+     Axios.get("http://localhost:3001/Perfilcliente", {
       params: {
         id : data
       }
-    }).then((response) => {
+    }).then ((response) => {
       setClientePerfil(response.data);
-      console.log(clientePerfil[0]);
+      console.log(clientePerfil);
     });
     }
+  
     useEffect(() => {
       // Esta función se ejecutará cuando el componente se monte por primera vez
       getClientePerfil();
@@ -44,7 +45,7 @@ export default function PerfilCliente({}){
                     alt="Generic placeholder image" className="mt-4 mb-2 img-thumbnail" fluid style={{ width: '170px', zIndex: '1' }} />
                 </div>
                 <div className="ms-3" style={{ marginTop: '130px' }}>
-                  <MDBTypography tag="h5">{clientePerfil[0].nombreCliente}</MDBTypography>
+                  <MDBTypography tag="h5"></MDBTypography>
                   <MDBCardText>New York</MDBCardText>
                 </div>
               </div>
