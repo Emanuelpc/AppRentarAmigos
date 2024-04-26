@@ -1,12 +1,32 @@
 import { MDBCol, MDBContainer, MDBRow, MDBCard, MDBCardText, MDBCardBody, MDBCardImage, MDBBtn, MDBTypography } from 'mdb-react-ui-kit';
 import React, { useState,useEffect } from 'react';
 import Navbar from "./Componentes/NavbarPerfiles";
-
-
+import { useLocation } from 'react-router-dom';
+import Axios from "axios";
 
 export default function PerfilCliente({}){
 
+  const [clientePerfil, setClientePerfil] = useState()
 
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const data = searchParams.get('data');
+  const getClientePerfil = () => {
+    console.log(data);
+    Axios.get("http://localhost:3001/Perfilcliente", {
+      params: {
+        id : data
+      }
+    }).then((response) => {
+      setClientePerfil(response.data);
+      console.log(clientePerfil[0]);
+    });
+    }
+    useEffect(() => {
+      // Esta función se ejecutará cuando el componente se monte por primera vez
+      getClientePerfil();
+    }, []);
+    
 
 
     return(
@@ -24,7 +44,7 @@ export default function PerfilCliente({}){
                     alt="Generic placeholder image" className="mt-4 mb-2 img-thumbnail" fluid style={{ width: '170px', zIndex: '1' }} />
                 </div>
                 <div className="ms-3" style={{ marginTop: '130px' }}>
-                  <MDBTypography tag="h5"></MDBTypography>
+                  <MDBTypography tag="h5">{clientePerfil[0].nombreCliente}</MDBTypography>
                   <MDBCardText>New York</MDBCardText>
                 </div>
               </div>
