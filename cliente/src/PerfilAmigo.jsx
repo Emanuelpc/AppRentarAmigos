@@ -93,7 +93,7 @@ export default function PerfilAmigo() {
               <div className="rounded-top text-white d-flex flex-row" style={{ backgroundColor: '#000', height: '260px' }}>
                 <div className="ms-4 mt-5 d-flex flex-column" style={{ width: '185px' }}>
                 {amigofotos.length > 0 && (
-                    <MDBCardImage src={amigofotos[0].foto} alt="Foto de perfil" className="mt-4 mb-2 img-thumbnail" fluid style={{ width: '200px', height:'170px' }} />
+                    <MDBCardImage src={amigofotos[0].foto} alt="Foto de perfil" className="mt-4 mb-2 img-thumbnail" fluid style={{ width: '280px', height: '180px', objectFit: 'cover', objectPosition: 'center' }} />
                   )}
                   
                 </div>
@@ -140,19 +140,19 @@ export default function PerfilAmigo() {
                 <MDBRow>
                 {amigofotos.slice(0,2).map((foto, index) => (
                     <MDBCol key={index} className="mb-2">
-                      <MDBCardImage src={foto.foto} alt={`Foto ${index + 2}`} className="w-100 rounded-3" style={{ maxWidth: '280px', maxHeight: '180px', width: 'auto', height: 'auto' }} />
+                      <MDBCardImage src={foto.foto} alt={`Foto ${index + 2}`} className="w-100 rounded-3" style={{ width: '280px', height: '350px', objectFit: 'cover', objectPosition: 'center' }} />
                     </MDBCol>
                   ))}
                 </MDBRow>
                 <MDBRow className="mb-2">
                 {amigofotos.slice(2).map((foto, index) => (
                     <MDBCol key={index} className="mb-2">
-                      <MDBCardImage src={foto.foto} alt={`Foto ${index + 2}`} className="w-100 rounded-3" style={{ maxWidth: '280px', maxHeight: '180px', width: 'auto', height: 'auto' }} />
+                      <MDBCardImage src={foto.foto} alt={`Foto ${index + 2}`} className="w-100 rounded-3" style={{ width: '280px', height: '350px', objectFit: 'cover', objectPosition: 'center' }}  />
                     </MDBCol>
                   ))}
                 </MDBRow>
               </MDBCardBody>
-              <Link to="/SolicitudAlquilerAmigo">
+              <Link to="/SolicitudAlquilerAmigo" state={{ data: { id } }}>
               <button style={{alignSelf:'center', width:'80%',textAlign: 'center' ,fontSize: '20px', marginTop: '5px',marginBottom: '15px',backgroundColor:'#627af3',color:'white',borderRadius:'5px'}}>Alquilar Amigo</button>
               </Link>
             </MDBCard>

@@ -21,7 +21,8 @@ function RegistrarUbicacionAmigo() {
   const [errorMessage, setErrorMessage] = useState(""); // Nuevo estado para el mensaje de error personalizado
 
   const location = useLocation();
-  const { Nombre, Apellido, CorreoElectronico, Password, fechaNacimiento, Genero, seleccionPrecio, aboutMe, images } = location.state?.data || {};
+  const { Nombre, Apellido, CorreoElectronico, Password, fechaNacimiento, Genero, seleccionPrecio, aboutMe, images , horario } = location.state?.data || {};
+  console.log(horario);
 
   const getDepartamentos = () => {
     Axios.get("http://localhost:3001/departamentos").then((response) => {
@@ -63,6 +64,13 @@ function RegistrarUbicacionAmigo() {
           Axios.post("http://localhost:3001/lastUserIDFotos",{
             idAmigo:lastUserID,
             images:images
+          }).catch(() => {
+            setShowErrorModal(true); // Abre el modal de error si no se pudo obtener el ID del usuario
+          });
+          console.log(horario)
+          Axios.post("http://localhost:3001/lastUserhorario",{
+            idAmigo:lastUserID,
+            horario:horario
           }).catch(() => {
             setShowErrorModal(true); // Abre el modal de error si no se pudo obtener el ID del usuario
           });
