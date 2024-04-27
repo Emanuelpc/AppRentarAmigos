@@ -1,52 +1,69 @@
 import { MDBCol, MDBContainer, MDBRow, MDBCard, MDBCardText, MDBCardBody, MDBCardImage, MDBBtn, MDBTypography } from 'mdb-react-ui-kit';
-import React, { useState,useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import Navbar from "./Componentes/NavbarPerfiles";
-import { useLocation } from 'react-router-dom';
+//import { useLocation } from 'react-router-dom';
+
 import Axios from "axios";
 
 export default function PerfilCliente({}){
 
-  const [clientePerfil, setClientePerfil] = useState()
-
-  const location = useLocation();
-  const searchParams = new URLSearchParams(location.search);
-  const data = searchParams.get('data');
+  const [clientePerfil, setClientePerfil] = useState();
+  const [loading, setLoading] = useState(true);
+  
+  
   const getClientePerfil = () => {
-    console.log(data);
-     Axios.get("http://localhost:3001/Perfilcliente", {
+    const params = new URLSearchParams(window.location.search);
+    const data = params.get('data');
+    console.log('Valor recibido:', data);
+    Axios.get("http://localhost:3001/Perfilcliente1", {
       params: {
         id : data
       }
-    }).then ((response) => {
+    }).then((response) => {
       setClientePerfil(response.data);
-      console.log(clientePerfil);
+      console.log(response.data);
+      setLoading(false); // Cambia el estado a false cuando los datos se cargan
+    }).catch((error) => {
+      console.error('Error al obtener el perfil del cliente:', error);
+      setLoading(false); // Cambia el estado a false en caso de error también
     });
-    }
-  
-    useEffect(() => {
-      // Esta función se ejecutará cuando el componente se monte por primera vez
-      getClientePerfil();
-    }, []);
-    
+  }
+
+  const getDatos = () => {
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        resolve(getClientePerfil()); // Llama a la función getClientePerfil
+      }, 500);
+    });
+  }
+
+  useEffect(() => {
+    getDatos();
+    //console.log(clientePerfil[0]);
+  }, []);
 
 
-    return(
-        <div className="gradient-custom-2" style={{background: '#112A4A'}}>
-            <div>
-                <Navbar/>
-            </div>
-            <MDBContainer className="py-5 h-100">
-                <MDBRow className="justify-content-center align-items-center h-100">
-                    <MDBCol lg ="9" xl="7">
-                        <MDBCard>
-                        <div className="rounded-top text-white d-flex flex-row" style={{ backgroundColor: '#000', height: '260px' }}>
+  if (loading) {
+    return <div>Cargando...</div>; // Muestra un mensaje de carga mientras loading es true
+  }
+
+  return (
+    <div className="gradient-custom-2" style={{background: '#112A4A'}}>
+      <div>
+        <Navbar/>
+      </div>
+      <MDBContainer className="py-5 h-100">
+        <MDBRow className="justify-content-center align-items-center h-100">
+          <MDBCol lg="9" xl="7">
+            <MDBCard>
+              <div className="rounded-top text-white d-flex flex-row" style={{ backgroundColor: '#000', height: '260px' }}>
                 <div className="ms-4 mt-5 d-flex flex-column" style={{ width: '185px' }}>
                   <MDBCardImage src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-profiles/avatar-1.webp"
                     alt="Generic placeholder image" className="mt-4 mb-2 img-thumbnail" fluid style={{ width: '170px', zIndex: '1' }} />
                 </div>
                 <div className="ms-3" style={{ marginTop: '130px' }}>
-                  <MDBTypography tag="h5"></MDBTypography>
-                  <MDBCardText>New York</MDBCardText>
+                  <h2 style={{ marginBottom: '0' }}>{clientePerfil[0].nombreCliente+" "+clientePerfil[0].apellidoCliente}</h2>
+                  <MDBCardText>{clientePerfil[0].generoCliente}</MDBCardText>
                 </div>
               </div>
               <div className="p-4 text-black" style={{ backgroundColor: '#f8f9fa' }}>
@@ -64,8 +81,7 @@ export default function PerfilCliente({}){
                         borderRadius: '10px',
                         fontSize:'20px'
                     }}>
-                        <p>aqui pondremos la llamada a su descripcion mientas una cancion: y hoy estoy aqui
-                            borracho y loco
+                        <p>{clientePerfil[0].acercaDeMiCliente}
                         </p>
                     </div>
                 </div>
@@ -93,12 +109,10 @@ export default function PerfilCliente({}){
                   </MDBCol>
                 </MDBRow>
               </MDBCardBody>
-                        </MDBCard>
-                    </MDBCol>
-                </MDBRow>
-            </MDBContainer>
-        </div>
-
-
-    )
+            </MDBCard>
+          </MDBCol>
+        </MDBRow>
+      </MDBContainer>
+    </div>
+  );
 }

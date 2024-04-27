@@ -46,7 +46,7 @@ app.get("/cliente", (req, res) => {
     );
 });
 //Endpoint para obtener todos los Datos de : Amigo
-app.get("/Perfilcliente", (req, res) => {
+app.get("/Perfilcliente1", (req, res) => {
     // Consultar todos los departamentos en la base de datos
     const{id} = req.query
     db.query(`SELECT * FROM cliente WHERE cliente.idCliente = '${id}'`,
