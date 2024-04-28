@@ -20,7 +20,7 @@ export default function PerfilAmigo() {
     interests: ["Cine", "Baile", "Natación"],
     description: descripcion,
   };
-
+  
   const getAmigoPerfil = () => {
     console.log(id)
     Axios.get("http://localhost:3001/AmigoPerfil", {

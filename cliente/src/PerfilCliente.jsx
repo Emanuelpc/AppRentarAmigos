@@ -9,8 +9,26 @@ export default function PerfilCliente({}){
 
   const [clientePerfil, setClientePerfil] = useState();
   const [loading, setLoading] = useState(true);
+
+  const [clientefotos,setclientefotos] = useState();
   
-  
+  const getAmigoPerfilFotos = () => {
+    const params = new URLSearchParams(window.location.search);
+    const data = params.get('data');
+    console.log('Valor recibido:', data);
+    Axios.get("http://localhost:3001/ClientePerfilFotos", {
+      params: {
+        id : data
+      }
+    }).then((response) => {
+      // Manejar la respuesta
+      console.log(response.data)
+      setclientefotos(response.data);
+
+  }).catch((error) => {
+      console.error("Error en la solicitud:", error);
+  });
+} 
   const getClientePerfil = () => {
     const params = new URLSearchParams(window.location.search);
     const data = params.get('data');
@@ -39,6 +57,7 @@ export default function PerfilCliente({}){
 
   useEffect(() => {
     getDatos();
+    getAmigoPerfilFotos();
     //console.log(clientePerfil[0]);
   }, []);
 
@@ -58,9 +77,10 @@ export default function PerfilCliente({}){
             <MDBCard>
               <div className="rounded-top text-white d-flex flex-row" style={{ backgroundColor: '#000', height: '260px' }}>
                 <div className="ms-4 mt-5 d-flex flex-column" style={{ width: '185px' }}>
-                  <MDBCardImage src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-profiles/avatar-1.webp"
-                    alt="Generic placeholder image" className="mt-4 mb-2 img-thumbnail" fluid style={{ width: '170px', zIndex: '1' }} />
-                </div>
+                {clientefotos.length > 0 && (
+                    <MDBCardImage src={clientefotos[0].foto} alt="Foto de perfil" className="mt-4 mb-2 img-thumbnail" fluid style={{ width: '280px', height: '180px', objectFit: 'cover', objectPosition: 'center' }} />
+                  )}
+                  </div>
                 <div className="ms-3" style={{ marginTop: '130px' }}>
                   <h2 style={{ marginBottom: '0' }}>{clientePerfil[0].nombreCliente+" "+clientePerfil[0].apellidoCliente}</h2>
                   <MDBCardText>{clientePerfil[0].generoCliente}</MDBCardText>
@@ -89,24 +109,18 @@ export default function PerfilCliente({}){
                   <MDBCardText className="lead fw-normal mb-0">Mis fotos XD</MDBCardText>
                 </div>
                 <MDBRow>
-                  <MDBCol className="mb-2">
-                    <MDBCardImage src="https://mdbcdn.b-cdn.net/img/Photos/Lightbox/Original/img%20(112).webp"
-                      alt="Generic placeholder image" className="mt-4 mb-2 img-thumbnail" fluid style={{ width: '250px', zIndex: '1' }} />
-                  </MDBCol>
-                  <MDBCol className="mb-2">
-                    <MDBCardImage src="https://mdbcdn.b-cdn.net/img/Photos/Lightbox/Original/img%20(107).webp"
-                      alt="Generic placeholder image" className="mt-4 mb-2 img-thumbnail" fluid style={{ width: '250px', zIndex: '1' }} />
-                  </MDBCol>
+                {clientefotos.slice(0,2).map((foto, index) => (
+                    <MDBCol key={index} className="mb-2">
+                      <MDBCardImage src={foto.foto} alt={`Foto ${index + 2}`} className="w-100 rounded-3" style={{ width: '280px', height: '350px', objectFit: 'cover', objectPosition: 'center' }} />
+                    </MDBCol>
+                  ))}
                 </MDBRow>
-                <MDBRow className="g-2">
-                  <MDBCol className="mb-2">
-                    <MDBCardImage src="https://mdbcdn.b-cdn.net/img/Photos/Lightbox/Original/img%20(108).webp"
-                      alt="Generic placeholder image" className="mt-4 mb-2 img-thumbnail" fluid style={{ width: '250px', zIndex: '1' }} />
-                  </MDBCol>
-                  <MDBCol className="mb-2">
-                    <MDBCardImage src="https://mdbcdn.b-cdn.net/img/Photos/Lightbox/Original/img%20(114).webp"
-                     alt="Generic placeholder image" className="mt-4 mb-2 img-thumbnail" fluid style={{ width: '250px', zIndex: '1' }} />
-                  </MDBCol>
+                <MDBRow className="mb-2">
+                {clientefotos.slice(2).map((foto, index) => (
+                    <MDBCol key={index} className="mb-2">
+                      <MDBCardImage src={foto.foto} alt={`Foto ${index + 2}`} className="w-100 rounded-3" style={{ width: '280px', height: '350px', objectFit: 'cover', objectPosition: 'center' }}  />
+                    </MDBCol>
+                  ))}
                 </MDBRow>
               </MDBCardBody>
             </MDBCard>

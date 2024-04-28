@@ -60,6 +60,21 @@ app.get("/Perfilcliente1", (req, res) => {
         }
     );
 });
+//Endpoint para obtener todos los Datos de : clientePerfil fotos
+app.get("/ClientePerfilFotos", (req, res) => {
+    //Obtener Valores de los parámetros de la URL
+    const{id} = req.query
+    db.query(`SELECT foto From cliente_fotos  WHERE idCliente = '${id}' `,
+        (err, result) => {
+            if (err) {
+                console.log(err);
+                res.status(500).send("Error al obtener cliente");
+            } else {
+                res.send(result);
+            }
+        }
+    );
+});
 
 //Endpoint para obtener todos los Datos de : AmigoPerfil intereses
 app.get("/AmigoPerfil", (req, res) => {
