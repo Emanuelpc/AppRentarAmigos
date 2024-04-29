@@ -5,11 +5,13 @@ import './Login.css';
 import { Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import Axios from "axios";
+import { FaEye, FaEyeSlash } from 'react-icons/fa'; // Importa los iconos de ojo
 
 function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const [showPassword, setShowPassword] = useState(false); // Nuevo estado para manejar la visibilidad de la contraseña
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -43,6 +45,10 @@ function Login() {
     }
   };
 
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
+
   return (
     <div>
       <Navbar />
@@ -69,14 +75,20 @@ function Login() {
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                   />
-                  <MDBInput
-                    wrapperClass='mb-4'
-                    label='Contraseña'
-                    id='form2'
-                    type='password'
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                  />
+                  <div className="password-input-wrapper mb-4">
+                    <MDBInput
+                      wrapperClass='mb-0'
+                      label='Contraseña'
+                      id='form2'
+                      type={showPassword ? 'text' : 'password'}
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
+                    />
+                    <span className="password-toggle" onClick={togglePasswordVisibility}>
+                      {showPassword ? <FaEyeSlash /> : <FaEye />}
+                    </span>
+                  </div>
+
                   {error && <p className="text-danger">{error}</p>}
                   <div className="text-center mb-4">
                     <MDBBtn type="submit" className="w-100 gradient-custom-2">Iniciar Sesión</MDBBtn>
