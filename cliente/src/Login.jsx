@@ -7,41 +7,41 @@ import { Link } from 'react-router-dom';
 import Axios from "axios";
 
 function Login() {
-  const [cliente, setCliente] = useState()
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
 
-  const getCliente = () => {
-    Axios.get("http://localhost:3001/Cliente", {
-      params: {
-        correoCliente : email,
-        contraCliente : password
-      }
-    }).then((response) => {
-      setCliente(response.data);
-      console.log(cliente[0].idCliente);
-    });
-    }
-
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
     if (!email || !password) {
       setError('Por favor, completa todos los campos');
       return;
     }
     
-    // Verifica las credenciales
-    if (cliente ?? true) {
-      // Redirige al usuario a la página "VerClientes" si las credenciales son correctas
-      window.location.href = `/PerfilCliente?data=${cliente[0].idCliente}`;
-      console.log('Inicio de sesión exitoso');
-    } else {
-      // Muestra un mensaje de error si las credenciales son incorrectas
-      setError('Correo electrónico o contraseña incorrectos');
+    try {
+      const response = await Axios.get("http://localhost:3001/Cliente", {
+        params: {
+          correoCliente: email,
+          contraCliente: password
+        }
+      });
+      
+      const clienteData = response.data[0]; // Suponiendo que la respuesta es un array con un solo elemento
+
+      if (clienteData) {
+        // Redirige al usuario a la página "PerfilCliente" si las credenciales son correctas
+        window.location.href = `/PerfilCliente?data=${clienteData.idCliente}`;
+        console.log('Inicio de sesión exitoso');
+      } else {
+        // Muestra un mensaje de error si las credenciales son incorrectas
+        setError('Correo electrónico o contraseña incorrectos');
+      }
+    } catch (error) {
+      // Muestra un mensaje de error si hubo un problema con la solicitud
+      setError('Hubo un error al iniciar sesión. Por favor, inténtalo de nuevo.');
+      console.error('Error al iniciar sesión:', error);
     }
   };
-
 
   return (
     <div>
@@ -79,8 +79,7 @@ function Login() {
                   />
                   {error && <p className="text-danger">{error}</p>}
                   <div className="text-center mb-4">
-
-                    <MDBBtn type="submit" className="w-100 gradient-custom-2" onClick={getCliente}>Iniciar Sesión</MDBBtn>
+                    <MDBBtn type="submit" className="w-100 gradient-custom-2">Iniciar Sesión</MDBBtn>
                   </div>
                   <br />
                   <div className="text-center">
