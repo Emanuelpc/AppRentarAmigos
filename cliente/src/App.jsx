@@ -15,12 +15,16 @@ import RegistrarFotosCliente from "./RegistrarFotosCliente";
 import RegistrarUbicacionCliente from "./RegistrarUbicacionCliente";
 import Login from "./Login";
 import VerClientes from "./VerClientes";
+import SolicitudesaAmigos from "./SolicitudesaAmigos";
+import CitasAmigos from "./CitasAmigos";
+import { UserProvider } from './UserContext';
 
 
 function App() {
 
   return (
     <div className="App">
+      <UserProvider>
       <Routes>
         <Route path="/" element={ <Inicio /> } />
         <Route path="RegistrarDatosAmigo" element={ <RegistrarDatosAmigo /> } />
@@ -37,7 +41,10 @@ function App() {
         <Route path="RegistrarFotosCliente" element={<RegistrarFotosCliente />}/>
         <Route path="RegistrarUbicacionCliente" element={<RegistrarUbicacionCliente />}/>
         <Route path="VerClientes" element={<VerClientes />}/>
+        <Route path="CitasAmigos" element={<CitasAmigos />}/>
+        <Route path="SolicitudesaAmigos" element={<SolicitudesaAmigos />}/>
       </Routes>
+      </UserProvider>
     </div>
   );
 }

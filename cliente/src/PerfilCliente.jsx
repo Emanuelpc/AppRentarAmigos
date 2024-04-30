@@ -1,30 +1,92 @@
 import { MDBCol, MDBContainer, MDBRow, MDBCard, MDBCardText, MDBCardBody, MDBCardImage, MDBBtn, MDBTypography } from 'mdb-react-ui-kit';
-import React, { useState,useEffect } from 'react';
-import Navbar from "./Componentes/NavbarPerfiles";
+import React, { useState, useEffect } from 'react';
+import Navbar from "./Componentes/Navbar";
+import { useUser } from './UserContext';
+//import { useLocation } from 'react-router-dom';
 
-
+import Axios from "axios";
 
 export default function PerfilCliente({}){
 
+  const [clientePerfil, setClientePerfil] = useState();
+  const [loading, setLoading] = useState(true);
+  const [clientefotos,setclientefotos] = useState();
+  const { user } = useUser();
+  
+  const getAmigoPerfilFotos = () => {
+    //const params = new URLSearchParams(window.location.search);
+    //const data = params.get('data');
+    const data = user.idCliente;    ;
+    console.log('Valor recibido:', data);
+    Axios.get("http://localhost:3001/ClientePerfilFotos", {
+      params: {
+        id : data
+      }
+    }).then((response) => {
+      // Manejar la respuesta
+      console.log(response.data)
+      setclientefotos(response.data);
+
+  }).catch((error) => {
+      console.error("Error en la solicitud:", error);
+  });
+} 
+  const getClientePerfil = () => {
+    //const params = new URLSearchParams(window.location.search);
+    //const data = params.get('data');
+    const data = user.idCliente; 
+    console.log('Valor recibido:', data);
+    Axios.get("http://localhost:3001/Perfilcliente1", {
+      params: {
+        id : data
+      }
+    }).then((response) => {
+      setClientePerfil(response.data);
+      console.log(response.data);
+      setLoading(false); // Cambia el estado a false cuando los datos se cargan
+    }).catch((error) => {
+      console.error('Error al obtener el perfil del cliente:', error);
+      setLoading(false); // Cambia el estado a false en caso de error también
+    });
+  }
+
+  const getDatos = () => {
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        resolve(getClientePerfil()); // Llama a la función getClientePerfil
+      }, 500);
+    });
+  }
+
+  useEffect(() => {
+    getDatos();
+    getAmigoPerfilFotos();
+    //console.log(clientePerfil[0]);
+  }, []);
 
 
-    return(
-        <div className="gradient-custom-2" style={{background: '#112A4A'}}>
-            <div>
-                <Navbar/>
-            </div>
-            <MDBContainer className="py-5 h-100">
-                <MDBRow className="justify-content-center align-items-center h-100">
-                    <MDBCol lg ="9" xl="7">
-                        <MDBCard>
-                        <div className="rounded-top text-white d-flex flex-row" style={{ backgroundColor: '#000', height: '260px' }}>
+  if (loading) {
+    return <div>Cargando...</div>; // Muestra un mensaje de carga mientras loading es true
+  }
+
+  return (
+    <div className="gradient-custom-2" style={{background: '#112A4A'}}>
+      <div>
+        <Navbar/>
+      </div>
+      <MDBContainer className="py-5 h-100">
+        <MDBRow className="justify-content-center align-items-center h-100">
+          <MDBCol lg="9" xl="7">
+            <MDBCard>
+              <div className="rounded-top text-white d-flex flex-row" style={{ backgroundColor: '#000', height: '260px' }}>
                 <div className="ms-4 mt-5 d-flex flex-column" style={{ width: '185px' }}>
-                  <MDBCardImage src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-profiles/avatar-1.webp"
-                    alt="Generic placeholder image" className="mt-4 mb-2 img-thumbnail" fluid style={{ width: '170px', zIndex: '1' }} />
-                </div>
+                {clientefotos.length > 0 && (
+                    <MDBCardImage src={clientefotos[0].foto} alt="Foto de perfil" className="mt-4 mb-2 img-thumbnail" fluid style={{ width: '280px', height: '180px', objectFit: 'cover', objectPosition: 'center' }} />
+                  )}
+                  </div>
                 <div className="ms-3" style={{ marginTop: '130px' }}>
-                  <MDBTypography tag="h5"></MDBTypography>
-                  <MDBCardText>New York</MDBCardText>
+                  <h2 style={{ marginBottom: '0' }}>{clientePerfil[0].nombreCliente+" "+clientePerfil[0].apellidoCliente}</h2>
+                  <MDBCardText>{clientePerfil[0].generoCliente}</MDBCardText>
                 </div>
               </div>
               <div className="p-4 text-black" style={{ backgroundColor: '#f8f9fa' }}>
@@ -42,8 +104,7 @@ export default function PerfilCliente({}){
                         borderRadius: '10px',
                         fontSize:'20px'
                     }}>
-                        <p>aqui pondremos la llamada a su descripcion mientas una cancion: y hoy estoy aqui
-                            borracho y loco
+                        <p>{clientePerfil[0].acercaDeMiCliente}
                         </p>
                     </div>
                 </div>
@@ -51,32 +112,24 @@ export default function PerfilCliente({}){
                   <MDBCardText className="lead fw-normal mb-0">Mis fotos XD</MDBCardText>
                 </div>
                 <MDBRow>
-                  <MDBCol className="mb-2">
-                    <MDBCardImage src="https://mdbcdn.b-cdn.net/img/Photos/Lightbox/Original/img%20(112).webp"
-                      alt="Generic placeholder image" className="mt-4 mb-2 img-thumbnail" fluid style={{ width: '250px', zIndex: '1' }} />
-                  </MDBCol>
-                  <MDBCol className="mb-2">
-                    <MDBCardImage src="https://mdbcdn.b-cdn.net/img/Photos/Lightbox/Original/img%20(107).webp"
-                      alt="Generic placeholder image" className="mt-4 mb-2 img-thumbnail" fluid style={{ width: '250px', zIndex: '1' }} />
-                  </MDBCol>
+                {clientefotos.slice(0,2).map((foto, index) => (
+                    <MDBCol key={index} className="mb-2">
+                      <MDBCardImage src={foto.foto} alt={`Foto ${index + 2}`} className="w-100 rounded-3" style={{ width: '280px', height: '350px', objectFit: 'cover', objectPosition: 'center' }} />
+                    </MDBCol>
+                  ))}
                 </MDBRow>
-                <MDBRow className="g-2">
-                  <MDBCol className="mb-2">
-                    <MDBCardImage src="https://mdbcdn.b-cdn.net/img/Photos/Lightbox/Original/img%20(108).webp"
-                      alt="Generic placeholder image" className="mt-4 mb-2 img-thumbnail" fluid style={{ width: '250px', zIndex: '1' }} />
-                  </MDBCol>
-                  <MDBCol className="mb-2">
-                    <MDBCardImage src="https://mdbcdn.b-cdn.net/img/Photos/Lightbox/Original/img%20(114).webp"
-                     alt="Generic placeholder image" className="mt-4 mb-2 img-thumbnail" fluid style={{ width: '250px', zIndex: '1' }} />
-                  </MDBCol>
+                <MDBRow className="mb-2">
+                {clientefotos.slice(2).map((foto, index) => (
+                    <MDBCol key={index} className="mb-2">
+                      <MDBCardImage src={foto.foto} alt={`Foto ${index + 2}`} className="w-100 rounded-3" style={{ width: '280px', height: '350px', objectFit: 'cover', objectPosition: 'center' }}  />
+                    </MDBCol>
+                  ))}
                 </MDBRow>
               </MDBCardBody>
-                        </MDBCard>
-                    </MDBCol>
-                </MDBRow>
-            </MDBContainer>
-        </div>
-
-
-    )
+            </MDBCard>
+          </MDBCol>
+        </MDBRow>
+      </MDBContainer>
+    </div>
+  );
 }

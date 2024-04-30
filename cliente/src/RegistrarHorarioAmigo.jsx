@@ -215,15 +215,16 @@ function RegistrarHorarioAmigo() {
             <Link to="/RegistrarUbicacionAmigo" state={
             {
              data: {
-               Nombre,
-               Apellido,
-               CorreoElectronico,
-               Password,
-                fechaNacimiento,
-                Genero,
+              Nombre,
+              Apellido,
+              CorreoElectronico,
+              Password,
+              fechaNacimiento,
+              Genero,
               aboutMe,
               seleccionPrecio,
-              images
+              images,
+              horario
               }
             }}>
               <Button variant="primary" onClick={handleNextButtonClick} className="custom-next-button">Siguiente</Button>

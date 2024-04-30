@@ -28,6 +28,53 @@ app.get("/amigos", (req, res) => {
         }
     );
 });
+//Endpoint para obtener todos los Datos de : Amigo
+app.get("/cliente", (req, res) => {
+    // Consultar todos los departamentos en la base de datos
+    const{correoCliente} = req.query;
+    const{contraCliente} = req.query;
+    console.log(correoCliente);
+    db.query(`SELECT * FROM cliente WHERE cliente.correoCliente = '${correoCliente}' AND cliente.contraCliente = '${contraCliente}'`,
+        (err, result) => {
+            if (err) {
+                console.log(err);
+                res.status(500).send("Error al obtener cliente");
+            } else {
+                res.send(result);
+            }
+        }
+    );
+});
+//Endpoint para obtener todos los Datos de : Amigo
+app.get("/Perfilcliente1", (req, res) => {
+    // Consultar todos los departamentos en la base de datos
+    const{id} = req.query
+    db.query(`SELECT * FROM cliente WHERE cliente.idCliente = '${id}'`,
+        (err, result) => {
+            if (err) {
+                console.log(err);
+                res.status(500).send("Error al obtener cliente");
+            } else {
+                res.send(result);
+            }
+        }
+    );
+});
+//Endpoint para obtener todos los Datos de : clientePerfil fotos
+app.get("/ClientePerfilFotos", (req, res) => {
+    //Obtener Valores de los parámetros de la URL
+    const{id} = req.query
+    db.query(`SELECT foto From cliente_fotos  WHERE idCliente = '${id}' `,
+        (err, result) => {
+            if (err) {
+                console.log(err);
+                res.status(500).send("Error al obtener cliente");
+            } else {
+                res.send(result);
+            }
+        }
+    );
+});
 
 //Endpoint para obtener todos los Datos de : AmigoPerfil intereses
 app.get("/AmigoPerfil", (req, res) => {
@@ -206,6 +253,53 @@ app.post("/lastUserIDFotos", async (req, res) => {
     });
 
     res.send("Imágenes guardadas correctamente.");
+});
+
+app.post("/lastUserhorario", async (req, res) => {
+    const idAmigo = req.body.idAmigo;
+    const horario = req.body.horario;
+
+    for (const dia in horario) {
+        if (horario.hasOwnProperty(dia)) {
+            const turno = horario[dia];
+            switch (dia) {
+                case 'diaLunes':
+                    var LunesTurno = turno;
+                    break;
+                case 'diaMartes':
+                    var MartesTurno = turno;
+                    break;
+                case 'diaMiércoles':
+                    var MiercolesTurno = turno;
+                    break;
+                case 'diaJueves':
+                    var JuevesTurno = turno;
+                    break;
+                case 'diaViernes':
+                    var ViernesTurno = turno;
+                    break;
+                case 'diaSábado':
+                    var SabadoTurno = turno;
+                    break;
+                case 'diaDomingo':
+                    var DomingoTurno = turno;
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
+    console.log(LunesTurno, MartesTurno, MiercolesTurno, JuevesTurno, ViernesTurno, SabadoTurno, DomingoTurno);
+
+        try {
+            await db.query('INSERT INTO horariodia_amigo (DiaLunes,DiaMartes,DiaMiercoles,DiaJueves,DiaViernes,DiaSabado,DiaDomingo,idAmigo) VALUES (?,?,?,?,?,?,?,?)', [LunesTurno,MartesTurno,MiercolesTurno,JuevesTurno,ViernesTurno,SabadoTurno,DomingoTurno,idAmigo]);
+            console.log(`el horario asociada al usuario con ID ${idAmigo} guardada en la base de datos.`);
+        } catch (error) {
+            console.error(`Error al guardar el horario asociada al usuario con ID ${idAmigo} en la base de datos:`, error);
+        }
+    
+
+    res.send("Se guardo correctamente el Horario");
 });
 
 app.post("/crearCliente", (req,res)=>{
@@ -392,6 +486,68 @@ app.get("/lastUserID", (req, res) => {
             res.send(result[0]); // Devuelve el resultado que contiene el último ID de usuario
         }
     });
+});
+
+//Endpoint para obtener todos los Datos de : Amigo Alquiler
+app.get("/amigoalquiler", (req, res) => {
+
+    const { id } = req.query;
+    console.log(id)
+    // Consultar todos los departamentos en la base de datos
+    db.query(`SELECT 
+    amigo.idAmigo,
+    amigo.Nombre,
+    amigo.Apellido,
+    amigo.Correoelectronico,
+    amigo.fechaNacimiento,
+    amigo.Genero,
+    amigo.Acercademi,
+    departamento.Departamento,
+    ciudad.Ciudad,
+    preciosporhora.Precio_Hora,
+    (
+        SELECT foto
+        FROM amigo_fotos
+        WHERE amigo_fotos.Amigo_idAmigo = amigo.idAmigo
+        LIMIT 1
+    ) AS foto
+FROM 
+    amigo
+JOIN 
+    departamento ON amigo.Departamento_idDepartamento = departamento.idDepartamento
+JOIN 
+    ciudad ON amigo.Ciudad_idCiudad = ciudad.idCiudad
+JOIN 
+	 preciosporhora ON amigo.PreciosPorHora_idPreciosPorHora = preciosporhora.idPreciosPorHora
+WHERE amigo.idAmigo='${id}' 
+`,
+        (err, result) => {
+            if (err) {
+                console.log(err);
+                res.status(500).send("Error al obtener amigos");
+            } else {
+                res.send(result);
+            }
+        }
+    );
+});
+
+app.get("/amigohorarioalquiler", (req, res) => {
+
+    const { id } = req.query;
+    console.log(id)
+    // Consultar todos los departamentos en la base de datos
+    db.query(`SELECT * FROM horariodia_amigo WHERE idAmigo='${id}' 
+`,
+        (err, result) => {
+            if (err) {
+                console.log(err);
+                res.status(500).send("Error al obtener amigo horario");
+            } else {
+                res.send(result);
+            }
+        }
+    );
 });
 
 //Inicialización del servidor:

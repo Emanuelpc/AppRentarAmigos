@@ -24,3 +24,9 @@
     background-color: #093b5d; /* Color de fondo cuando está activo o en hover */
      /* Color del texto cuando está activo o en hover */
   }
+  
+/* Navbar.css */
+.nav-dropdown .dropdown-menu {
+  background-color: black !important; /* Color de fondo negro para el dropdown */
+}
+
