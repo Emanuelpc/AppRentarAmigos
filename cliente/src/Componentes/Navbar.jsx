@@ -17,7 +17,6 @@ function BasicNavbar() {
         <Navbar.Collapse id="basic-navbar-nav" className="justify-content-end">
         {user ? (
           <Nav className="ms-auto">
-          <NavLink to="../" className="nav-link" activeClassName="active-link">Home</NavLink>
           <NavLink to="../BuscadorAmigo" className="nav-link" activeClassName="active-link">Buscador Amigo</NavLink> 
           <NavLink to="../SolicitudesaAmigos" className="nav-link" activeClassName="active-link">Solicitudes a Amigos</NavLink> 
           <NavLink to="../CitasAmigos" className="nav-link" activeClassName="active-link">Agendas de Citas Amigos</NavLink> 
