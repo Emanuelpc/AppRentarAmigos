@@ -186,7 +186,7 @@ function RegistrarDatosCliente() {
         </div>
         <br />
 
-        <h3 style={{ textAlign: 'left' }}>Registrar Descripcion Personal</h3>
+        <h3 style={{ textAlign: 'left' }}>Registrar Descripción Personal</h3>
         <textarea
               className={`controls ${camposIncompletos.includes('tarifa') ? 'campos-incompletos' : ''}`}
               name="password"
