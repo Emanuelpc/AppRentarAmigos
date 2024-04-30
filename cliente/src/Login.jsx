@@ -3,15 +3,18 @@ import { MDBBtn, MDBContainer, MDBRow, MDBCol, MDBInput } from 'mdb-react-ui-kit
 import Navbar from "./Componentes/Navbar";
 import './Login.css';
 import { Button } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import { Link,useNavigate} from 'react-router-dom';
 import Axios from "axios";
 import { FaEye, FaEyeSlash } from 'react-icons/fa'; // Importa los iconos de ojo
+import { useUser } from './UserContext';
 
 function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [showPassword, setShowPassword] = useState(false); // Nuevo estado para manejar la visibilidad de la contraseña
+  const { updateUser } = useUser();
+  const navigate = useNavigate();
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -32,7 +35,10 @@ function Login() {
 
       if (clienteData) {
         // Redirige al usuario a la página "PerfilCliente" si las credenciales son correctas
-        window.location.href = `/PerfilCliente?data=${clienteData.idCliente}`;
+        console.log(clienteData);
+        updateUser(clienteData);
+        //window.location.href = `/PerfilCliente?data=${clienteData.idCliente}`;
+        navigate(`/PerfilCliente`);
         console.log('Inicio de sesión exitoso');
       } else {
         // Muestra un mensaje de error si las credenciales son incorrectas

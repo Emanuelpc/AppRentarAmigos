@@ -1,6 +1,7 @@
 import { MDBCol, MDBContainer, MDBRow, MDBCard, MDBCardText, MDBCardBody, MDBCardImage, MDBBtn, MDBTypography } from 'mdb-react-ui-kit';
 import React, { useState, useEffect } from 'react';
-import Navbar from "./Componentes/NavbarPerfiles";
+import Navbar from "./Componentes/Navbar";
+import { useUser } from './UserContext';
 //import { useLocation } from 'react-router-dom';
 
 import Axios from "axios";
@@ -9,12 +10,13 @@ export default function PerfilCliente({}){
 
   const [clientePerfil, setClientePerfil] = useState();
   const [loading, setLoading] = useState(true);
-
   const [clientefotos,setclientefotos] = useState();
+  const { user } = useUser();
   
   const getAmigoPerfilFotos = () => {
-    const params = new URLSearchParams(window.location.search);
-    const data = params.get('data');
+    //const params = new URLSearchParams(window.location.search);
+    //const data = params.get('data');
+    const data = user.idCliente;    ;
     console.log('Valor recibido:', data);
     Axios.get("http://localhost:3001/ClientePerfilFotos", {
       params: {
@@ -30,8 +32,9 @@ export default function PerfilCliente({}){
   });
 } 
   const getClientePerfil = () => {
-    const params = new URLSearchParams(window.location.search);
-    const data = params.get('data');
+    //const params = new URLSearchParams(window.location.search);
+    //const data = params.get('data');
+    const data = user.idCliente; 
     console.log('Valor recibido:', data);
     Axios.get("http://localhost:3001/Perfilcliente1", {
       params: {
