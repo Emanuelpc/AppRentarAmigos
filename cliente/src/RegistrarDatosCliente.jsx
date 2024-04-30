@@ -172,11 +172,11 @@ function RegistrarDatosCliente() {
           <div className="d-flex">
             <FormCheck
               className={`gender-radio ${camposIncompletos.includes('Hombre') ? 'campos-incompletos' : ''}`}
-              type="radio" name="Genero" id="Hombre" label="Hombre" value="Hombre" onChange={handleChange} required
+              type="radio" name="Genero" id="Hombre" label="Masculino" value="Hombre" onChange={handleChange} required
             />
             <FormCheck
               className={`gender-radio ${camposIncompletos.includes('Mujer') ? 'campos-incompletos' : ''}`}
-              type="radio" name="Genero" id="Mujer" label="Mujer" value="Mujer" onChange={handleChange}
+              type="radio" name="Genero" id="Mujer" label="Femenino" value="Mujer" onChange={handleChange}
             />
             <FormCheck
               className={`gender-radio ${camposIncompletos.includes('Otro') ? 'campos-incompletos' : ''}`}
