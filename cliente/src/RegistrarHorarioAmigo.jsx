@@ -112,7 +112,7 @@ function RegistrarHorarioAmigo() {
 
 
   const handleNextButtonClick = () => {
-    console.log("Contenido de horario:", lunes);
+    console.log(horario);
   };
 
   const add = () => {
@@ -226,7 +226,7 @@ function RegistrarHorarioAmigo() {
               images
               }
             }}>
-              <Button variant="primary" onClick={add} className="custom-next-button">Siguiente</Button>
+              <Button variant="primary" onClick={handleNextButtonClick} className="custom-next-button">Siguiente</Button>
             </Link>
             ) : (
               <Button variant="primary" disabled className="custom-next-button">Siguiente</Button>
