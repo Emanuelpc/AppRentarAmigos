@@ -14,7 +14,6 @@ import RegistrarDatosCliente from "./RegistrarDatosCliente";
 import RegistrarFotosCliente from "./RegistrarFotosCliente";
 import RegistrarUbicacionCliente from "./RegistrarUbicacionCliente";
 import Login from "./Login";
-import VerClientes from "./VerClientes";
 import SolicitudesaAmigos from "./SolicitudesaAmigos";
 import CitasAmigos from "./CitasAmigos";
 import { UserProvider } from './UserContext';
@@ -40,7 +39,6 @@ function App() {
         <Route path="RegistrarDatosCliente" element={<RegistrarDatosCliente />}/>
         <Route path="RegistrarFotosCliente" element={<RegistrarFotosCliente />}/>
         <Route path="RegistrarUbicacionCliente" element={<RegistrarUbicacionCliente />}/>
-        <Route path="VerClientes" element={<VerClientes />}/>
         <Route path="CitasAmigos" element={<CitasAmigos />}/>
         <Route path="SolicitudesaAmigos" element={<SolicitudesaAmigos />}/>
       </Routes>

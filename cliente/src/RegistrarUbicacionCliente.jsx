@@ -6,6 +6,7 @@ import { Link, useLocation } from 'react-router-dom';
 import ComboBox from './Componentes/ComboBox';
 import { Button, Modal } from 'react-bootstrap'; // Importa el Modal de Bootstrap
 import termsAndConditionsTextCompleto from './Componentes/termsAndConditionsText';
+import { useUser } from './UserContext';
 
 function RegistrarUbicacionCliente() {
   const [departamentosList, setdepartamentos] = useState([]);
@@ -19,6 +20,7 @@ function RegistrarUbicacionCliente() {
   const [showSuccessModal, setShowSuccessModal] = useState(false); // Estado para controlar la apertura y cierre del modal de éxito
   const [showErrorModal, setShowErrorModal] = useState(false); // Estado para controlar la apertura y cierre del modal de error
   const [errorMessage, setErrorMessage] = useState(""); // Nuevo estado para el mensaje de error personalizado
+  const { updateUser } = useUser();
 
   const location = useLocation();
   const { Nombre, Apellido, CorreoElectronico, Password, fechaNacimiento, Genero, seleccionPrecio, images } = location.state?.data || {};
@@ -65,6 +67,17 @@ function RegistrarUbicacionCliente() {
           }).catch(() => {
             setShowErrorModal(true); // Abre el modal de error si no se pudo obtener el ID del usuario
           });
+          Axios.get("http://localhost:3001/ClientePerfil", {
+          params: {
+          idCliente:lastUserID
+          }
+          }).then((response) => {
+          // Manejar la respuesta
+          console.log(response.data[0]);
+          updateUser(response.data[0]);
+          }).catch(() => {
+            setShowErrorModal(true); // Abre el modal de error si no se pudo obtener el ID del usuario
+          });
         }).catch(() => {
           setShowErrorModal(true); // Abre el modal de error si no se pudo obtener el ID del usuario
         });
@@ -101,8 +114,8 @@ function RegistrarUbicacionCliente() {
     <div>
       <Navbar />
       <form className="form-ubicacion">
-        <h1>Registrar Cliente</h1>
-        <h3 style={{ textAlign: 'left' }}>Registrar Ubicacion del Cliente</h3>
+        <h1 style={{fontWeight: 'bold'}}>Registrar Cliente</h1>
+        <h3 style={{ textAlign: 'left', fontWeight: 'bold' }}>Registrar Ubicación del Cliente</h3>
         <h3 style={{ textAlign: 'left' }}>Seleccionar Departamento</h3>
         <ComboBox
           label=""
@@ -130,14 +143,14 @@ function RegistrarUbicacionCliente() {
           selectedValue={selectedOptionCiudades}
           onChange={handleComboBoxChangeCiudades}
         />
-        <h3>Terminos y Condiciones</h3>
+        <h3 style={{marginTop:'30px'}}>Términos y Condiciones</h3>
         <textarea
           readOnly
           rows={10}
           cols={60}
           value={termsAndConditionsText}
           onChange={(e) => setTermsAndConditionsText(e.target.value)}
-          style={{ textAlign: 'justify', margin: 'auto', display: 'block' }}
+          style={{ textAlign: 'justify', margin: 'auto', display: 'block', padding:'15px' }}
         />
         <div style={{ textAlign: 'left' }}>
           <input
@@ -148,7 +161,7 @@ function RegistrarUbicacionCliente() {
             checked={termsAndConditionsAccepted}
             onChange={(e) => setTermsAndConditionsAccepted(e.target.checked)}
           />
-          <label htmlFor="acceptTerms">Aceptar Términos y Condiciones</label>
+          <label htmlFor="acceptTerms" style={{marginTop:'30px'}}>Aceptar Términos y Condiciones</label>
           <br></br>
           <input
             type="checkbox"
@@ -158,7 +171,7 @@ function RegistrarUbicacionCliente() {
             checked={privacyPolicyAccepted}
             onChange={(e) => setPrivacyPolicyAccepted(e.target.checked)}
           />
-          <label htmlFor="acceptPrivacyPolicy">Aceptar las politicas de privacidad</label>
+          <label htmlFor="acceptPrivacyPolicy" style={{marginTop:'10px'}}>Aceptar las politicas de privacidad</label>
         </div>
         <div>
           <Link to="/RegistrarFotosCliente">
@@ -177,7 +190,7 @@ function RegistrarUbicacionCliente() {
           El Cliente ha sido registrado exitosamente.
         </Modal.Body>
         <Modal.Footer>
-        <Link to="/BuscadorAmigo">
+        <Link to="/">
           <Button variant="secondary" onClick={() => setShowSuccessModal(false)}>
             Cerrar
           </Button>
@@ -204,3 +217,4 @@ function RegistrarUbicacionCliente() {
 }
 
 export default RegistrarUbicacionCliente;
+
