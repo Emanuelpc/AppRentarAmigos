@@ -600,6 +600,27 @@ app.post("/solicitudalquiler", (req,res)=>{
         );
 });
 
+//Endpoint para obtener todos los Datos de : AmigoPerfil intereses
+app.get("/solicitudescliente", (req, res) => {
+    //Obtener Valores de los parámetros de la URL
+    const { id } = req.query;
+    console.log(id);
+    let query=`SELECT solicitudamigo.idSolicitudAmigo,solicitudamigo.Turno,solicitudamigo.horas,solicitudamigo.fecha,solicitudamigo.ubicacion,solicitudamigo.motivoAlquiler,solicitudamigo.total,solicitudamigo.idAmigo,solicitudamigo.idCliente,amigo.Nombre,amigo.Apellido  
+    FROM solicitudamigo , amigo 
+    WHERE solicitudamigo.idCliente = '${id}' AND  solicitudamigo.idAmigo = amigo.idAmigo`
+    console.log(query)
+    db.query(query,
+        (err, result) => {
+            if (err) {
+                console.log(err);
+                res.status(500).send("Error al obtener amigo");
+            } else {
+                res.send(result);
+            }
+        }
+    );
+});
+
 //Inicialización del servidor:
 
 app.listen(3001, () => {

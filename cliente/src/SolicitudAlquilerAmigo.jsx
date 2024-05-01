@@ -297,7 +297,7 @@ const convertirADiaIngles = (dia) => {
             .then((response) => {
                 // Manejar la respuesta del servidor si es necesario
                 console.log("Solicitud de alquiler enviada con éxito:", response.data);
-                navigate(`/PerfilCliente`);
+                navigate(`/SolicitudesaAmigos`);
             })
             .catch((error) => {
                 console.error("Error al enviar la solicitud de alquiler:", error);
