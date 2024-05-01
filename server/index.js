@@ -568,6 +568,38 @@ app.get("/amigohorarioalquiler", (req, res) => {
     );
 });
 
+app.post("/solicitudalquiler", (req,res)=>{
+    const turno = req.body.turno;
+    const horas = req.body.horas;
+    const fecha = convertirFechaMySQL(req.body.fecha);
+    const ubicacion = req.body.ubicacion;
+    const motivoAlquiler = req.body.motivoAlquiler;
+    const total = req.body.total;
+    const idAmigo = req.body.idAmigo;
+    const idCliente = req.body.idCliente;
+    
+    
+    console.log(turno);
+    console.log(horas);
+    console.log(fecha);
+    console.log(ubicacion);
+    console.log(motivoAlquiler);
+    console.log(total);
+    console.log(idAmigo);
+    console.log(idCliente);
+
+        db.query('INSERT INTO solicitudamigo(Turno,horas,fecha,ubicacion,motivoAlquiler,total,idAmigo,idCliente) VALUES(?,?,?,?,?,?,?,?)',
+        [turno,horas[0],fecha,ubicacion,motivoAlquiler,total,idAmigo,idCliente],
+        (err, result) => {
+            if(err){
+                console.log(err);
+            }else{
+                res.send("Solicitud Registrado con Exito");
+            }
+        } 
+        );
+});
+
 //Inicialización del servidor:
 
 app.listen(3001, () => {
@@ -583,4 +615,19 @@ function quitarParte(cadena, parte) {
 
 function quitarPalabraDeArray(array, palabra) {
     return array.map(cadena => quitarParte(cadena, palabra));
+}
+
+function convertirFechaMySQL(fechaTexto) {
+    // Parsea la fecha en formato texto
+    var fechaObjeto = new Date(fechaTexto);
+
+    // Obtiene los componentes de la fecha
+    var año = fechaObjeto.getFullYear();
+    var mes = fechaObjeto.getMonth() + 1; // Los meses van de 0 a 11, así que sumamos 1
+    var dia = fechaObjeto.getDate();
+
+    // Ajusta el formato de la fecha para MySQL
+    var fechaMySQL = año + '-' + (mes < 10 ? '0' : '') + mes + '-' + (dia < 10 ? '0' : '') + dia + ' 00:00:00';
+
+    return fechaMySQL;
 }

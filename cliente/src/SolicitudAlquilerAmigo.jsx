@@ -7,9 +7,10 @@ import { TiClipboard, TiLocation } from 'react-icons/ti'; // Importa el icono de
 import { CiMoneyBill,CiAlarmOn,CiCalendar,CiViewList } from "react-icons/ci";
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
-import { useLocation } from "react-router-dom";
+import { useLocation,useNavigate } from "react-router-dom";
 import Axios from "axios";
 import Button from 'react-bootstrap/esm/Button';
+import { useUser } from './UserContext';
 
 function SolicitudAlquilerAmigo() {
     const [date, setDate] = useState(new Date());
@@ -27,6 +28,9 @@ function SolicitudAlquilerAmigo() {
     const [total, setTotal] = useState(0);
     const [ubicacion, setUbicacion] = useState('');
     const [motivoAlquiler, setMotivoAlquiler] = useState('');
+    const [solicitudesAlquiler, setSolicitudesAlquiler] = useState([]);
+    const { user } = useUser();
+    const navigate = useNavigate();
 
 
     const getAmigoAlquiler = () => {
@@ -263,6 +267,49 @@ const convertirADiaIngles = (dia) => {
     };
 
 
+     // Manejar el envío de la solicitud de alquiler
+     const handleEnviarSolicitud = () => {
+        // Crear objeto que representa la solicitud de alquiler
+        const nuevaSolicitud = {
+            turno: seleccionesUsuario.turno,
+            horas: seleccionesUsuario.horas,
+            fecha: date.toDateString(),
+            ubicacion: ubicacion,
+            motivoAlquiler: motivoAlquiler,
+            total: total,
+            idAmigo:id,
+            idCliente:user.idCliente
+        };
+
+        // Agregar la nueva solicitud al array de solicitudes de alquiler
+        setSolicitudesAlquiler([...solicitudesAlquiler, nuevaSolicitud]);
+
+        Axios.post("http://localhost:3001/solicitudalquiler", {
+            turno: seleccionesUsuario.turno,
+            horas: seleccionesUsuario.horas,
+            fecha: date.toDateString(),
+            ubicacion: ubicacion,
+            motivoAlquiler: motivoAlquiler,
+            total: total,
+            idAmigo:id,
+            idCliente:user.idCliente
+        })
+            .then((response) => {
+                // Manejar la respuesta del servidor si es necesario
+                console.log("Solicitud de alquiler enviada con éxito:", response.data);
+                navigate(`/PerfilCliente`);
+            })
+            .catch((error) => {
+                console.error("Error al enviar la solicitud de alquiler:", error);
+            });
+    };
+
+    useEffect(() => {
+        console.log(solicitudesAlquiler);
+    }, [solicitudesAlquiler]);
+    
+
+
     return (
         <div>
             <Navbar />
@@ -373,7 +420,7 @@ const convertirADiaIngles = (dia) => {
                                                 <h3 className="ms-3 text-primary fw-bold">Total: {total} BS</h3>
                                                 </div>
                                             </div>
-                                            <Button style={{margin:'5px'}}>Mandar Solicitud Alquiler</Button>
+                                            <Button style={{margin:'5px'}} onClick={handleEnviarSolicitud}>Mandar Solicitud Alquiler</Button>
                                         </MDBCard>
                                     </MDBCol>
                                 </MDBRow>
