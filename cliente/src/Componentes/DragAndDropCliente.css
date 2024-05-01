@@ -76,3 +76,6 @@
 .form-subirImagen h3 {
   color: #000000;
 }
+.drag-drop-container.has-dragged-image {
+  background-image: none; /* Oculta el fondo cuando se ha arrastrado una imagen */
+}

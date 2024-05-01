@@ -4,13 +4,19 @@ import './DragAndDropCliente.css';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 
-const DragAndDropCliente = ({ Nombre, Apellido, CorreoElectronico, Password, fechaNacimiento, Genero, seleccionPrecio}) => {
+const DragAndDropCliente = ({ Nombre, Apellido, CorreoElectronico, Password, fechaNacimiento, Genero, seleccionPrecio }) => {
   console.log(Nombre, Apellido, CorreoElectronico, Password, fechaNacimiento, Genero, seleccionPrecio);
   const [images, setImages] = useState([]);
   const [showMaxImagesAlert, setShowMaxImagesAlert] = useState(false);
   const [isDragging, setIsDragging] = useState(false);
+  const [hasDraggedImages, setHasDraggedImages] = useState(false); // Nuevo estado
   const fileInputRef = useRef(null);
   const MAX_IMAGES = 5;
+
+
+  c const [hasDraggedImage, setHasDraggedImage] = useState(false); // Estado para controlar si se ha arrastrado alguna imagen
+  const [hasUploadedImages, setHasUploadedImages] = useState(false); // Estado para controlar si se han subido imágenes
+  const [showBackground, setShowBackground] = useState(true);
 
   // Función para subir una imagen a Cloudinary
   const uploadImageToCloudinary = async (file) => {
@@ -34,7 +40,8 @@ const DragAndDropCliente = ({ Nombre, Apellido, CorreoElectronico, Password, fec
   const handleDrop = async (e) => {
     e.preventDefault();
     setIsDragging(false);
-
+setHasDraggedImage(true);
+setShowBackground(false);
     const files = Array.from(e.dataTransfer.files);
     const imageFiles = files.filter((file) => file.type.startsWith('image/'));
 
@@ -46,6 +53,7 @@ const DragAndDropCliente = ({ Nombre, Apellido, CorreoElectronico, Password, fec
     try {
       const uploadedImageURLs = await Promise.all(imageFiles.map(uploadImageToCloudinary));
       setImages((prevImages) => [...prevImages, ...uploadedImageURLs]);
+      setHasDraggedImages(true); // Actualizar estado
     } catch (error) {
       console.error('Error al subir imágenes a Cloudinary:', error);
     }
@@ -67,6 +75,7 @@ const DragAndDropCliente = ({ Nombre, Apellido, CorreoElectronico, Password, fec
     try {
       const uploadedImageURLs = await Promise.all(imageFiles.map(uploadImageToCloudinary));
       setImages((prevImages) => [...prevImages, ...uploadedImageURLs]);
+      setHasDraggedImages(true); // Actualizar estado
     } catch (error) {
       console.error('Error al subir imágenes a Cloudinary:', error);
     }
@@ -74,6 +83,7 @@ const DragAndDropCliente = ({ Nombre, Apellido, CorreoElectronico, Password, fec
 
   const handleImageRemove = (imageURLToRemove) => {
     setImages((prevImages) => prevImages.filter((image) => image !== imageURLToRemove));
+    setHasDraggedImages(images.length > 1); // Actualizar estado
   };
 
   const handleDragOver = (e) => {
@@ -102,6 +112,11 @@ const DragAndDropCliente = ({ Nombre, Apellido, CorreoElectronico, Password, fec
     setImages([]);
   };
 
+  const handleNextButtonClick = () => {
+    // Manejar la acción del botón "Siguiente"
+    console.log('Botón Siguiente presionado');
+  };
+
   return (
     <Container>
       <form className='form-subirImagen'>
@@ -109,8 +124,8 @@ const DragAndDropCliente = ({ Nombre, Apellido, CorreoElectronico, Password, fec
         <h3 style={{ textAlign: 'left' }}>Registrar Fotos para el perfil Cliente</h3>
         <Row>
           <Col>
-            <div
-              className={`drag-drop-container d-flex flex-wrap justify-content-center ${isDragging ? 'dragging-over' : ''}`}
+          <div
+              className={`drag-drop-container d-flex flex-wrap justify-content-center ${isDragging ? 'dragging-over' : ''} ${hasDraggedImage ? 'has-dragged-image' : ''}`}
               onDrop={handleDrop}
               onDragOver={handleDragOver}
               onDragEnter={handleDragEnter}
@@ -121,7 +136,7 @@ const DragAndDropCliente = ({ Nombre, Apellido, CorreoElectronico, Password, fec
                   <img
                     src={imageUrl}
                     alt="Dropped"
-                    style={{ maxWidth: '300px', maxHeight: '300px' }} 
+                    style={{ maxWidth: '300px', maxHeight: '300px' }}
                   />
                   <button
                     className="btn btn-danger btn-sm remove-button"
@@ -141,6 +156,7 @@ const DragAndDropCliente = ({ Nombre, Apellido, CorreoElectronico, Password, fec
               type="file"
               style={{ display: 'none' }}
               multiple
+              accept="image/*" // Esto limita la selección de archivos solo a imágenes
               onChange={handleFileInputChange}
             />
           </Col>
@@ -150,20 +166,25 @@ const DragAndDropCliente = ({ Nombre, Apellido, CorreoElectronico, Password, fec
             <Link to="/RegistrarDatosCliente">
               <Button variant="secondary" className="ml-2 custom-cancel-button" onClick={handleCancel}>Volver</Button>
             </Link>
-            <Link to="/RegistrarUbicacionCliente" state={{
-              data: {
-                Nombre,
-                Apellido,
-                CorreoElectronico,
-                Password,
-                fechaNacimiento,
-                Genero,
-                seleccionPrecio,
-                images
-              }
-            }}>
-              <Button variant="primary" className="custom-next-button" onClick={handleSaveImages}>Siguiente</Button>
-            </Link>
+            {hasDraggedImages ? (
+              <Link to="/RegistrarUbicacionAmigo" state={
+                {
+                  data: {
+                    Nombre,
+                    Apellido,
+                    CorreoElectronico,
+                    Password,
+                    fechaNacimiento,
+                    Genero,
+                    seleccionPrecio,
+                    images
+                  }
+                }}>
+                <Button variant="primary" onClick={handleNextButtonClick} className="custom-next-button">Siguiente</Button>
+              </Link>
+            ) : (
+              <Button variant="primary" disabled className="custom-next-button">Siguiente</Button>
+            )}
           </Col>
         </Row>
       </form>
