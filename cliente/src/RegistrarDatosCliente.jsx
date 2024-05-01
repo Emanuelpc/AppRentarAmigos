@@ -11,6 +11,7 @@ function RegistrarDatosCliente() {
   const [Nombre, setNombre] = useState("");
   const [Apellido, setApellido] = useState("");
   const [CorreoElectronico, setCorreoElectronico] = useState("");
+  const [CorreoValido, setCorreoValido] = useState(true); // Estado para almacenar si el correo es válido
   const [Password, setPassword] = useState("");
   const [fechaNacimiento, setfechaNacimiento] = useState("");
   const [Genero, setGenero] = useState("Masculino");
@@ -98,6 +99,12 @@ function RegistrarDatosCliente() {
     setShowModal(false);
   }
 
+  // Función para verificar si el correo es válido
+  const verificarCorreo = (correo) => {
+    const correoEspecial = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    setCorreoValido(correoEspecial.test(correo));
+  };
+
   return (
     <div>
       <Navbar />
@@ -136,11 +143,15 @@ function RegistrarDatosCliente() {
           type="email"
           name="correo"
           id="correo"
-          onChange={(event) => setCorreoElectronico(event.target.value)}
+          onChange={(event) => {
+            setCorreoElectronico(event.target.value);
+            verificarCorreo(event.target.value); // Verificar el correo mientras se escribe
+          }}
           placeholder={`Ingrese su Correo ${showPlaceholderAsterisk ? "*" : ""}`}
           required
-          maxLength={50}
+          maxLength={45}
         />
+        {!CorreoValido && <p style={{ color: '#112A4A' }}>Por favor, ingrese un correo electrónico válido.</p>}
         <br />
 
         <input
@@ -242,8 +253,8 @@ function RegistrarDatosCliente() {
 
       </form>
 
-        {/* Modal para mostrar cuando los campos no estén completos */}
-        <Modal show={showModal} onHide={handleCloseModal} centered>
+      {/* Modal para mostrar cuando los campos no estén completos */}
+      <Modal show={showModal} onHide={handleCloseModal} centered>
         <Modal.Header closeButton>
           <Modal.Title>{modalContent.title}</Modal.Title>
         </Modal.Header>
