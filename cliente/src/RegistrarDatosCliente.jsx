@@ -11,6 +11,7 @@ function RegistrarDatosCliente() {
   const [Nombre, setNombre] = useState("");
   const [Apellido, setApellido] = useState("");
   const [CorreoElectronico, setCorreoElectronico] = useState("");
+  const [CorreoValido, setCorreoValido] = useState(true); // Estado para almacenar si el correo es válido
   const [Password, setPassword] = useState("");
   const [fechaNacimiento, setfechaNacimiento] = useState("");
   const [Genero, setGenero] = useState("Masculino");
@@ -72,6 +73,14 @@ function RegistrarDatosCliente() {
       handleShowModal("Error", "El apellido solo puede contener letras y espacios.", "Cerrar", handleCloseModal);
       return;
     }
+    if (Nombre.length < 3) {
+      handleShowModal("Error", "El nombre debe tener al menos 3 caracteres.", "Cerrar", handleCloseModal);
+      return;
+    }
+    if (Apellido.length < 3) {
+      handleShowModal("Error", "El apellido debe tener al menos 3 caracteres.", "Cerrar", handleCloseModal);
+      return;
+    }
 
     if (Password.length < 8) {
       handleShowModal("Error", "La contraseña debe tener al menos 8 caracteres.", "Cerrar", handleCloseModal);
@@ -90,6 +99,12 @@ function RegistrarDatosCliente() {
     setShowModal(false);
   }
 
+  // Función para verificar si el correo es válido
+  const verificarCorreo = (correo) => {
+    const correoEspecial = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    setCorreoValido(correoEspecial.test(correo));
+  };
+
   return (
     <div>
       <Navbar />
@@ -106,6 +121,7 @@ function RegistrarDatosCliente() {
           placeholder={`Ingrese su Nombre ${showPlaceholderAsterisk ? "*" : ""}`}
           required
           maxLength={24}
+          minLength={3}
         />
         <br />
 
@@ -118,6 +134,7 @@ function RegistrarDatosCliente() {
           placeholder={`Ingrese su Apellido ${showPlaceholderAsterisk ? "*" : ""}`}
           required
           maxLength={24}
+          minLength={3}
         />
         <br />
 
@@ -126,11 +143,15 @@ function RegistrarDatosCliente() {
           type="email"
           name="correo"
           id="correo"
-          onChange={(event) => setCorreoElectronico(event.target.value)}
+          onChange={(event) => {
+            setCorreoElectronico(event.target.value);
+            verificarCorreo(event.target.value); // Verificar el correo mientras se escribe
+          }}
           placeholder={`Ingrese su Correo ${showPlaceholderAsterisk ? "*" : ""}`}
           required
-          maxLength={24}
+          maxLength={45}
         />
+        {!CorreoValido && <p style={{ color: '#112A4A' }}>Por favor, ingrese un correo electrónico válido.</p>}
         <br />
 
         <input
@@ -153,17 +174,23 @@ function RegistrarDatosCliente() {
           onChange={(event) => {
             const selectedDate = new Date(event.target.value);
             const maxDate = new Date('2006-12-31');
+            const minDate = new Date('1950-01-01')
             if (selectedDate > maxDate) {
               event.target.value = '2006-12-31';
-              handleShowModal("Error", "La Aplicacion solo Acepta Personas Mayores 18", "Cerrar", handleCloseModal);
+              handleShowModal("Error", "La Aplicación solo Acepta Personas Mayores de 18 años", "Cerrar", handleCloseModal);
               setfechaNacimiento('2006-12-31');
+            } else if (selectedDate < minDate) {
+              event.target.value = '1950-01-01';
+              handleShowModal("Error", "La Aplicación solo Acepta Personas Menores de 75 años", "Cerrar", handleCloseModal);
+              setfechaNacimiento('1950-01-01');
             } else {
               setfechaNacimiento(event.target.value);
             }
           }}
           placeholder={`Ingrese su Fecha de Nacimiento ${showPlaceholderAsterisk ? "*" : ""}`}
           required
-          max="2006-01-01"
+          max="2006-12-31"
+          min="1950-01-01"
         />
         <br />
 
@@ -172,11 +199,11 @@ function RegistrarDatosCliente() {
           <div className="d-flex">
             <FormCheck
               className={`gender-radio ${camposIncompletos.includes('Hombre') ? 'campos-incompletos' : ''}`}
-              type="radio" name="Genero" id="Hombre" label="Hombre" value="Hombre" onChange={handleChange} required
+              type="radio" name="Genero" id="Hombre" label="Masculino" value="Hombre" onChange={handleChange} required
             />
             <FormCheck
               className={`gender-radio ${camposIncompletos.includes('Mujer') ? 'campos-incompletos' : ''}`}
-              type="radio" name="Genero" id="Mujer" label="Mujer" value="Mujer" onChange={handleChange}
+              type="radio" name="Genero" id="Mujer" label="Femenino" value="Mujer" onChange={handleChange}
             />
             <FormCheck
               className={`gender-radio ${camposIncompletos.includes('Otro') ? 'campos-incompletos' : ''}`}
@@ -199,7 +226,7 @@ function RegistrarDatosCliente() {
         />
         <br />
 
-        <Link to="/BuscadorAmigo">
+        <Link to="/">
           <Button variant="danger" className="ml-2 custom-cancel-button" size="lg">Cancelar</Button>
         </Link>
         <Link
@@ -226,8 +253,8 @@ function RegistrarDatosCliente() {
 
       </form>
 
-        {/* Modal para mostrar cuando los campos no estén completos */}
-        <Modal show={showModal} onHide={handleCloseModal} centered>
+      {/* Modal para mostrar cuando los campos no estén completos */}
+      <Modal show={showModal} onHide={handleCloseModal} centered>
         <Modal.Header closeButton>
           <Modal.Title>{modalContent.title}</Modal.Title>
         </Modal.Header>

@@ -12,6 +12,7 @@ function RegistrarDatosAmigo() {
   const [Nombre, setNombre] = useState("");
   const [Apellido, setApellido] = useState("");
   const [CorreoElectronico, setCorreoElectronico] = useState("");
+  const [CorreoValido, setCorreoValido] = useState(true); // Estado para almacenar si el correo es válido
   const [Password, setPassword] = useState("");
   const [fechaNacimiento, setfechaNacimiento] = useState("");
   const [Genero, setGenero] = useState("Masculino");
@@ -100,6 +101,12 @@ function RegistrarDatosAmigo() {
     setShowModal(false);
   }
 
+  // Función para verificar si el correo es válido
+  const verificarCorreo = (correo) => {
+    const correoEspecial = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    setCorreoValido(correoEspecial.test(correo));
+  };
+
   return (
     <div>
       <Navbar />
@@ -136,11 +143,15 @@ function RegistrarDatosAmigo() {
           type="email"
           name="correo"
           id="correo"
-          onChange={(event) => setCorreoElectronico(event.target.value)}
+          onChange={(event) => {
+            setCorreoElectronico(event.target.value);
+            verificarCorreo(event.target.value); // Verificar el correo mientras se escribe
+          }}
           placeholder={`Ingrese su Correo ${showPlaceholderAsterisk ? "*" : ""}`}
           required
-          maxLength={24}
+          maxLength={45}
         />
+        {!CorreoValido && <p style={{ color: '#112A4A' }}>Por favor, ingrese un correo electrónico válido.</p>}
         <br />
 
         <input
@@ -182,11 +193,11 @@ function RegistrarDatosAmigo() {
           <div className="d-flex">
             <FormCheck
               className={`gender-radio ${camposIncompletos.includes('Hombre') ? 'campos-incompletos' : ''}`}
-              type="radio" name="Genero" id="Hombre" label="Hombre" value="Hombre" onChange={handleChange} required
+              type="radio" name="Genero" id="Hombre" label="Masculino" value="Hombre" onChange={handleChange} required
             />
             <FormCheck
               className={`gender-radio ${camposIncompletos.includes('Mujer') ? 'campos-incompletos' : ''}`}
-              type="radio" name="Genero" id="Mujer" label="Mujer" value="Mujer" onChange={handleChange}
+              type="radio" name="Genero" id="Mujer" label="Femenino" value="Mujer" onChange={handleChange}
             />
             <FormCheck
               className={`gender-radio ${camposIncompletos.includes('Otro') ? 'campos-incompletos' : ''}`}
