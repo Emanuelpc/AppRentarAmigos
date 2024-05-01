@@ -72,6 +72,14 @@ function RegistrarDatosCliente() {
       handleShowModal("Error", "El apellido solo puede contener letras y espacios.", "Cerrar", handleCloseModal);
       return;
     }
+    if (Nombre.length < 3) {
+      handleShowModal("Error", "El nombre debe tener al menos 3 caracteres.", "Cerrar", handleCloseModal);
+      return;
+    }
+    if (Apellido.length < 3) {
+      handleShowModal("Error", "El apellido debe tener al menos 3 caracteres.", "Cerrar", handleCloseModal);
+      return;
+    }
 
     if (Password.length < 8) {
       handleShowModal("Error", "La contraseña debe tener al menos 8 caracteres.", "Cerrar", handleCloseModal);
@@ -106,6 +114,7 @@ function RegistrarDatosCliente() {
           placeholder={`Ingrese su Nombre ${showPlaceholderAsterisk ? "*" : ""}`}
           required
           maxLength={24}
+          minLength={3}
         />
         <br />
 
@@ -118,6 +127,7 @@ function RegistrarDatosCliente() {
           placeholder={`Ingrese su Apellido ${showPlaceholderAsterisk ? "*" : ""}`}
           required
           maxLength={24}
+          minLength={3}
         />
         <br />
 
@@ -129,7 +139,7 @@ function RegistrarDatosCliente() {
           onChange={(event) => setCorreoElectronico(event.target.value)}
           placeholder={`Ingrese su Correo ${showPlaceholderAsterisk ? "*" : ""}`}
           required
-          maxLength={24}
+          maxLength={50}
         />
         <br />
 
@@ -153,17 +163,23 @@ function RegistrarDatosCliente() {
           onChange={(event) => {
             const selectedDate = new Date(event.target.value);
             const maxDate = new Date('2006-12-31');
+            const minDate = new Date('1950-01-01')
             if (selectedDate > maxDate) {
               event.target.value = '2006-12-31';
-              handleShowModal("Error", "La Aplicacion solo Acepta Personas Mayores 18", "Cerrar", handleCloseModal);
+              handleShowModal("Error", "La Aplicación solo Acepta Personas Mayores de 18 años", "Cerrar", handleCloseModal);
               setfechaNacimiento('2006-12-31');
+            } else if (selectedDate < minDate) {
+              event.target.value = '1950-01-01';
+              handleShowModal("Error", "La Aplicación solo Acepta Personas Menores de 75 años", "Cerrar", handleCloseModal);
+              setfechaNacimiento('1950-01-01');
             } else {
               setfechaNacimiento(event.target.value);
             }
           }}
           placeholder={`Ingrese su Fecha de Nacimiento ${showPlaceholderAsterisk ? "*" : ""}`}
           required
-          max="2006-01-01"
+          max="2006-12-31"
+          min="1950-01-01"
         />
         <br />
 
@@ -199,7 +215,7 @@ function RegistrarDatosCliente() {
         />
         <br />
 
-        <Link to="/BuscadorAmigo">
+        <Link to="/">
           <Button variant="danger" className="ml-2 custom-cancel-button" size="lg">Cancelar</Button>
         </Link>
         <Link
