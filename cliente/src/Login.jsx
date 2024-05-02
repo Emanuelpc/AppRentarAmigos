@@ -97,7 +97,7 @@ function Login() {
 
                   {error && <p className="text-danger">{error}</p>}
                   <div className="text-center mb-4">
-                    <MDBBtn type="submit" className="w-100 gradient-custom-2">Iniciar Sesión</MDBBtn>
+                    <Button type="submit" className="w-100 gradient-custom-2">Iniciar Sesión</Button>
                   </div>
                   <br />
                   <div className="text-center">

@@ -8,7 +8,7 @@ import { FaUser } from 'react-icons/fa';
 import './Navbar.css';
 function BasicNavbar() {
   const { user } = useUser();
-  console.log(user);
+  //console.log(user);
   return (
     <Navbar expand="lg" className="custom-navbar">
       <Container>

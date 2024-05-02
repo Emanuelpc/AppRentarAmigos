@@ -139,14 +139,15 @@ function RegistrarUbicacionAmigo() {
           selectedValue={selectedOptionCiudades}
           onChange={handleComboBoxChangeCiudades}
         />
-        <h3>Terminos y Condiciones</h3>
+        
+        <h3 style={{marginTop:'30px'}}>Terminos y Condiciones</h3>
         <textarea
           readOnly
           rows={10}
           cols={60}
           value={termsAndConditionsText}
           onChange={(e) => setTermsAndConditionsText(e.target.value)}
-          style={{ textAlign: 'justify', margin: 'auto', display: 'block' }}
+          style={{ textAlign: 'justify', margin: 'auto', display: 'block',padding:'15px' }}
         />
         <div style={{ textAlign: 'left' }}>
           <input
