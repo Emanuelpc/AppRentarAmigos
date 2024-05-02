@@ -11,6 +11,7 @@ function RegistrarDatosCliente() {
   const [Nombre, setNombre] = useState("");
   const [Apellido, setApellido] = useState("");
   const [CorreoElectronico, setCorreoElectronico] = useState("");
+  const [CorreoValido, setCorreoValido] = useState(true); // Estado para almacenar si el correo es válido
   const [Password, setPassword] = useState("");
   const [fechaNacimiento, setfechaNacimiento] = useState("");
   const [Genero, setGenero] = useState("");
@@ -33,7 +34,6 @@ function RegistrarDatosCliente() {
     setShowModal(true);
   };
 
-  const [botonDeshabilitado, setBotonDeshabilitado] = useState(false);
 
   const handleChange = (e) => {
     setGenero(e.target.value);
@@ -56,7 +56,6 @@ function RegistrarDatosCliente() {
     if (!seleccionPrecio) camposIncompletos.push("tarifa");
 
     setCamposIncompletos(camposIncompletos);
-    setBotonDeshabilitado(camposIncompletos.length > 0);
 
     if (camposIncompletos.length > 0) {
       handleShowModal("Datos personales incompletos", "Por favor, llene los campos marcados en rojo.", "Cerrar", handleCloseModal);
@@ -94,14 +93,42 @@ function RegistrarDatosCliente() {
       return;
     }
   };
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
   
-
-
+    // Verificar si contiene caracteres especiales
+    const caracteresEspeciales = /[^A-Za-z\s]/;
+    if (caracteresEspeciales.test(value)) {
+      handleShowModal("Error", `El ${name} solo puede contener letras y espacios.`, "Cerrar", handleCloseModal);
+      return;
+    }
+  
+    // Si no contiene caracteres especiales, actualizar el estado correspondiente
+    switch (name) {
+      case "nombres":
+        setNombre(value);
+        break;
+      case "apellidos":
+        setApellido(value);
+        break;
+      case "seleccionPrecio":
+        setSeleccionPrecio(value);
+        break;
+      default:
+        break;
+    }
+};
+  
   const handleCloseModal = () => {
     setShowModal(false);
   }
 
-
+  // Función para verificar si el correo es válido
+  const verificarCorreo = (correo) => {
+    const correoEspecial = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    setCorreoValido(correoEspecial.test(correo));
+  };
 
   return (
     <div>
@@ -115,7 +142,10 @@ function RegistrarDatosCliente() {
           type="text"
           name="nombres"
           id="nombres"
-          onChange={(event) => setNombre(event.target.value)}
+          onChange={(event) => {
+            setNombre(event.target.value);
+            handleInputChange(event.target.value); // Verificar el correo mientras se escribe
+          }}
           placeholder={`Ingrese su Nombre ${showPlaceholderAsterisk ? "*" : ""}`}
           required
           maxLength={24}
@@ -128,7 +158,10 @@ function RegistrarDatosCliente() {
           type="text"
           name="apellidos"
           id="apellidos"
-          onChange={(event) => setApellido(event.target.value)}
+          onChange={(event) => {
+            setApellido(event.target.value);
+            handleInputChange(event.target.value); // Verificar el correo mientras se escribe
+          }}
           placeholder={`Ingrese su Apellido ${showPlaceholderAsterisk ? "*" : ""}`}
           required
           maxLength={24}
@@ -141,11 +174,15 @@ function RegistrarDatosCliente() {
           type="email"
           name="correo"
           id="correo"
-          onChange={(event) => setCorreoElectronico(event.target.value)}
+          onChange={(event) => {
+            setCorreoElectronico(event.target.value);
+            verificarCorreo(event.target.value); // Verificar el correo mientras se escribe
+          }}
           placeholder={`Ingrese su Correo ${showPlaceholderAsterisk ? "*" : ""}`}
           required
-          maxLength={50}
+          maxLength={45}
         />
+        {!CorreoValido && <p style={{ color: '#112A4A' }}>Por favor, ingrese un correo electrónico válido.</p>}
         <br />
 
         <input
@@ -201,12 +238,15 @@ function RegistrarDatosCliente() {
         </div>
         <br />
 
-        <h3 style={{ textAlign: 'left' }}>Registrar Descripcion Personal</h3>
+        <h3 style={{ textAlign: 'left' }}>Registrar Descripción Personal</h3>
         <textarea
               className={`controls ${camposIncompletos.includes('tarifa') ? 'campos-incompletos' : ''}`}
               name="password"
               id="password"
-              onChange={(event) => setSeleccionPrecio(event.target.value)}
+              onChange={(event) => {
+                setSeleccionPrecio(event.target.value);
+                handleInputChange(event.target.value); // Verificar el correo mientras se escribe
+              }}
               required
               maxLength={200}
               rows={5} 
@@ -231,18 +271,19 @@ function RegistrarDatosCliente() {
               seleccionPrecio
             }
           }}
-          onClick={(e) => {
-            e.preventDefault(); // Prevenir el comportamiento predeterminado del enlace
-            verificarCamposCompletos();
+          onClick={() => {
+            if (!camposCompletos) {
+              verificarCamposCompletos();
+            }
           }}
         >
-          <Button variant="primary" className="custom-next-button" size="lg" disabled={botonDeshabilitado}>Siguiente</Button>
+          <Button variant="primary" className="ml-1 custom-next-button" size="lg">Siguiente</Button>
         </Link>
 
       </form>
 
-        {/* Modal para mostrar cuando los campos no estén completos */}
-        <Modal show={showModal} onHide={handleCloseModal} centered>
+      {/* Modal para mostrar cuando los campos no estén completos */}
+      <Modal show={showModal} onHide={handleCloseModal} centered>
         <Modal.Header closeButton>
           <Modal.Title>{modalContent.title}</Modal.Title>
         </Modal.Header>

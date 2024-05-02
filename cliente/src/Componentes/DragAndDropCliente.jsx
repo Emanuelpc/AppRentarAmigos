@@ -167,7 +167,7 @@ setShowBackground(false);
               <Button variant="secondary" className="ml-2 custom-cancel-button" onClick={handleCancel}>Volver</Button>
             </Link>
             {hasDraggedImages ? (
-              <Link to="/RegistrarUbicacionAmigo" state={
+              <Link to="/RegistrarUbicacionCliente" state={
                 {
                   data: {
                     Nombre,

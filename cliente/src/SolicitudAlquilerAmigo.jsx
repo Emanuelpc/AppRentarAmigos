@@ -1,18 +1,22 @@
 import React, { useState, useEffect } from 'react';
 import Navbar from "./Componentes/Navbar";
-import { MDBCol, MDBContainer, MDBRow, MDBCard, MDBCardBody, MDBCardImage, MDBCheckbox, MDBBtn } from 'mdb-react-ui-kit';
+import { MDBCol, MDBContainer, MDBRow, MDBCard, MDBCardBody, MDBCardImage, MDBRadio, MDBBtn } from 'mdb-react-ui-kit';
 import './SolicitudAlquilerAmigo.css';
 import 'material-icons/css/material-icons.css';
 import { TiClipboard, TiLocation } from 'react-icons/ti'; // Importa el icono de ubicación
 import { CiMoneyBill,CiAlarmOn,CiCalendar,CiViewList } from "react-icons/ci";
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
-import { useLocation } from "react-router-dom";
+import { useLocation,useNavigate } from "react-router-dom";
 import Axios from "axios";
+import Button from 'react-bootstrap/esm/Button';
+import { useUser } from './UserContext';
 
 function SolicitudAlquilerAmigo() {
     const [date, setDate] = useState(new Date());
-    const [diasLaborables, setDiasLaborables] = useState(['Monday', 'Wednesday', 'Friday']); // Lista de días laborables
+    const [diasLaborables, setDiasLaborables] = useState([]); // Lista de días laborables
+    const [DiasTurnos, setDiasTurnos] = useState([]); // Lista de Turnos laborables
+    const [HorasDisponiblesSeleccionadas, setHorasDisponiblesSeleccionadas] = useState([]);
     const [amigoalquiler, setamigoalquiler] = useState([]);
     const [amigoalquilerhorario, setamigoalquilerhorario] = useState([]);
     const [seleccionesUsuario, setSeleccionesUsuario] = useState({
@@ -22,6 +26,11 @@ function SolicitudAlquilerAmigo() {
     const location = useLocation();
     const { id } = location.state?.data || {};
     const [total, setTotal] = useState(0);
+    const [ubicacion, setUbicacion] = useState('');
+    const [motivoAlquiler, setMotivoAlquiler] = useState('');
+    const [solicitudesAlquiler, setSolicitudesAlquiler] = useState([]);
+    const { user } = useUser();
+    const navigate = useNavigate();
 
 
     const getAmigoAlquiler = () => {
@@ -128,21 +137,21 @@ const convertirADiaIngles = (dia) => {
     }
 
     const handleTurnoChange = (event) => {
-        setSeleccionesUsuario({ ...seleccionesUsuario, turno: event.target.value });
+        const turnoSeleccionado = event.target.value;
+        setSeleccionesUsuario({ ...seleccionesUsuario, turno: turnoSeleccionado });
+
+        // Filtrar las horas disponibles según el turno seleccionado
+        const horasDisponibles = obtenerHorasDisponibles(turnoSeleccionado);
+        setHorasDisponiblesSeleccionadas(horasDisponibles);
     };
 
     const handleHoraChange = (event) => {
         const horaSeleccionada = event.target.value;
-        let nuevasHoras = [...seleccionesUsuario.horas];
-
-        if (nuevasHoras.includes(horaSeleccionada)) {
-            nuevasHoras = nuevasHoras.filter(hora => hora !== horaSeleccionada);
-        } else {
-            nuevasHoras.push(horaSeleccionada);
-        }
-
-        setSeleccionesUsuario({ ...seleccionesUsuario, horas: nuevasHoras });
+        
+        // Establece la hora seleccionada como la nueva hora en lugar de agregarla a la lista
+        setSeleccionesUsuario({ turno: seleccionesUsuario.turno, horas: [horaSeleccionada] });
     };
+    
 
     const calcularTotal = (precioPorHora, horasSeleccionadas) => {
         const precioPorHoraNum = parseFloat(precioPorHora); // Convertir el precio por hora a número
@@ -155,6 +164,151 @@ const convertirADiaIngles = (dia) => {
             setTotal(nuevoTotal);
         }
     }, [seleccionesUsuario.horas]);
+
+    // Actualiza los turnos disponibles cuando cambia la fecha seleccionada
+    useEffect(() => {
+        if (amigoalquilerhorario.length > 0) {
+            console.log(date.getDay());
+            const turnosDisponibles = obtenerTurnosDisponibles(date.getDay());
+            setDiasTurnos(turnosDisponibles);
+            
+            // Verificar si la opción seleccionada aún está disponible
+            if (seleccionesUsuario.turno && !turnosDisponibles.includes(seleccionesUsuario.turno)) {
+                // Si la opción seleccionada ya no está disponible, selecciona la primera opción disponible
+                const primerTurnoDisponible = turnosDisponibles.length > 0 ? turnosDisponibles[0] : '';
+                setSeleccionesUsuario({ ...seleccionesUsuario, turno: primerTurnoDisponible });
+                
+                // Actualiza las horas disponibles para el nuevo turno seleccionado
+                const horasDisponibles = obtenerHorasDisponibles(primerTurnoDisponible);
+                setHorasDisponiblesSeleccionadas(horasDisponibles);
+            }
+            
+            // Si la opción seleccionada aún está disponible, no es necesario hacer nada
+        }
+    }, [date]);
+    
+    useEffect(() => {
+        limpiarSeleccionesUsuario();
+        limpiarTotal(); // Limpiar las horas seleccionadas
+        setSeleccionesUsuario(prevState => ({ ...prevState, turno: '' }));
+    }, [date]);
+
+    // Función para limpiar las selecciones del usuario
+    const limpiarSeleccionesUsuario = () => {
+        setSeleccionesUsuario({ turno: '', horas: [] });
+    };
+
+    // Función para limpiar el total
+    const limpiarTotal = () => {
+    setTotal(0);
+    };
+
+    // Función para limpiar el total
+    const limpiarTurnosandHoras = () => {
+        
+        setHorasDisponiblesSeleccionadas([])
+        };
+
+    // Función para obtener los turnos disponibles según el día seleccionado
+    const obtenerTurnosDisponibles = (dia) => {
+        switch (dia) {
+            case 0:
+                return amigoalquilerhorario[0].DiaDomingo !== '(No Trabaja)' ? [amigoalquilerhorario[0].DiaDomingo] : [];
+            case 1:
+                return amigoalquilerhorario[0].DiaLunes !== '(No Trabaja)' ? [amigoalquilerhorario[0].DiaLunes] : [];
+            case 2:
+                return amigoalquilerhorario[0].DiaMartes !== '(No Trabaja)' ? [amigoalquilerhorario[0].DiaMartes] : [];
+            case 3:
+                console.log(amigoalquilerhorario[0])
+                return amigoalquilerhorario[0].DiaMiercoles !== '(No Trabaja)' ? [amigoalquilerhorario[0].DiaMiercoles] : [];
+            case 4:
+                return amigoalquilerhorario[0].DiaJueves !== '(No Trabaja)' ? [amigoalquilerhorario[0].DiaJueves] : [];
+            case 5:
+                return amigoalquilerhorario[0].DiaViernes !== '(No Trabaja)' ? [amigoalquilerhorario[0].DiaViernes] : [];
+            case 6:
+                return amigoalquilerhorario[0].DiaSabado !== '(No Trabaja)' ? [amigoalquilerhorario[0].DiaSabado] : [];
+            default:
+                return [];
+        }
+    };
+
+    // Función para obtener las horas disponibles según el turno seleccionado
+    const obtenerHorasDisponibles = (turnoSeleccionado) => {
+        // Define las horas disponibles según el turno seleccionado
+        switch (turnoSeleccionado) {
+            case 'Mañana':
+                return ['5:00 am-6:00 am', '6:00 am-7:00 am', '7:00 am-8:00 am','8:00 am-9:00 am','10:00 am-11:00 am'];
+            case 'Tarde':
+                return ['12:00 pm-13:00 pm', '13:00 pm-14:00 pm', '14:00 pm-15:00 pm','15:00 pm-16:00 pm','16:00 pm-17:00 pm'];
+            case 'Noche':
+                return ['17:00 pm-18:00 pm', '18:00 pm-19:00 pm', '20:00 pm-21:00 pm','22:00 pm-23:00 pm','23:00 pm-24:00 pm'];
+            default:
+                return [];
+        }
+    };
+
+    // Actualiza las horas disponibles cuando cambia el turno seleccionado
+    useEffect(() => {
+        if (seleccionesUsuario.turno !== '') {
+            const horasDisponibles = obtenerHorasDisponibles(seleccionesUsuario.turno);
+            setHorasDisponiblesSeleccionadas(horasDisponibles);
+        }
+    }, [seleccionesUsuario.turno]);
+
+    
+    // Función para manejar cambios en el campo de ubicación
+    const handleUbicacionChange = (event) => {
+    setUbicacion(event.target.value);
+    };
+
+    // Función para manejar cambios en el campo de motivo del alquiler
+    const handleMotivoAlquilerChange = (event) => {
+    setMotivoAlquiler(event.target.value);
+    };
+
+
+     // Manejar el envío de la solicitud de alquiler
+     const handleEnviarSolicitud = () => {
+        // Crear objeto que representa la solicitud de alquiler
+        const nuevaSolicitud = {
+            turno: seleccionesUsuario.turno,
+            horas: seleccionesUsuario.horas,
+            fecha: date.toDateString(),
+            ubicacion: ubicacion,
+            motivoAlquiler: motivoAlquiler,
+            total: total,
+            idAmigo:id,
+            idCliente:user.idCliente
+        };
+
+        // Agregar la nueva solicitud al array de solicitudes de alquiler
+        setSolicitudesAlquiler([...solicitudesAlquiler, nuevaSolicitud]);
+
+        Axios.post("http://localhost:3001/solicitudalquiler", {
+            turno: seleccionesUsuario.turno,
+            horas: seleccionesUsuario.horas,
+            fecha: date.toDateString(),
+            ubicacion: ubicacion,
+            motivoAlquiler: motivoAlquiler,
+            total: total,
+            idAmigo:id,
+            idCliente:user.idCliente
+        })
+            .then((response) => {
+                // Manejar la respuesta del servidor si es necesario
+                console.log("Solicitud de alquiler enviada con éxito:", response.data);
+                navigate(`/SolicitudesaAmigos`);
+            })
+            .catch((error) => {
+                console.error("Error al enviar la solicitud de alquiler:", error);
+            });
+    };
+
+    useEffect(() => {
+        console.log(solicitudesAlquiler);
+    }, [solicitudesAlquiler]);
+    
+
 
     return (
         <div>
@@ -199,19 +353,30 @@ const convertirADiaIngles = (dia) => {
                                             <h4 style={{ textAlign: 'left' }}>Selecciona el Turno del Amigo</h4>
                                             <select id="turno" className="block w-full px-4 py-3 text-base text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" onChange={handleTurnoChange}>
                                                 <option value="">Elegir Turno del Dia Disponible</option>
-                                                <option value="Mañana">Mañana</option>
-                                                <option value="Tarde">Tarde</option>
-                                                <option value="Noche">Noche</option>
+                                                {DiasTurnos.map((turno, index) => (
+                                                <option key={index} value={turno}>{turno}</option>
+                                                ))}
                                             </select>
                                             <h4 style={{ textAlign: 'left' }}>Selecciona las horas Disponibles de alquiler</h4>
-                                            <div className="checkbox-container">
-                                                <MDBCheckbox name='flexCheck' value='12:00-1:00' id='flexCheckDefault1' label='12:00-1:00' onChange={handleHoraChange} />
-                                                <MDBCheckbox name='flexCheck' value='1:00-2:00' id='flexCheckDefault2' label='1:00-2:00' onChange={handleHoraChange} />
-                                                <MDBCheckbox name='flexCheck' value='2:00-3:00' id='flexCheckDefault3' label='2:00-3:00' onChange={handleHoraChange} />
-                                                <MDBCheckbox name='flexCheck' value='4:00-5:00' id='flexCheckDefault4' label='4:00-5:00' onChange={handleHoraChange} />
-                                                <MDBCheckbox name='flexCheck' value='5:00-6:00' id='flexCheckDefault5' label='5:00-6:00' onChange={handleHoraChange} />
-                                                <MDBCheckbox name='flexCheck' value='6:00-7:00' id='flexCheckDefault6' label='6:00-7:00' onChange={handleHoraChange} />
+                                            <div className="radio-container">
+                                                {HorasDisponiblesSeleccionadas.map((hora, index) => (
+                                                    <div key={index} className="form-check form-check-inline">
+                                                        <input
+                                                            className="form-check-input"
+                                                            type="radio"
+                                                            name="horaSeleccionada"
+                                                            id={`horaSeleccionada${index}`}
+                                                            value={hora}
+                                                            checked={seleccionesUsuario.horas[0] === hora}
+                                                            onChange={handleHoraChange}
+                                                        />
+                                                        <label className="form-check-label" htmlFor={`horaSeleccionada${index}`}>
+                                                            {hora}
+                                                        </label>
+                                                    </div>
+                                                ))}
                                             </div>
+
                                         </MDBCard>
                                     </MDBCol>
                                     <MDBCol sm="12" lg="6">
@@ -220,19 +385,19 @@ const convertirADiaIngles = (dia) => {
                                             <h4 style={{ textAlign: 'left' }}>Ubicacion Encuentro del Alquiler</h4>
                                             <div className="d-flex align-items-center">
                                                 <TiLocation style={{ fontSize: '3rem' }} />
-                                                <input type="text" className="form-control mx-3" placeholder="Ingrese la ubicación" />
+                                                <input type="text" className="form-control mx-3" placeholder="Ingrese la ubicación" value={ubicacion} onChange={handleUbicacionChange}/>
                                             </div>
                                             <h4 style={{ textAlign: 'left' }}>Motivo del Alquiler</h4>
                                             <div className="d-flex ">
                                                 <TiClipboard style={{ fontSize: '3rem' }} />
-                                                <textarea className="form-control mx-3" rows="9" placeholder="Ingrese los detalles del alquiler"></textarea>
+                                                <textarea className="form-control mx-3" rows="4" placeholder="Ingrese los detalles del alquiler" value={motivoAlquiler} onChange={handleMotivoAlquilerChange}></textarea>
                                             </div>
                                             <h2>Previsualizacion Alquiler</h2>
                                             <div className="border border-dark p-3">
                                                 <div className="d-flex align-items-center">
                                                 <CiViewList style={{ fontSize: '3rem' }} />
                                                 <h3 className="ms-3  fw-bold">Turno: {seleccionesUsuario.turno}</h3>
-                                                </div>
+                                                </div> 
                                                 <div className="d-flex align-items-center">
                                                 <CiAlarmOn style={{ fontSize: '3rem' }} />
                                                 <h3 className="ms-3  fw-bold">Horas: {seleccionesUsuario.horas.join(', ')}</h3>
@@ -241,12 +406,21 @@ const convertirADiaIngles = (dia) => {
                                                 <CiCalendar style={{ fontSize: '3rem' }} />
                                                 <h3 className="ms-3  fw-bold">Fecha: {date.toDateString()}</h3>
                                                 </div>
+                                                {/* Agrega la ubicación y el motivo del alquiler */}
+                                                <div className="d-flex align-items-center">
+                                                    <TiLocation style={{ fontSize: '3rem' }} />
+                                                    <h3 className="ms-3 fw-bold">Ubicación: {ubicacion}</h3>
+                                                </div>
+                                                <div className="d-flex align-items-center">
+                                                    <TiClipboard style={{ fontSize: '3rem' }} />
+                                                    <h3 className="ms-3 fw-bold">Motivo : {motivoAlquiler}</h3>
+                                                </div>
                                                 <div className="d-flex align-items-center">
                                                 <CiMoneyBill style={{ fontSize: '3rem' }} />
                                                 <h3 className="ms-3 text-primary fw-bold">Total: {total} BS</h3>
                                                 </div>
                                             </div>
-                                            <MDBBtn>Mandar Solicitud Alquiler</MDBBtn>
+                                            <Button style={{margin:'5px'}} onClick={handleEnviarSolicitud}>Mandar Solicitud Alquiler</Button>
                                         </MDBCard>
                                     </MDBCol>
                                 </MDBRow>
