@@ -14,7 +14,7 @@ const DragAndDropCliente = ({ Nombre, Apellido, CorreoElectronico, Password, fec
   const MAX_IMAGES = 5;
 
 
-  c const [hasDraggedImage, setHasDraggedImage] = useState(false); // Estado para controlar si se ha arrastrado alguna imagen
+  const [hasDraggedImage, setHasDraggedImage] = useState(false); // Estado para controlar si se ha arrastrado alguna imagen
   const [hasUploadedImages, setHasUploadedImages] = useState(false); // Estado para controlar si se han subido imágenes
   const [showBackground, setShowBackground] = useState(true);
 

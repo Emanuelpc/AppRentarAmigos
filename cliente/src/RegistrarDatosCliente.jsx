@@ -13,7 +13,7 @@ function RegistrarDatosCliente() {
   const [CorreoElectronico, setCorreoElectronico] = useState("");
   const [Password, setPassword] = useState("");
   const [fechaNacimiento, setfechaNacimiento] = useState("");
-  const [Genero, setGenero] = useState("Masculino");
+  const [Genero, setGenero] = useState("");
   const [seleccionPrecio, setSeleccionPrecio] = useState("");
   const [showPlaceholderAsterisk, setShowPlaceholderAsterisk] = useState(false);
   const [modalContent, setModalContent] = useState({
@@ -33,6 +33,7 @@ function RegistrarDatosCliente() {
     setShowModal(true);
   };
 
+  const [botonDeshabilitado, setBotonDeshabilitado] = useState(false);
 
   const handleChange = (e) => {
     setGenero(e.target.value);
@@ -55,6 +56,7 @@ function RegistrarDatosCliente() {
     if (!seleccionPrecio) camposIncompletos.push("tarifa");
 
     setCamposIncompletos(camposIncompletos);
+    setBotonDeshabilitado(camposIncompletos.length > 0);
 
     if (camposIncompletos.length > 0) {
       handleShowModal("Datos personales incompletos", "Por favor, llene los campos marcados en rojo.", "Cerrar", handleCloseModal);
@@ -92,11 +94,14 @@ function RegistrarDatosCliente() {
       return;
     }
   };
+  
 
 
   const handleCloseModal = () => {
     setShowModal(false);
   }
+
+
 
   return (
     <div>
@@ -163,23 +168,17 @@ function RegistrarDatosCliente() {
           onChange={(event) => {
             const selectedDate = new Date(event.target.value);
             const maxDate = new Date('2006-12-31');
-            const minDate = new Date('1950-01-01')
             if (selectedDate > maxDate) {
               event.target.value = '2006-12-31';
-              handleShowModal("Error", "La Aplicación solo Acepta Personas Mayores de 18 años", "Cerrar", handleCloseModal);
+              handleShowModal("Error", "La Aplicacion solo Acepta Personas Mayores 18", "Cerrar", handleCloseModal);
               setfechaNacimiento('2006-12-31');
-            } else if (selectedDate < minDate) {
-              event.target.value = '1950-01-01';
-              handleShowModal("Error", "La Aplicación solo Acepta Personas Menores de 75 años", "Cerrar", handleCloseModal);
-              setfechaNacimiento('1950-01-01');
             } else {
               setfechaNacimiento(event.target.value);
             }
           }}
           placeholder={`Ingrese su Fecha de Nacimiento ${showPlaceholderAsterisk ? "*" : ""}`}
           required
-          max="2006-12-31"
-          min="1950-01-01"
+          max="2006-01-01"
         />
         <br />
 
@@ -187,15 +186,15 @@ function RegistrarDatosCliente() {
           <h2>Género</h2>
           <div className="d-flex">
             <FormCheck
-              className={`gender-radio ${camposIncompletos.includes('Hombre') ? 'campos-incompletos' : ''}`}
+              className={`gender-radio ${camposIncompletos.includes('genero') ? 'campos-incompletos' : ''}`}
               type="radio" name="Genero" id="Hombre" label="Masculino" value="Hombre" onChange={handleChange} required
             />
             <FormCheck
-              className={`gender-radio ${camposIncompletos.includes('Mujer') ? 'campos-incompletos' : ''}`}
+              className={`gender-radio ${camposIncompletos.includes('genero') ? 'campos-incompletos' : ''}`}
               type="radio" name="Genero" id="Mujer" label="Femenino" value="Mujer" onChange={handleChange}
             />
             <FormCheck
-              className={`gender-radio ${camposIncompletos.includes('Otro') ? 'campos-incompletos' : ''}`}
+              className={`gender-radio ${camposIncompletos.includes('genero') ? 'campos-incompletos' : ''}`}
               type="radio" name="Genero" id="Otro" label="Otro" value="Otro" onChange={handleChange}
             />
           </div>
@@ -218,6 +217,7 @@ function RegistrarDatosCliente() {
         <Link to="/">
           <Button variant="danger" className="ml-2 custom-cancel-button" size="lg">Cancelar</Button>
         </Link>
+
         <Link
           to={camposCompletos ? "/RegistrarFotosCliente" : ""}
           state={{
@@ -231,13 +231,12 @@ function RegistrarDatosCliente() {
               seleccionPrecio
             }
           }}
-          onClick={() => {
-            if (!camposCompletos) {
-              verificarCamposCompletos();
-            }
+          onClick={(e) => {
+            e.preventDefault(); // Prevenir el comportamiento predeterminado del enlace
+            verificarCamposCompletos();
           }}
         >
-          <Button variant="primary" className="custom-next-button" size="lg">Siguiente</Button>
+          <Button variant="primary" className="custom-next-button" size="lg" disabled={botonDeshabilitado}>Siguiente</Button>
         </Link>
 
       </form>
