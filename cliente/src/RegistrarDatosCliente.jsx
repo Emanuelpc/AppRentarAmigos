@@ -254,8 +254,8 @@ function RegistrarDatosCliente() {
         />
         <br />
 
-        <Link to="/">
-          <Button variant="danger" className="ml-2 custom-cancel-button" size="lg">Cancelar</Button>
+        <Link to="/" style={{ marginRight: '80px' }}>
+          <Button variant="danger" className="BotonCancelar" size="lg">Cancelar</Button>
         </Link>
 
         <Link
@@ -277,7 +277,7 @@ function RegistrarDatosCliente() {
             }
           }}
         >
-          <Button variant="primary" className="ml-1 custom-next-button" size="lg">Siguiente</Button>
+          <Button variant="primary" className="BotonSiguiente" size="lg">Siguiente</Button>
         </Link>
 
       </form>

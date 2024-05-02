@@ -69,24 +69,14 @@
     margin: 16px 0;
     font-size: 16px;
   }
-  .ml-2{
-    margin-top: 10px !important;
-    margin-left: 30px !important;
-    margin-right: 50px !important;
-  }
-  .ml-1{
-    margin-top: 10px !important;
-    margin-left: 30px !important;
-    margin-right: 50px !important;
-  }
-  .custom-cancel-button,
-  .custom-next-button {
-    font-size: 20px !important;
-    padding: 10px 20px !important;
-    width: 150px; /* Ancho fijo para los botones */
-    text-align: center; /* Centrar el texto dentro del botón */
-  }
   
+  .BontonCancelar{
+    
+  }
+  .BotonSiguiente{
+    
+  }
+
   .RadioButtons {
     margin-bottom: 20px; /* Puedes ajustar este valor según tu preferencia */
     width: 400px;
