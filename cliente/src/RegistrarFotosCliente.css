@@ -1,0 +1,12 @@
+.center-container {
+    display: flex;
+    vertical-align: top; /* Alinea el div con la parte superior del contenido */
+    width: auto; /* Opcional: permite que el ancho del div se ajuste al contenido */
+    margin: 10px; /* Elimina cualquier margen */
+    padding: 10px; 
+  }
+  
+  /* Ajustes para el Navbar */
+  .navbar {
+    margin-bottom: 20px; /* Margen inferior para separar del siguiente elemento */
+  }

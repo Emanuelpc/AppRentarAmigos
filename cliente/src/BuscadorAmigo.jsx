@@ -266,7 +266,7 @@ function BuscadorAmigo() {
             titulo={tarjeta.Nombre+" "+tarjeta.Apellido+" Edad "+obtenerEdad(tarjeta.fechaNacimiento)}
             ubicacion={tarjeta.Departamento+" "+tarjeta.Ciudad}
             descripcion={tarjeta.Acercademi}
-            imagenUrl={"https://media.istockphoto.com/id/522189109/es/foto/no-se-tome-tambi%C3%A9n-en-serio-la-vida.jpg?s=612x612&w=0&k=20&c=4RcKyGRBw_fwH_hl80Fn-COdYk9bjbrVq5v7u97dct4="}
+            imagenUrl={tarjeta.foto}
            />
           </Col>
           ))}

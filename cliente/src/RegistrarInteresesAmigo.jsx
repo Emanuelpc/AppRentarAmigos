@@ -100,7 +100,7 @@ function RegistrarInteresesAmigo() {
           labeltitulo={"Selecciona al menos 3 Intereses para tu perfil"}
           />
         )}  
-      <h3 style={{ textAlign: 'left' }}>Registrar Descripcion Personal</h3>
+      <h3 style={{ textAlign: 'left' }}>Registrar Descripción Personal</h3>
       <Form.Control
           id="mensaje"
           name="mensaje"
@@ -108,7 +108,7 @@ function RegistrarInteresesAmigo() {
           onChange={handleAboutMeChange}
           rows="4"
           cols="60"
-          style={{ width: "100%", padding: "10px",margin:"10px", borderRadius: "4px", fontFamily: "calibri",fontSize: "20px" }}
+          style={{ width: "100%", padding: "10px",margin:"10px", borderRadius: "4px", fontFamily: "calibri",fontSize: "20px"}}
         />
       <div>
           <Link to="/RegistrarDatosAmigo">
