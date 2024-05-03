@@ -1,11 +1,11 @@
 .custom-navbar {
-    background-color: #1d9bf0; /* Cambia este valor al color que desees */
+    background-color: #000000; /* Cambia este valor al color que desees */
     /* Otros estilos personalizados si los necesitas */
   }
   .brand-text,
   .nav-link,
   .nav-link:hover {
-    color: #ffffff !important; /* Cambia este valor al color del texto deseado (blanco) */
+    color: #f8f4f4 !important; /* Cambia este valor al color del texto deseado (blanco) */
   }
   
   .brand-text {
@@ -24,3 +24,9 @@
     background-color: #093b5d; /* Color de fondo cuando está activo o en hover */
      /* Color del texto cuando está activo o en hover */
   }
+  
+/* Navbar.css */
+.nav-dropdown .dropdown-menu {
+  background-color: black !important; /* Color de fondo negro para el dropdown */
+}
+

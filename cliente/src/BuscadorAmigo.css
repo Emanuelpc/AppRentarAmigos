@@ -4,6 +4,7 @@
     border: 20px;
     margin: 0 auto; /* Centrar el div horizontalmente */
     max-width: 80%; /* Establecer un ancho máximo para el div */
+    color: #fff;
 }
 .contenedor {
     display: flex; /* Utiliza Flexbox */
@@ -12,12 +13,12 @@
 .EditarCardsResultadosAmigos {
     flex: 1; /* Ocupa todo el espacio disponible */
     /* Otros estilos según sea necesario */
-    background-color: #536471;
+    background-color: #ECF6FF;
     margin: 15px;
     margin-top: 5px;
     padding: 30px;
     border-radius: 20px;
-    color: azure;
+    color: rgb(0, 0,0);
     max-width: 100%;
 }
 .Filtrosdiv{

@@ -1,0 +1,81 @@
+.drag-drop-container {
+  background-image: url('../Imagenes/ImagenDescargasFotosFondo.png');
+  background-size: contain; /* Ajusta el tamaño de la imagen para que quepa dentro del contenedor */
+  background-repeat: no-repeat; /* Evita que la imagen se repita */
+  background-position: center; /* Centra la imagen */
+  background-color: rgb(255, 255, 255);
+  width: 100%;
+  min-height: 400px;
+  border: 2px dashed #aaa;
+  border-radius: 10px;
+  padding: 20px;
+  margin-top: 10px; /* Reducir el margen superior */
+  margin-bottom: 10px; /* Reducir el margen inferior */
+  color: #000;
+  font-size: 22px;
+}
+
+.drag-drop-container img {
+  max-width: 100%;
+  max-height: 100%;
+  border-radius: 10px;
+}
+
+.drag-drop-container p {
+  text-align: center;
+  width: 100%;
+}
+
+.image-container {
+  margin: 5px;
+  position: relative;
+}
+
+.remove-button {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+}
+
+.drag-drop-container.dragging-over {
+  background-color: #f0f0f0; /* Cambia el color de fondo cuando se arrastra sobre el área de drop */
+  border-color: #666; /* Cambia el color del borde cuando se arrastra sobre el área de drop */
+}
+
+.ml-2{
+  margin-left: 20px;
+  margin-right: 200px;
+}
+.custom-cancel-button,
+.custom-next-button {
+  font-size: 24px !important;
+  padding: 10px 30px !important;
+}
+
+.form-subirImagen{
+  width: 1000px;
+  background: #ECF6FF;
+  padding: 30px;
+  margin: auto;
+  margin-top: 50px;
+  margin-bottom: 50px;
+  border-radius: 4px;
+  font-family: 'calibri';
+  color: rgb(255, 255, 255);
+  box-shadow: 7px 13px 37px #000;
+}
+
+.form-subirImagen button {
+  color: #ffffff;
+  background-color: #536471;
+  border-color: #536471;
+}
+.form-subirImagen h1 {
+  color: #000000;
+}
+.form-subirImagen h3 {
+  color: #000000;
+}
+.drag-drop-container.has-dragged-image {
+  background-image: none; /* Oculta el fondo cuando se ha arrastrado una imagen */
+}

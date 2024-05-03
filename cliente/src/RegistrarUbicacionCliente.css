@@ -16,3 +16,8 @@
     margin-bottom: 20px;
 }
   
+.form-ubicacion button {
+  color: #ffffff;
+  background-color: #536471;
+  border-color: #536471;
+}

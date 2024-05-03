@@ -28,6 +28,71 @@ app.get("/amigos", (req, res) => {
         }
     );
 });
+//Endpoint para obtener todos los Datos de : Amigo
+app.get("/cliente", (req, res) => {
+    // Consultar todos los departamentos en la base de datos
+    const{correoCliente} = req.query;
+    const{contraCliente} = req.query;
+    console.log(correoCliente);
+    db.query(`SELECT * FROM cliente WHERE cliente.correoCliente = '${correoCliente}' AND cliente.contraCliente = '${contraCliente}'`,
+        (err, result) => {
+            if (err) {
+                console.log(err);
+                res.status(500).send("Error al obtener cliente");
+            } else {
+                res.send(result);
+            }
+        }
+    );
+});
+
+//Endpoint para obtener todos los Datos de : Amigo
+app.get("/ClientePerfil", (req, res) => {
+    // Consultar todos los departamentos en la base de datos
+    const{idCliente} = req.query;
+    console.log(idCliente);
+    db.query(`SELECT * FROM cliente WHERE idCliente='${idCliente}'`,
+        (err, result) => {
+            if (err) {
+                console.log(err);
+                res.status(500).send("Error al obtener cliente");
+            } else {
+                res.send(result);
+            }
+        }
+    );
+});
+
+//Endpoint para obtener todos los Datos de : Amigo
+app.get("/Perfilcliente1", (req, res) => {
+    // Consultar todos los departamentos en la base de datos
+    const{id} = req.query
+    db.query(`SELECT * FROM cliente WHERE cliente.idCliente = '${id}'`,
+        (err, result) => {
+            if (err) {
+                console.log(err);
+                res.status(500).send("Error al obtener cliente");
+            } else {
+                res.send(result);
+            }
+        }
+    );
+});
+//Endpoint para obtener todos los Datos de : clientePerfil fotos
+app.get("/ClientePerfilFotos", (req, res) => {
+    //Obtener Valores de los parámetros de la URL
+    const{id} = req.query
+    db.query(`SELECT foto From cliente_fotos  WHERE idCliente = '${id}' `,
+        (err, result) => {
+            if (err) {
+                console.log(err);
+                res.status(500).send("Error al obtener cliente");
+            } else {
+                res.send(result);
+            }
+        }
+    );
+});
 
 //Endpoint para obtener todos los Datos de : AmigoPerfil intereses
 app.get("/AmigoPerfil", (req, res) => {
@@ -72,10 +137,31 @@ app.get("/AmigoPerfilFotos", (req, res) => {
 //Endpoint para obtener todos los Datos de : Amigo con su Departamentos y Ciudad
 app.get("/amigosconDepartamento", (req, res) => {
     // Consultar todos los departamentos en la base de datos
-    db.query(`SELECT amigo.idAmigo,amigo.Nombre,amigo.Apellido,amigo.Correoelectronico,amigo.fechaNacimiento,amigo.Genero,amigo.Acercademi,departamento.Departamento,ciudad.Ciudad
-    FROM amigo,ciudad,departamento
-    WHERE amigo.Departamento_idDepartamento=departamento.idDepartamento AND amigo.Ciudad_idCiudad=ciudad.idCiudad
-    ORDER BY amigo.idAmigo `,
+    db.query(`SELECT 
+    amigo.idAmigo,
+    amigo.Nombre,
+    amigo.Apellido,
+    amigo.Correoelectronico,
+    amigo.fechaNacimiento,
+    amigo.Genero,
+    amigo.Acercademi,
+    departamento.Departamento,
+    ciudad.Ciudad,
+    (
+        SELECT foto
+        FROM amigo_fotos
+        WHERE amigo_fotos.Amigo_idAmigo = amigo.idAmigo
+        LIMIT 1
+    ) AS foto
+FROM 
+    amigo
+JOIN 
+    departamento ON amigo.Departamento_idDepartamento = departamento.idDepartamento
+JOIN 
+    ciudad ON amigo.Ciudad_idCiudad = ciudad.idCiudad
+ORDER BY 
+    amigo.idAmigo;
+`,
         (err, result) => {
             if (err) {
                 console.log(err);
@@ -187,6 +273,105 @@ app.post("/lastUserIDFotos", async (req, res) => {
     res.send("Imágenes guardadas correctamente.");
 });
 
+app.post("/lastUserhorario", async (req, res) => {
+    const idAmigo = req.body.idAmigo;
+    const horario = req.body.horario;
+
+    for (const dia in horario) {
+        if (horario.hasOwnProperty(dia)) {
+            const turno = horario[dia];
+            switch (dia) {
+                case 'diaLunes':
+                    var LunesTurno = turno;
+                    break;
+                case 'diaMartes':
+                    var MartesTurno = turno;
+                    break;
+                case 'diaMiércoles':
+                    var MiercolesTurno = turno;
+                    break;
+                case 'diaJueves':
+                    var JuevesTurno = turno;
+                    break;
+                case 'diaViernes':
+                    var ViernesTurno = turno;
+                    break;
+                case 'diaSábado':
+                    var SabadoTurno = turno;
+                    break;
+                case 'diaDomingo':
+                    var DomingoTurno = turno;
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
+    console.log(LunesTurno, MartesTurno, MiercolesTurno, JuevesTurno, ViernesTurno, SabadoTurno, DomingoTurno);
+
+        try {
+            await db.query('INSERT INTO horariodia_amigo (DiaLunes,DiaMartes,DiaMiercoles,DiaJueves,DiaViernes,DiaSabado,DiaDomingo,idAmigo) VALUES (?,?,?,?,?,?,?,?)', [LunesTurno,MartesTurno,MiercolesTurno,JuevesTurno,ViernesTurno,SabadoTurno,DomingoTurno,idAmigo]);
+            console.log(`el horario asociada al usuario con ID ${idAmigo} guardada en la base de datos.`);
+        } catch (error) {
+            console.error(`Error al guardar el horario asociada al usuario con ID ${idAmigo} en la base de datos:`, error);
+        }
+    
+
+    res.send("Se guardo correctamente el Horario");
+});
+
+app.post("/crearCliente", (req,res)=>{
+    const Nombre = req.body.Nombre;
+    const Apellido = req.body.Apellido;
+    const CorreoElectronico = req.body.CorreoElectronico;
+    const Password = req.body.Password;
+    const fechaNacimiento = req.body.fechaNacimiento;
+    const Genero = req.body.Genero;
+    const PreciosPorHora_idPreciosPorHora=req.body.PreciosPorHora_idPreciosPorHora;
+    const Departamento_idDepartamento=req.body.Departamento_idDepartamento;
+    const Ciudad_idCiudad=req.body.Ciudad_idCiudad;
+    console.log(Nombre,Apellido,CorreoElectronico,Password,fechaNacimiento,Genero,PreciosPorHora_idPreciosPorHora,Departamento_idDepartamento,Ciudad_idCiudad)
+
+        db.query('INSERT INTO cliente(nombreCliente,apellidoCliente,correoCliente,contraCliente,fechaNacimientoCliente,generoCliente,acercaDeMiCliente,Departamento_idDepartamento,Ciudad_idCiudad) VALUES(?,?,?,?,?,?,?,?,?)',
+        [Nombre,Apellido,CorreoElectronico,Password,fechaNacimiento,Genero,PreciosPorHora_idPreciosPorHora,Departamento_idDepartamento,Ciudad_idCiudad],
+        (err, result) => {
+            if(err){
+                console.log(err);
+            }else{
+                res.send("Amigo Registrado con exito");
+            }
+        } 
+        );
+});
+
+app.post("/lastUserIDFotosC", async (req, res) => {
+    const idAmigo = req.body.idAmigo;
+    const images = req.body.images;
+
+    // Recorre el array de imágenes y ejecuta una inserción en la base de datos para cada una
+    images.forEach(async (imageUrl) => {
+        try {
+            await db.query('INSERT INTO cliente_fotos (foto, idCliente) VALUES (?, ?)', [imageUrl, idAmigo]);
+            console.log(`Imagen ${imageUrl} asociada al usuario con ID ${idAmigo} guardada en la base de datos.`);
+        } catch (error) {
+            console.error(`Error al guardar la imagen ${imageUrl} asociada al usuario con ID ${idAmigo} en la base de datos:`, error);
+        }
+    });
+
+    res.send("Imágenes guardadas correctamente.");
+});
+
+app.get("/lastUserIDC", (req, res) => {
+    // Consultar el último ID de usuario en la base de datos
+    db.query('SELECT MAX(idCliente) AS lastUserID FROM cliente', (err, result) => {
+        if (err) {
+            console.log(err);
+            res.status(500).send("Error al obtener el último ID de usuario");
+        } else {
+            res.send(result[0]); // Devuelve el resultado que contiene el último ID de usuario
+        }
+    });
+});
 
 //Endpoint para obtener todos los Datos de : AmigoFiltrado
 app.get("/amigosfiltrado", (req, res) => {
@@ -195,11 +380,17 @@ app.get("/amigosfiltrado", (req, res) => {
     let departamentoId=null;
 
     // Construir la consulta SQL base
-    let query = `SELECT amigo.idAmigo,amigo.Nombre,amigo.Apellido,amigo.Correoelectronico,amigo.fechaNacimiento,amigo.Genero,amigo.Acercademi,departamento.Departamento,
-    ciudad.Ciudad
-    FROM amigo,ciudad,departamento 
-    WHERE amigo.Ciudad_idCiudad=ciudad.idCiudad
-    AND amigo.Departamento_idDepartamento=departamento.idDepartamento`;
+    let query = `SELECT amigo.idAmigo, amigo.Nombre, amigo.Apellido, amigo.Correoelectronico, amigo.fechaNacimiento, amigo.Genero, amigo.Acercademi, departamento.Departamento, ciudad.Ciudad,
+    (
+        SELECT foto
+        FROM amigo_fotos
+        WHERE amigo_fotos.Amigo_idAmigo = amigo.idAmigo
+        LIMIT 1
+    ) AS foto
+    FROM amigo
+    JOIN departamento ON amigo.Departamento_idDepartamento = departamento.idDepartamento
+    JOIN ciudad ON amigo.Ciudad_idCiudad = ciudad.idCiudad
+    WHERE 1`;
 
     // Agregar condiciones según los parámetros recibidos
     if (Departamento && !isNaN(Departamento.valor)) {
@@ -267,11 +458,17 @@ app.get("/amigoBusqueda", (req, res) => {
     const { Nombre , Apellido } = req.query;
 
     // Construir la consulta SQL base
-    let query = `SELECT amigo.idAmigo,amigo.Nombre,amigo.Apellido,amigo.Correoelectronico,amigo.fechaNacimiento,amigo.Genero,amigo.Acercademi,departamento.Departamento,
-    ciudad.Ciudad
-    FROM amigo,ciudad,departamento 
-    WHERE amigo.Ciudad_idCiudad=ciudad.idCiudad
-    AND amigo.Departamento_idDepartamento=departamento.idDepartamento`;
+    let query = `SELECT amigo.idAmigo, amigo.Nombre, amigo.Apellido, amigo.Correoelectronico, amigo.fechaNacimiento, amigo.Genero, amigo.Acercademi, departamento.Departamento, ciudad.Ciudad,
+    (
+        SELECT foto
+        FROM amigo_fotos
+        WHERE amigo_fotos.Amigo_idAmigo = amigo.idAmigo
+        LIMIT 1
+    ) AS foto
+    FROM amigo
+    JOIN departamento ON amigo.Departamento_idDepartamento = departamento.idDepartamento
+    JOIN ciudad ON amigo.Ciudad_idCiudad = ciudad.idCiudad
+    WHERE 1`;
 
     // Agregar condiciones según los parámetros recibidos
     if (Nombre) {
@@ -309,6 +506,121 @@ app.get("/lastUserID", (req, res) => {
     });
 });
 
+//Endpoint para obtener todos los Datos de : Amigo Alquiler
+app.get("/amigoalquiler", (req, res) => {
+
+    const { id } = req.query;
+    console.log(id)
+    // Consultar todos los departamentos en la base de datos
+    db.query(`SELECT 
+    amigo.idAmigo,
+    amigo.Nombre,
+    amigo.Apellido,
+    amigo.Correoelectronico,
+    amigo.fechaNacimiento,
+    amigo.Genero,
+    amigo.Acercademi,
+    departamento.Departamento,
+    ciudad.Ciudad,
+    preciosporhora.Precio_Hora,
+    (
+        SELECT foto
+        FROM amigo_fotos
+        WHERE amigo_fotos.Amigo_idAmigo = amigo.idAmigo
+        LIMIT 1
+    ) AS foto
+FROM 
+    amigo
+JOIN 
+    departamento ON amigo.Departamento_idDepartamento = departamento.idDepartamento
+JOIN 
+    ciudad ON amigo.Ciudad_idCiudad = ciudad.idCiudad
+JOIN 
+	 preciosporhora ON amigo.PreciosPorHora_idPreciosPorHora = preciosporhora.idPreciosPorHora
+WHERE amigo.idAmigo='${id}' 
+`,
+        (err, result) => {
+            if (err) {
+                console.log(err);
+                res.status(500).send("Error al obtener amigos");
+            } else {
+                res.send(result);
+            }
+        }
+    );
+});
+
+app.get("/amigohorarioalquiler", (req, res) => {
+
+    const { id } = req.query;
+    console.log(id)
+    // Consultar todos los departamentos en la base de datos
+    db.query(`SELECT * FROM horariodia_amigo WHERE idAmigo='${id}' 
+`,
+        (err, result) => {
+            if (err) {
+                console.log(err);
+                res.status(500).send("Error al obtener amigo horario");
+            } else {
+                res.send(result);
+            }
+        }
+    );
+});
+
+app.post("/solicitudalquiler", (req,res)=>{
+    const turno = req.body.turno;
+    const horas = req.body.horas;
+    const fecha = convertirFechaMySQL(req.body.fecha);
+    const ubicacion = req.body.ubicacion;
+    const motivoAlquiler = req.body.motivoAlquiler;
+    const total = req.body.total;
+    const idAmigo = req.body.idAmigo;
+    const idCliente = req.body.idCliente;
+    
+    
+    console.log(turno);
+    console.log(horas);
+    console.log(fecha);
+    console.log(ubicacion);
+    console.log(motivoAlquiler);
+    console.log(total);
+    console.log(idAmigo);
+    console.log(idCliente);
+
+        db.query('INSERT INTO solicitudamigo(Turno,horas,fecha,ubicacion,motivoAlquiler,total,idAmigo,idCliente) VALUES(?,?,?,?,?,?,?,?)',
+        [turno,horas[0],fecha,ubicacion,motivoAlquiler,total,idAmigo,idCliente],
+        (err, result) => {
+            if(err){
+                console.log(err);
+            }else{
+                res.send("Solicitud Registrado con Exito");
+            }
+        } 
+        );
+});
+
+//Endpoint para obtener todos los Datos de : AmigoPerfil intereses
+app.get("/solicitudescliente", (req, res) => {
+    //Obtener Valores de los parámetros de la URL
+    const { id } = req.query;
+    console.log(id);
+    let query=`SELECT solicitudamigo.idSolicitudAmigo,solicitudamigo.Turno,solicitudamigo.horas,solicitudamigo.fecha,solicitudamigo.ubicacion,solicitudamigo.motivoAlquiler,solicitudamigo.total,solicitudamigo.idAmigo,solicitudamigo.idCliente,amigo.Nombre,amigo.Apellido  
+    FROM solicitudamigo , amigo 
+    WHERE solicitudamigo.idCliente = '${id}' AND  solicitudamigo.idAmigo = amigo.idAmigo`
+    console.log(query)
+    db.query(query,
+        (err, result) => {
+            if (err) {
+                console.log(err);
+                res.status(500).send("Error al obtener amigo");
+            } else {
+                res.send(result);
+            }
+        }
+    );
+});
+
 //Inicialización del servidor:
 
 app.listen(3001, () => {
@@ -324,4 +636,19 @@ function quitarParte(cadena, parte) {
 
 function quitarPalabraDeArray(array, palabra) {
     return array.map(cadena => quitarParte(cadena, palabra));
+}
+
+function convertirFechaMySQL(fechaTexto) {
+    // Parsea la fecha en formato texto
+    var fechaObjeto = new Date(fechaTexto);
+
+    // Obtiene los componentes de la fecha
+    var año = fechaObjeto.getFullYear();
+    var mes = fechaObjeto.getMonth() + 1; // Los meses van de 0 a 11, así que sumamos 1
+    var dia = fechaObjeto.getDate();
+
+    // Ajusta el formato de la fecha para MySQL
+    var fechaMySQL = año + '-' + (mes < 10 ? '0' : '') + mes + '-' + (dia < 10 ? '0' : '') + dia + ' 00:00:00';
+
+    return fechaMySQL;
 }
