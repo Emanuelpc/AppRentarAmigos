@@ -16,6 +16,7 @@ export default function PerfilCliente({}){
   const getAmigoPerfilFotos = () => {
     //const params = new URLSearchParams(window.location.search);
     //const data = params.get('data');
+    // se cambio a 3306 las rutas del url
     const data = user.idCliente;    ;
     console.log('Valor recibido:', data);
     Axios.get("http://localhost:3306/ClientePerfilFotos", {
