@@ -3,17 +3,36 @@ const app = express();
 const mysql = require("mysql");
 const cors = require("cors");
 
-app.use(cors()); // Permite peticiones desde diferentes dominios
+// Permitir solicitudes desde el origen del cliente en el puerto 3000
+app.use(cors({
+    origin: 'http://localhost:3000'
+  }));
+  
+  // Resto de la configuración de tu servidor...
+
+app.listen(3306, () => {
+    console.log('Servidor en el puerto 3306');
+  });
+
 app.use(express.json()); // Permite el análisis del cuerpo de las solicitudes en formato JSON
 
 //Conexión a la base de datos MySQL:
 
 const db = mysql.createConnection({
-    host: "localhost",
-    user: "root",
-    password: "",
-    database: "basedatosappamigo"
+    host: "btzpzoaeocc8mk7jnk5s-mysql.services.clever-cloud.com",
+    user: "u4hqdtm7ehetv2me",
+    password: "Ay3peV2E8sk5m3dmfZe1",
+    database: "btzpzoaeocc8mk7jnk5s"
 });
+db.connect((err) => {
+    if (err) {
+        console.error('Error connecting to database:', err);
+        return;
+    }
+    console.log('Connected to MySQL database!');
+});
+
+
 //Endpoint para obtener todos los Datos de : Amigo
 app.get("/amigos", (req, res) => {
     // Consultar todos los departamentos en la base de datos
@@ -623,9 +642,6 @@ app.get("/solicitudescliente", (req, res) => {
 
 //Inicialización del servidor:
 
-app.listen(3001, () => {
-    console.log("Se está ejecutando en el puerto 3001");
-});
 
 function extraerDatos(array, propiedad) {
     return array.map(objeto => objeto[propiedad]);

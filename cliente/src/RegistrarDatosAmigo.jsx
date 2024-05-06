@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Button, FormCheck, Modal } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import Axios from "axios";
+import axios from "axios";
 import Navbar from "./Componentes/Navbar";
 import './RegistrarDatosAmigo.css';
 
@@ -36,10 +36,13 @@ function RegistrarDatosAmigo() {
     setShowModal(true);
   };
 
-  const getPreciosHora = () => {
-    Axios.get("http://localhost:3001/precioshora").then((response) => {
+  const getPreciosHora = async () => {
+    try {
+      const response = await axios.get('http://localhost:3306/precioshora');
       setPreciosHora(response.data);
-    });
+    } catch (error) {
+      console.error('Error al obtener precios por hora:', error);
+    }
   };
 
   const handleChange = (e) => {

@@ -116,7 +116,7 @@ function RegistrarHorarioAmigo() {
   };
 
   const add = () => {
-      Axios.post("http://localhost:3001/horarios",{
+      Axios.post("http://localhost:3306/horarios",{
         lunes: lunes,
         martes: martes,
         miercoles: miercoles,
