@@ -3,6 +3,7 @@ const app = express();
 const mysql = require("mysql");
 const cors = require("cors");
 
+
 // Permitir solicitudes desde el origen del cliente en el puerto 3000
 app.use(cors({
     origin: 'http://localhost:3000'

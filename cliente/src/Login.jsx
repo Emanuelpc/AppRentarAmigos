@@ -24,7 +24,7 @@ function Login() {
     }
     
     try {
-      const response = await Axios.get("http://localhost:3001/Cliente", {
+      const response = await Axios.get("http://localhost:3306/Cliente", {
         params: {
           correoCliente: email,
           contraCliente: password

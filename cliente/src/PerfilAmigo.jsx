@@ -23,7 +23,7 @@ export default function PerfilAmigo() {
   
   const getAmigoPerfil = () => {
     console.log(id)
-    Axios.get("http://localhost:3001/AmigoPerfil", {
+    Axios.get("http://localhost:3306/AmigoPerfil", {
             params: {
               idAmigo:id
             }
@@ -39,7 +39,7 @@ export default function PerfilAmigo() {
 
   const getAmigoPerfilFotos = () => {
     console.log(id)
-    Axios.get("http://localhost:3001/AmigoPerfilFotos", {
+    Axios.get("http://localhost:3306/AmigoPerfilFotos", {
             params: {
               idAmigo:id
             }
