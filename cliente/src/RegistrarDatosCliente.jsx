@@ -14,7 +14,7 @@ function RegistrarDatosCliente() {
   const [CorreoValido, setCorreoValido] = useState(true); // Estado para almacenar si el correo es válido
   const [Password, setPassword] = useState("");
   const [fechaNacimiento, setfechaNacimiento] = useState("");
-  const [Genero, setGenero] = useState("Masculino");
+  const [Genero, setGenero] = useState("");
   const [seleccionPrecio, setSeleccionPrecio] = useState("");
   const [showPlaceholderAsterisk, setShowPlaceholderAsterisk] = useState(false);
   const [modalContent, setModalContent] = useState({
@@ -94,7 +94,32 @@ function RegistrarDatosCliente() {
     }
   };
 
-
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+  
+    // Verificar si contiene caracteres especiales
+    const caracteresEspeciales = /[^A-Za-z\s]/;
+    if (caracteresEspeciales.test(value)) {
+      handleShowModal("Error", `El ${name} solo puede contener letras y espacios.`, "Cerrar", handleCloseModal);
+      return;
+    }
+  
+    // Si no contiene caracteres especiales, actualizar el estado correspondiente
+    switch (name) {
+      case "nombres":
+        setNombre(value);
+        break;
+      case "apellidos":
+        setApellido(value);
+        break;
+      case "seleccionPrecio":
+        setSeleccionPrecio(value);
+        break;
+      default:
+        break;
+    }
+};
+  
   const handleCloseModal = () => {
     setShowModal(false);
   }
@@ -117,7 +142,10 @@ function RegistrarDatosCliente() {
           type="text"
           name="nombres"
           id="nombres"
-          onChange={(event) => setNombre(event.target.value)}
+          onChange={(event) => {
+            setNombre(event.target.value);
+            handleInputChange(event.target.value); // Verificar el correo mientras se escribe
+          }}
           placeholder={`Ingrese su Nombre ${showPlaceholderAsterisk ? "*" : ""}`}
           required
           maxLength={24}
@@ -130,7 +158,10 @@ function RegistrarDatosCliente() {
           type="text"
           name="apellidos"
           id="apellidos"
-          onChange={(event) => setApellido(event.target.value)}
+          onChange={(event) => {
+            setApellido(event.target.value);
+            handleInputChange(event.target.value); // Verificar el correo mientras se escribe
+          }}
           placeholder={`Ingrese su Apellido ${showPlaceholderAsterisk ? "*" : ""}`}
           required
           maxLength={24}
@@ -174,23 +205,17 @@ function RegistrarDatosCliente() {
           onChange={(event) => {
             const selectedDate = new Date(event.target.value);
             const maxDate = new Date('2006-12-31');
-            const minDate = new Date('1950-01-01')
             if (selectedDate > maxDate) {
               event.target.value = '2006-12-31';
-              handleShowModal("Error", "La Aplicación solo Acepta Personas Mayores de 18 años", "Cerrar", handleCloseModal);
+              handleShowModal("Error", "La Aplicacion solo Acepta Personas Mayores 18", "Cerrar", handleCloseModal);
               setfechaNacimiento('2006-12-31');
-            } else if (selectedDate < minDate) {
-              event.target.value = '1950-01-01';
-              handleShowModal("Error", "La Aplicación solo Acepta Personas Menores de 75 años", "Cerrar", handleCloseModal);
-              setfechaNacimiento('1950-01-01');
             } else {
               setfechaNacimiento(event.target.value);
             }
           }}
           placeholder={`Ingrese su Fecha de Nacimiento ${showPlaceholderAsterisk ? "*" : ""}`}
           required
-          max="2006-12-31"
-          min="1950-01-01"
+          max="2006-01-01"
         />
         <br />
 
@@ -198,27 +223,30 @@ function RegistrarDatosCliente() {
           <h2>Género</h2>
           <div className="d-flex">
             <FormCheck
-              className={`gender-radio ${camposIncompletos.includes('Hombre') ? 'campos-incompletos' : ''}`}
+              className={`gender-radio ${camposIncompletos.includes('genero') ? 'campos-incompletos' : ''}`}
               type="radio" name="Genero" id="Hombre" label="Masculino" value="Hombre" onChange={handleChange} required
             />
             <FormCheck
-              className={`gender-radio ${camposIncompletos.includes('Mujer') ? 'campos-incompletos' : ''}`}
+              className={`gender-radio ${camposIncompletos.includes('genero') ? 'campos-incompletos' : ''}`}
               type="radio" name="Genero" id="Mujer" label="Femenino" value="Mujer" onChange={handleChange}
             />
             <FormCheck
-              className={`gender-radio ${camposIncompletos.includes('Otro') ? 'campos-incompletos' : ''}`}
+              className={`gender-radio ${camposIncompletos.includes('genero') ? 'campos-incompletos' : ''}`}
               type="radio" name="Genero" id="Otro" label="Otro" value="Otro" onChange={handleChange}
             />
           </div>
         </div>
         <br />
 
-        <h3 style={{ textAlign: 'left' }}>Registrar Descripcion Personal</h3>
+        <h3 style={{ textAlign: 'left' }}>Registrar Descripción Personal</h3>
         <textarea
               className={`controls ${camposIncompletos.includes('tarifa') ? 'campos-incompletos' : ''}`}
               name="password"
               id="password"
-              onChange={(event) => setSeleccionPrecio(event.target.value)}
+              onChange={(event) => {
+                setSeleccionPrecio(event.target.value);
+                handleInputChange(event.target.value); // Verificar el correo mientras se escribe
+              }}
               required
               maxLength={200}
               rows={5} 
@@ -226,9 +254,10 @@ function RegistrarDatosCliente() {
         />
         <br />
 
-        <Link to="/">
-          <Button variant="danger" className="ml-2 custom-cancel-button" size="lg">Cancelar</Button>
+        <Link to="/" style={{ marginRight: '80px' }}>
+          <Button variant="danger" className="BotonCancelar" size="lg">Cancelar</Button>
         </Link>
+
         <Link
           to={camposCompletos ? "/RegistrarFotosCliente" : ""}
           state={{
@@ -248,7 +277,7 @@ function RegistrarDatosCliente() {
             }
           }}
         >
-          <Button variant="primary" className="custom-next-button" size="lg">Siguiente</Button>
+          <Button variant="primary" className="BotonSiguiente" size="lg">Siguiente</Button>
         </Link>
 
       </form>

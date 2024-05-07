@@ -5,7 +5,7 @@
   .brand-text,
   .nav-link,
   .nav-link:hover {
-    color: #ffffff !important; /* Cambia este valor al color del texto deseado (blanco) */
+    color: #f8f4f4 !important; /* Cambia este valor al color del texto deseado (blanco) */
   }
   
   .brand-text {

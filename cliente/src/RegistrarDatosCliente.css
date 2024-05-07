@@ -69,16 +69,14 @@
     margin: 16px 0;
     font-size: 16px;
   }
-  .ml-2{
-    margin-left: 20px !important;
-    margin-right: 50px !important;
-  }
-  .custom-cancel-button,
-  .custom-next-button {
-    font-size: 20px !important;
-    padding: 10px 20px !important;
-  }
   
+  .BontonCancelar{
+    
+  }
+  .BotonSiguiente{
+    
+  }
+
   .RadioButtons {
     margin-bottom: 20px; /* Puedes ajustar este valor según tu preferencia */
     width: 400px;
