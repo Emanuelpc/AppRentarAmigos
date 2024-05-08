@@ -19,7 +19,7 @@ export default function PerfilCliente({}){
     // se cambio a 3306 las rutas del url
     const data = user.idCliente;    ;
     console.log('Valor recibido:', data);
-    Axios.get("http://localhost:3306/ClientePerfilFotos", {
+    Axios.get("https://xdsiu-tecno-triunfadores-projects.vercel.app/ClientePerfilFotos", {
       params: {
         id : data
       }
@@ -37,7 +37,7 @@ export default function PerfilCliente({}){
     //const data = params.get('data');
     const data = user.idCliente; 
     console.log('Valor recibido:', data);
-    Axios.get("http://localhost:3306/Perfilcliente1", {
+    Axios.get("https://xdsiu-tecno-triunfadores-projects.vercel.app/Perfilcliente1", {
       params: {
         id : data
       }

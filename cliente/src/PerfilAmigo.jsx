@@ -23,7 +23,7 @@ export default function PerfilAmigo() {
   
   const getAmigoPerfil = () => {
     console.log(id)
-    Axios.get("http://localhost:3306/AmigoPerfil", {
+    Axios.get("https://xdsiu-tecno-triunfadores-projects.vercel.app/AmigoPerfil", {
             params: {
               idAmigo:id
             }
@@ -39,7 +39,7 @@ export default function PerfilAmigo() {
 
   const getAmigoPerfilFotos = () => {
     console.log(id)
-    Axios.get("http://localhost:3306/AmigoPerfilFotos", {
+    Axios.get("https://xdsiu-tecno-triunfadores-projects.vercel.app/AmigoPerfilFotos", {
             params: {
               idAmigo:id
             }
