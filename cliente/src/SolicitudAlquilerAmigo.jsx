@@ -77,7 +77,7 @@ function SolicitudAlquilerAmigo() {
 
 
     const getAmigoAlquiler = () => {
-        Axios.get("http://localhost:3001/amigoalquiler", {
+        Axios.get("https://xdsiu-tecno-triunfadores-projects.vercel.app/amigoalquiler", {
             params: {
                 id: id
             }
@@ -90,7 +90,7 @@ function SolicitudAlquilerAmigo() {
     }
 
     const getAmigoHorarioAlquiler = () => {
-        Axios.get("http://localhost:3001/amigohorarioalquiler", {
+        Axios.get("https://xdsiu-tecno-triunfadores-projects.vercel.app/amigohorarioalquiler", {
             params: {
                 id: id
             }
@@ -349,7 +349,7 @@ const convertirADiaIngles = (dia) => {
         // Agregar la nueva solicitud al array de solicitudes de alquiler
         setSolicitudesAlquiler([...solicitudesAlquiler, nuevaSolicitud]);
 
-        Axios.post("http://localhost:3001/solicitudalquiler", {
+        Axios.post("https://xdsiu-tecno-triunfadores-projects.vercel.app/solicitudalquiler", {
             turno: seleccionesUsuario.turno,
             horas: seleccionesUsuario.horas,
             fecha: date.toDateString(),
