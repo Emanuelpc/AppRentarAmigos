@@ -116,7 +116,7 @@ function RegistrarHorarioAmigo() {
   };
 
   const add = () => {
-      Axios.post("http://localhost:3306/horarios",{
+      Axios.post("https://xdsiu-tecno-triunfadores-projects.vercel.app/horarios",{
         lunes: lunes,
         martes: martes,
         miercoles: miercoles,

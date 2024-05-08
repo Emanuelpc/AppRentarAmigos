@@ -24,7 +24,7 @@ function Login() {
     }
     
     try {
-      const response = await Axios.get("http://localhost:3306/Cliente", {
+      const response = await Axios.get("https://xdsiu-tecno-triunfadores-projects.vercel.app/Cliente", {
         params: {
           correoCliente: email,
           contraCliente: password
