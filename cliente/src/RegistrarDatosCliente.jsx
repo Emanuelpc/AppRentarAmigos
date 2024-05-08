@@ -108,27 +108,26 @@ function RegistrarDatosCliente() {
 
     // Verificar si el valor está vacío o contiene solo espacios en blanco
     if (value.trim() === "") {
-        handleShowModal("Error", `No puedes dejar el campo ${name} vacío.`, handleCloseModal);
-        return;
+      handleShowModal("Error", `No puedes dejar el campo ${name} vacío.`, "Cerrar", handleCloseModal);
+      return;
     }
 
     // Verificar si contiene solo espacios en blanco
     if (/^\s*$/.test(value)) {
-        handleShowModal("Error", `No puedes dejar el campo ${name} solo con espacios en blanco.`, handleCloseModal);
-        return;
+      handleShowModal("Error", `No puedes dejar el campo ${name} solo con espacios en blanco.`, "Cerrar", handleCloseModal);
+      return;
     }
-
     // Verificar si contiene caracteres especiales (no alfanuméricos)
     const caracteresEspeciales = /[^A-Za-z\s!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/g;
     if (caracteresEspeciales.test(value)) {
-        handleShowModal("Error", `El ${name} solo puede contener letras y espacios.`, handleCloseModal);
+        handleShowModal("Error", `El ${name} solo puede contener letras y espacios.`, "Cerrar", handleCloseModal);
         return;
     }
 
     // Verificar si contiene caracteres numéricos
     const caracteresNumericos = /[0-9]/g;
     if (caracteresNumericos.test(value)) {
-        handleShowModal("Error", `El ${name} no puede contener caracteres numéricos.`, handleCloseModal);
+        handleShowModal("Error", `El ${name} no puede contener caracteres numéricos.`, "Cerrar", handleCloseModal);
         return;
     }
 
@@ -154,6 +153,7 @@ function RegistrarDatosCliente() {
     const correoEspecial = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     setCorreoValido(correoEspecial.test(correo));
   };
+
 
   return (
     <div>
@@ -278,14 +278,28 @@ function RegistrarDatosCliente() {
           <Button variant="danger" className="BotonCancelar" size="lg">Cancelar</Button>
         </Link>
 
-        <Button
-          variant="primary"
-          className="BotonSiguiente"
-          size="lg"
-          onClick={() => verificarCamposCompletos()}
+        <Link
+          to={camposCompletos ? "/RegistrarFotosCliente" : ""}
+          state={{
+            data: {
+              Nombre,
+              Apellido,
+              CorreoElectronico,
+              Password,
+              fechaNacimiento,
+              Genero,
+              seleccionPrecio
+            }
+          }}
+          onClick={() => {
+            if (!camposCompletos) {
+              verificarCamposCompletos();
+            }
+          }}
         >
-          Siguiente
-        </Button>
+          <Button variant="primary" className="BotonSiguiente" size="lg">Siguiente</Button>
+          
+        </Link>
 
       </form>
 
