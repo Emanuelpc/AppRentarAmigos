@@ -3,12 +3,14 @@ import { MDBCol, MDBContainer, MDBRow, MDBCard, MDBCardText, MDBCardBody, MDBCar
 import { Link, useLocation } from "react-router-dom";
 import Axios from "axios";
 import Navbar from "./Componentes/Navbar";
+import { useUser } from './UserContext';
 
 
 export default function PerfilAmigo() {
   const[amigointeres,setamigointeres]=useState([]);
   const[amigofotos,setamigofotos]=useState([]);
   const location = useLocation();
+  const { user } = useUser();
   const { nombre, apellido, descripcion, imagenUrl, genero, edad, id } = location.state?.data || {};
   const profile = {
     name: nombre,
@@ -152,9 +154,13 @@ export default function PerfilAmigo() {
                   ))}
                 </MDBRow>
               </MDBCardBody>
-              <Link to="/SolicitudAlquilerAmigo" state={{ data: { id } }}>
-              <button style={{alignSelf:'center', width:'80%',textAlign: 'center' ,fontSize: '20px', marginTop: '5px',marginBottom: '15px',backgroundColor:'#627af3',color:'white',borderRadius:'5px'}}>Alquilar Amigo</button>
-              </Link>
+              {!user ? (
+                <p style={{ textAlign: 'center', fontSize: '30px', marginTop: '5px', marginBottom: '15px', color: 'black' }}>Regístrese para poder alquilar un Alqui Amigo</p>
+              ) : (
+                <Link to="/SolicitudAlquilerAmigo" state={{ data: { id } }}>
+                  <button style={{ alignSelf: 'center', width: '80%', textAlign: 'center', fontSize: '20px', marginTop: '5px', marginBottom: '15px', backgroundColor: '#627af3', color: 'white', borderRadius: '5px' }}>Alquilar Amigo</button>
+                </Link>
+              )}
             </MDBCard>
           </MDBCol>
         </MDBRow>

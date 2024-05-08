@@ -11,6 +11,7 @@ import { useLocation,useNavigate } from "react-router-dom";
 import Axios from "axios";
 import Button from 'react-bootstrap/esm/Button';
 import { useUser } from './UserContext';
+import Modal from 'react-bootstrap/esm/Modal';
 
 function SolicitudAlquilerAmigo() {
     const [date, setDate] = useState(new Date());
@@ -19,10 +20,7 @@ function SolicitudAlquilerAmigo() {
     const [HorasDisponiblesSeleccionadas, setHorasDisponiblesSeleccionadas] = useState([]);
     const [amigoalquiler, setamigoalquiler] = useState([]);
     const [amigoalquilerhorario, setamigoalquilerhorario] = useState([]);
-    const [seleccionesUsuario, setSeleccionesUsuario] = useState({
-        turno: '',
-        horas: []
-    });
+    const [seleccionesUsuario, setSeleccionesUsuario] = useState({ turno: '',horas: []});
     const location = useLocation();
     const { id } = location.state?.data || {};
     const [total, setTotal] = useState(0);
@@ -31,6 +29,51 @@ function SolicitudAlquilerAmigo() {
     const [solicitudesAlquiler, setSolicitudesAlquiler] = useState([]);
     const { user } = useUser();
     const navigate = useNavigate();
+    const [modalText, setModalText] = useState('');
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [modalText2, setModalText2] = useState('');
+    const [isModalOpen2, setIsModalOpen2] = useState(false);
+    const [modalText3, setModalText3] = useState('');
+    const [isModalOpen3, setIsModalOpen3] = useState(false);
+    const [modalText4, setModalText4] = useState('');
+    const [isModalOpen4, setIsModalOpen4] = useState(false);
+
+    const openModal = (text) => {
+        setModalText(text);
+        setIsModalOpen(true);
+    };
+
+    const closeModal = () => {
+        setIsModalOpen(false);
+    };
+
+    const openModal2 = (text) => {
+        setModalText2(text);
+        setIsModalOpen2(true);
+    };
+
+    const closeModal2 = () => {
+        setIsModalOpen2(false);
+    };
+
+    const openModal3 = (text) => {
+        setModalText3(text);
+        setIsModalOpen3(true);
+    };
+
+    const closeModal3 = () => {
+        setIsModalOpen3(false);
+    };
+
+    const openModal4 = (text) => {
+        setModalText4(text);
+        setIsModalOpen4(true);
+    };
+
+    const closeModal4 = () => {
+        setIsModalOpen4(false);
+        navigate(`/SolicitudesaAmigos`);
+    };
 
 
     const getAmigoAlquiler = () => {
@@ -258,17 +301,39 @@ const convertirADiaIngles = (dia) => {
     
     // Función para manejar cambios en el campo de ubicación
     const handleUbicacionChange = (event) => {
-    setUbicacion(event.target.value);
+        const value = event.target.value;
+        if (value.length <= 50) {
+            setUbicacion(value);
+        } else {
+            // Muestra una alerta o modal informando al usuario que se superó el límite de caracteres
+            openModal2("Se ha superado el límite de caracteres para la ubicación (50 caracteres máximo)");
+        }
     };
 
     // Función para manejar cambios en el campo de motivo del alquiler
     const handleMotivoAlquilerChange = (event) => {
-    setMotivoAlquiler(event.target.value);
+        const value = event.target.value;
+        if (value.length <= 150) {
+            setMotivoAlquiler(value);
+        } else {
+            // Muestra una alerta o modal informando al usuario que se superó el límite de caracteres
+            openModal2("Se ha superado el límite de caracteres para el motivo de alquiler (150 caracteres máximo)");
+        }
     };
 
 
      // Manejar el envío de la solicitud de alquiler
      const handleEnviarSolicitud = () => {
+
+        if (
+            seleccionesUsuario.turno === '' ||
+            seleccionesUsuario.horas.length === 0 ||
+            ubicacion === '' ||
+            motivoAlquiler === ''
+        ) {
+            openModal3("Por favor completa todos los campos antes de enviar la solicitud de alquiler.");
+            return; // Detener la ejecución si algún campo obligatorio está vacío
+        }
         // Crear objeto que representa la solicitud de alquiler
         const nuevaSolicitud = {
             turno: seleccionesUsuario.turno,
@@ -297,7 +362,8 @@ const convertirADiaIngles = (dia) => {
             .then((response) => {
                 // Manejar la respuesta del servidor si es necesario
                 console.log("Solicitud de alquiler enviada con éxito:", response.data);
-                navigate(`/SolicitudesaAmigos`);
+                openModal4("Se envio Correctamente la Solicitud de Alquiler al AlquiAmigo");
+                //navigate(`/SolicitudesaAmigos`);
             })
             .catch((error) => {
                 console.error("Error al enviar la solicitud de alquiler:", error);
@@ -307,6 +373,22 @@ const convertirADiaIngles = (dia) => {
     useEffect(() => {
         console.log(solicitudesAlquiler);
     }, [solicitudesAlquiler]);
+
+
+    // Función para limpiar todos los estados relevantes
+    const limpiarSeleccion = () => {
+    limpiarSeleccionesUsuario(); // Limpiar las selecciones de turno y horas
+    limpiarTotal(); // Limpiar el total
+    limpiarTurnosandHoras(); // Limpiar los turnos y horas disponibles
+    setUbicacion(''); // Limpiar la ubicación
+    setMotivoAlquiler(''); // Limpiar el motivo del alquiler
+    };
+
+    // Manejar el clic en el botón "Cancelar"
+    const handleCancelar = () => {
+    limpiarSeleccion(); // Llamar a la función para limpiar los estados relevantes
+    };
+
     
 
 
@@ -382,17 +464,17 @@ const convertirADiaIngles = (dia) => {
                                     <MDBCol sm="12" lg="6">
                                         <MDBCard className="border border-dark p-3">
                                             <h2>Detalles del Alquiler</h2>
-                                            <h4 style={{ textAlign: 'left' }}>Ubicacion Encuentro del Alquiler</h4>
+                                            <h4 style={{ textAlign: 'left' }}>Ubicación Encuentro del alquiler</h4>
                                             <div className="d-flex align-items-center">
                                                 <TiLocation style={{ fontSize: '3rem' }} />
-                                                <input type="text" className="form-control mx-3" placeholder="Ingrese la ubicación" value={ubicacion} onChange={handleUbicacionChange}/>
+                                                <input type="text" className="form-control mx-3" placeholder="Ingrese la ubicación" value={ubicacion} onChange={handleUbicacionChange} maxLength="51"/>
                                             </div>
                                             <h4 style={{ textAlign: 'left' }}>Motivo del Alquiler</h4>
                                             <div className="d-flex ">
                                                 <TiClipboard style={{ fontSize: '3rem' }} />
-                                                <textarea className="form-control mx-3" rows="4" placeholder="Ingrese los detalles del alquiler" value={motivoAlquiler} onChange={handleMotivoAlquilerChange}></textarea>
+                                                <textarea className="form-control mx-3" rows="4" placeholder="Ingrese los detalles del alquiler" value={motivoAlquiler} onChange={handleMotivoAlquilerChange} maxLength="151"></textarea>
                                             </div>
-                                            <h2>Previsualizacion Alquiler</h2>
+                                            <h2>Previsualización alquiler</h2>
                                             <div className="border border-dark p-3">
                                                 <div className="d-flex align-items-center">
                                                 <CiViewList style={{ fontSize: '3rem' }} />
@@ -404,23 +486,33 @@ const convertirADiaIngles = (dia) => {
                                                 </div>
                                                 <div className="d-flex align-items-center">
                                                 <CiCalendar style={{ fontSize: '3rem' }} />
-                                                <h3 className="ms-3  fw-bold">Fecha: {date.toDateString()}</h3>
+                                                <h3 className="ms-3  fw-bold">Fecha: {date.toLocaleDateString()}</h3>
                                                 </div>
                                                 {/* Agrega la ubicación y el motivo del alquiler */}
                                                 <div className="d-flex align-items-center">
                                                     <TiLocation style={{ fontSize: '3rem' }} />
-                                                    <h3 className="ms-3 fw-bold">Ubicación: {ubicacion}</h3>
+                                                    <h3 className="ms-3 fw-bold">Ubicación: </h3>
+                                                    <Button style={{ margin: '5px' }} onClick={() => openModal(`Ubicación: ${ubicacion}`)}>
+                                                    Ver Detalles de la Ubicacion
+                                                    </Button>
                                                 </div>
                                                 <div className="d-flex align-items-center">
                                                     <TiClipboard style={{ fontSize: '3rem' }} />
-                                                    <h3 className="ms-3 fw-bold">Motivo : {motivoAlquiler}</h3>
+                                                    <h3 className="ms-3 fw-bold">Motivo de Alquiler: </h3>
+                                                    <Button style={{ margin: '5px' }} onClick={() => openModal(`Motivo Alquiler: ${motivoAlquiler}`)}>
+                                                    Ver Detalles del Motivo
+                                                    </Button>
                                                 </div>
                                                 <div className="d-flex align-items-center">
                                                 <CiMoneyBill style={{ fontSize: '3rem' }} />
                                                 <h3 className="ms-3 text-primary fw-bold">Total: {total} BS</h3>
                                                 </div>
                                             </div>
-                                            <Button style={{margin:'5px'}} onClick={handleEnviarSolicitud}>Mandar Solicitud Alquiler</Button>
+                                            <div className="d-flex justify-content-center">
+                                                <Button variant="danger" size="lg" onClick={handleCancelar}>Cancelar</Button>
+                                                <Button variant="success" size="lg" onClick={handleEnviarSolicitud} style={{ marginRight: '10px' }}>Mandar Solicitud Alquiler</Button>
+                                            </div>
+
                                         </MDBCard>
                                     </MDBCol>
                                 </MDBRow>
@@ -429,6 +521,52 @@ const convertirADiaIngles = (dia) => {
                     </MDBCol>
                 </MDBRow>
             </MDBContainer>
+
+            {/* Modal de React-Bootstrap */}
+            <Modal show={isModalOpen} onHide={closeModal}>
+                <Modal.Header closeButton>
+                    <Modal.Title>Detalles del Alquiler</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>{modalText}</Modal.Body>
+                <Modal.Footer>
+                    <Button variant="secondary" onClick={closeModal}>
+                        Cerrar
+                    </Button>
+                </Modal.Footer>
+            </Modal>
+            <Modal show={isModalOpen2} onHide={closeModal2}>
+                <Modal.Header closeButton>
+                    <Modal.Title>Alerta de Maximo de Caracteres</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>{modalText2}</Modal.Body>
+                <Modal.Footer>
+                    <Button variant="secondary" onClick={closeModal2}>
+                        Cerrar
+                    </Button>
+                </Modal.Footer>
+            </Modal>
+            <Modal show={isModalOpen3} onHide={closeModal3}>
+                <Modal.Header closeButton>
+                    <Modal.Title>Alerta Solicitud Imcompleta</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>{modalText3}</Modal.Body>
+                <Modal.Footer>
+                    <Button variant="secondary" onClick={closeModal3}>
+                        Cerrar
+                    </Button>
+                </Modal.Footer>
+            </Modal>
+            <Modal show={isModalOpen4} onHide={closeModal4}>
+                <Modal.Header closeButton>
+                    <Modal.Title>Solicitud Alquiler Exitoso</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>{modalText4}</Modal.Body>
+                <Modal.Footer>
+                    <Button variant="secondary" onClick={closeModal4}>
+                        Cerrar
+                    </Button>
+                </Modal.Footer>
+            </Modal>
         </div>
     );
 }
