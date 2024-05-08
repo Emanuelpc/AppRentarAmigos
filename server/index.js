@@ -5,9 +5,7 @@ const cors = require("cors");
 
 
 // Permitir solicitudes desde el origen del cliente en el puerto 3000
-app.use(cors({
-    origin: '*'
-  }));
+app.use(cors());
   
   // Resto de la configuración de tu servidor...
 

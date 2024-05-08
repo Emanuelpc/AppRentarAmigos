@@ -38,7 +38,7 @@ function RegistrarDatosAmigo() {
 
   const getPreciosHora = async () => {
     try {
-      const response = await axios.get('http://localhost:3306/precioshora');
+      const response = await axios.get('https://xdsiu-tecno-triunfadores-projects.vercel.app/precioshora');
       setPreciosHora(response.data);
     } catch (error) {
       console.error('Error al obtener precios por hora:', error);
