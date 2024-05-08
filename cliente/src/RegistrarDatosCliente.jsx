@@ -34,7 +34,6 @@ function RegistrarDatosCliente() {
     setShowModal(true);
   };
 
-
   const handleChange = (e) => {
     setGenero(e.target.value);
   }
@@ -94,29 +93,54 @@ function RegistrarDatosCliente() {
     }
   };
 
+  const validarSeleccionPrecio = (value) => {
+    const caracteresEspeciales = /[!@#$%^&*(),.?":{}|<>]/;
+  
+    if (caracteresEspeciales.test(value)) {
+      handleShowModal("Error", "La selección de precios solo puede contener letras, espacios y ciertos caracteres especiales.","Cerrar", handleCloseModal);
+      return false;
+    }
+    return true;
+  };
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-  
-    // Verificar si contiene caracteres especiales
-    const caracteresEspeciales = /[^A-Za-z\s]/;
-    if (caracteresEspeciales.test(value)) {
-      handleShowModal("Error", `El ${name} solo puede contener letras y espacios.`, "Cerrar", handleCloseModal);
+
+    // Verificar si el valor está vacío o contiene solo espacios en blanco
+    if (value.trim() === "") {
+      handleShowModal("Error", `No puedes dejar el campo ${name} vacío.`, "Cerrar", handleCloseModal);
       return;
     }
-  
-    // Si no contiene caracteres especiales, actualizar el estado correspondiente
+
+    // Verificar si contiene solo espacios en blanco
+    if (/^\s*$/.test(value)) {
+      handleShowModal("Error", `No puedes dejar el campo ${name} solo con espacios en blanco.`, "Cerrar", handleCloseModal);
+      return;
+    }
+    // Verificar si contiene caracteres especiales (no alfanuméricos)
+    const caracteresEspeciales = /[^A-Za-z\s!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/g;
+    if (caracteresEspeciales.test(value)) {
+        handleShowModal("Error", `El ${name} solo puede contener letras y espacios.`, "Cerrar", handleCloseModal);
+        return;
+    }
+
+    // Verificar si contiene caracteres numéricos
+    const caracteresNumericos = /[0-9]/g;
+    if (caracteresNumericos.test(value)) {
+        handleShowModal("Error", `El ${name} no puede contener caracteres numéricos.`, "Cerrar", handleCloseModal);
+        return;
+    }
+
+    // Si no contiene caracteres especiales ni numéricos, actualizar el estado correspondiente
     switch (name) {
-      case "nombres":
-        setNombre(value);
-        break;
-      case "apellidos":
-        setApellido(value);
-        break;
-      case "seleccionPrecio":
-        setSeleccionPrecio(value);
-        break;
-      default:
-        break;
+        case "nombres":
+            setNombre(value);
+            break;
+        case "apellidos":
+            setApellido(value);
+            break;
+        default:
+            break;
     }
 };
   
@@ -130,6 +154,7 @@ function RegistrarDatosCliente() {
     setCorreoValido(correoEspecial.test(correo));
   };
 
+
   return (
     <div>
       <Navbar />
@@ -142,10 +167,7 @@ function RegistrarDatosCliente() {
           type="text"
           name="nombres"
           id="nombres"
-          onChange={(event) => {
-            setNombre(event.target.value);
-            handleInputChange(event.target.value); // Verificar el correo mientras se escribe
-          }}
+          onChange={(event) => handleInputChange(event)}
           placeholder={`Ingrese su Nombre ${showPlaceholderAsterisk ? "*" : ""}`}
           required
           maxLength={24}
@@ -158,10 +180,7 @@ function RegistrarDatosCliente() {
           type="text"
           name="apellidos"
           id="apellidos"
-          onChange={(event) => {
-            setApellido(event.target.value);
-            handleInputChange(event.target.value); // Verificar el correo mientras se escribe
-          }}
+          onChange={(event) => handleInputChange(event)}
           placeholder={`Ingrese su Apellido ${showPlaceholderAsterisk ? "*" : ""}`}
           required
           maxLength={24}
@@ -240,17 +259,18 @@ function RegistrarDatosCliente() {
 
         <h3 style={{ textAlign: 'left' }}>Registrar Descripción Personal</h3>
         <textarea
-              className={`controls ${camposIncompletos.includes('tarifa') ? 'campos-incompletos' : ''}`}
-              name="password"
-              id="password"
-              onChange={(event) => {
-                setSeleccionPrecio(event.target.value);
-                handleInputChange(event.target.value); // Verificar el correo mientras se escribe
-              }}
-              required
-              maxLength={200}
-              rows={5} 
-              cols={50}
+            className={`controls ${camposIncompletos.includes('tarifa') ? 'campos-incompletos' : ''}`}
+            name="seleccionPrecio"
+            id="seleccionPrecio"
+            onChange={(event) => {
+              setSeleccionPrecio(event.target.value);
+              validarSeleccionPrecio(event.target.value); // Llamada a la función validarSeleccionPrecio
+            }}
+            required
+            maxLength={200}
+            rows={5}
+            cols={50}
+            style={{ resize: 'none' }} // Evita que el usuario pueda redimensionar el textarea
         />
         <br />
 
@@ -278,6 +298,7 @@ function RegistrarDatosCliente() {
           }}
         >
           <Button variant="primary" className="BotonSiguiente" size="lg">Siguiente</Button>
+          
         </Link>
 
       </form>

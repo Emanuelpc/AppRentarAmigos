@@ -44,6 +44,12 @@ setHasDraggedImage(true);
 setShowBackground(false);
     const files = Array.from(e.dataTransfer.files);
     const imageFiles = files.filter((file) => file.type.startsWith('image/'));
+    const nonImageFiles = files.filter((file) => !file.type.startsWith('image/'));
+
+    if (nonImageFiles.length > 0) {
+      alert('Solo se permiten archivos de imagen (jpg/png).');
+      return;
+    }
 
     if (images.length + imageFiles.length > MAX_IMAGES) {
       setShowMaxImagesAlert(true);
@@ -66,6 +72,12 @@ setShowBackground(false);
   const handleFileInputChange = async (e) => {
     const files = Array.from(e.target.files);
     const imageFiles = files.filter((file) => file.type.startsWith('image/'));
+    const nonImageFiles = files.filter((file) => !file.type.startsWith('image/'));
+
+    if (nonImageFiles.length > 0) {
+      alert('Solo se permiten archivos de imagen (jpg/png).');
+      return;
+    }
 
     if (images.length + imageFiles.length > MAX_IMAGES) {
       setShowMaxImagesAlert(true);
@@ -156,7 +168,7 @@ setShowBackground(false);
               type="file"
               style={{ display: 'none' }}
               multiple
-              accept="image/*" // Esto limita la selección de archivos solo a imágenes
+              accept=".jpg, .png" // Solo se permiten archivos jpg y png
               onChange={handleFileInputChange}
             />
           </Col>
