@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { MDBBtn, MDBContainer, MDBRow, MDBCol, MDBInput } from 'mdb-react-ui-kit';
 import Navbar from "./Componentes/Navbar";
-import './Login.css';
+import './LoginCliente.css';
 import { Button } from 'react-bootstrap';
 import { Link,useNavigate} from 'react-router-dom';
 import Axios from "axios";
@@ -60,7 +60,7 @@ function Login() {
       <Navbar />
       <div>
         <form className="form-login" onSubmit={handleLogin}>
-          <h1 className="text-center mb-4">Inicio de Sesión</h1>
+          <h1 className="text-center mb-4">Inicio de Sesión Cliente</h1>
           <MDBContainer className="my-5 gradient-form">
             <MDBRow>
               <MDBCol col='6' className="mb-5 d-flex align-items-center justify-content-center">

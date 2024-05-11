@@ -34,7 +34,7 @@ function BasicNavbar() {
               <NavLink to="../RegistrarDatosAmigo" className="nav-link" activeClassName="active-link">Registrarse Amigo</NavLink>
               <NavLink to="../RegistrarDatosCliente" className="nav-link" activeClassName="active-link">Registrarse Cliente</NavLink>
           </NavDropdown>
-          <NavLink to="../Login" className="nav-link" activeClassName="active-link">Iniciar Sesion</NavLink> 
+          <NavLink to="../LoginCliente" className="nav-link" activeClassName="active-link">Iniciar Sesion</NavLink> 
           </Nav>
         )}
         </Navbar.Collapse>
