@@ -7,6 +7,7 @@ import { Link,useNavigate} from 'react-router-dom';
 import Axios from "axios";
 import { FaEye, FaEyeSlash } from 'react-icons/fa'; // Importa los iconos de ojo
 import { useUser } from './UserContext';
+import logo from './Imagenes/logo.png';
 
 function Login() {
   const [email, setEmail] = useState('');
@@ -66,11 +67,11 @@ function Login() {
               <MDBCol col='6' className="mb-5 d-flex align-items-center justify-content-center">
                 <div className="d-flex flex-column align-items-center">
                   <div className="text-center mb-4">
-                    <img
-                      src="https://e7.pngegg.com/pngimages/713/762/png-clipart-computer-icons-button-login-image-file-formats-logo.png"
-                      style={{ width: '185px' }}
-                      alt="logo"
-                    />
+                  <img
+                    src={logo}
+                    style={{ width: '185px' }}
+                    alt="logo"
+                  />
                   </div>
                   <h4 className="text-center mb-4">Inicia Sesión con tu cuenta</h4>
                   <MDBInput
