@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { MDBBtn, MDBContainer, MDBRow, MDBCol, MDBInput } from 'mdb-react-ui-kit';
 import Navbar from "./Componentes/Navbar";
-import './LoginCliente.css';
+import './LoginAmigo.css';
 import { Button } from 'react-bootstrap';
 import { Link,useNavigate} from 'react-router-dom';
 import Axios from "axios";
@@ -9,7 +9,7 @@ import { FaEye, FaEyeSlash } from 'react-icons/fa'; // Importa los iconos de ojo
 import { useUser } from './UserContext';
 import logo from './Imagenes/logo.png';
 
-function LoginCliente() {
+function LoginAmigo() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -61,7 +61,7 @@ function LoginCliente() {
       <Navbar />
       <div>
         <form className="form-login" onSubmit={handleLogin}>
-          <h1 className="text-center mb-4">Inicio de Sesión Cliente</h1>
+          <h1 className="text-center mb-4">Inicio de Sesión Amigo Rentable</h1>
           <MDBContainer className="my-5 gradient-form">
             <MDBRow>
               <MDBCol col='6' className="mb-5 d-flex align-items-center justify-content-center">
@@ -118,4 +118,4 @@ function LoginCliente() {
   );
 }
 
-export default LoginCliente;
+export default LoginAmigo;
