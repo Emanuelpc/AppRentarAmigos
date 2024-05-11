@@ -61,7 +61,7 @@ function LoginAmigo() {
       <Navbar />
       <div>
         <form className="form-login" onSubmit={handleLogin}>
-          <h1 className="text-center mb-4">Inicio de Sesión Amigo Rentable</h1>
+          <h1 className="text-center mb-4">Inicio de Sesión Amigo</h1>
           <MDBContainer className="my-5 gradient-form">
             <MDBRow>
               <MDBCol col='6' className="mb-5 d-flex align-items-center justify-content-center">
