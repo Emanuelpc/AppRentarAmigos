@@ -103,7 +103,7 @@ function LoginCliente() {
                   <br />
                   <div className="text-center">
                     <p className="mb-0">¿Quieres registrarte?
-                      <Link to="/RegistrarDatosAmigo">
+                      <Link to="/RegistrarDatosCliente">
                         <Button variant="primary" className="ml-2" size="sm">Registrarse</Button>
                       </Link>
                     </p>

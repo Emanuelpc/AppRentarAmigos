@@ -45,6 +45,23 @@ app.get("/cliente", (req, res) => {
         }
     );
 });
+//Endpoint para obtener todos los Datos de : Amigo
+app.get("/amigo1", (req, res) => {
+    // Consultar todos los departamentos en la base de datos
+    const{correoCliente} = req.query;
+    const{contraCliente} = req.query;
+    console.log(correoCliente);
+    db.query(`SELECT * FROM amigo WHERE amigo.CorreoElectronico = '${correoCliente}' AND amigo.Password = '${contraCliente}'`,
+        (err, result) => {
+            if (err) {
+                console.log(err);
+                res.status(500).send("Error al obtener Amigo");
+            } else {
+                res.send(result);
+            }
+        }
+    );
+});
 
 //Endpoint para obtener todos los Datos de : Amigo
 app.get("/ClientePerfil", (req, res) => {
@@ -63,7 +80,7 @@ app.get("/ClientePerfil", (req, res) => {
     );
 });
 
-//Endpoint para obtener todos los Datos de : Amigo
+//Endpoint para obtener todos los Datos de : cliente
 app.get("/Perfilcliente1", (req, res) => {
     // Consultar todos los departamentos en la base de datos
     const{id} = req.query

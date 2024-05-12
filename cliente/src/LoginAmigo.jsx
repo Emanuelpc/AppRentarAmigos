@@ -25,21 +25,21 @@ function LoginAmigo() {
     }
     
     try {
-      const response = await Axios.get("http://localhost:3001/Cliente", {
+      const response = await Axios.get("http://localhost:3001/amigo1", {
         params: {
           correoCliente: email,
           contraCliente: password
         }
       });
       
-      const clienteData = response.data[0]; // Suponiendo que la respuesta es un array con un solo elemento
+      const amigoData = response.data[0]; // Suponiendo que la respuesta es un array con un solo elemento
 
-      if (clienteData) {
+      if (amigoData) {
         // Redirige al usuario a la página "PerfilCliente" si las credenciales son correctas
-        console.log(clienteData);
-        updateUser(clienteData);
-        //window.location.href = `/PerfilCliente?data=${clienteData.idCliente}`;
-        navigate(`/PerfilCliente`);
+        console.log(amigoData);
+        updateUser(amigoData);
+        //window.location.href = `/PerfilCliente?data=${amigoData.idCliente}`;
+        navigate(`/PerfilAmigo`);
         console.log('Inicio de sesión exitoso');
       } else {
         // Muestra un mensaje de error si las credenciales son incorrectas
