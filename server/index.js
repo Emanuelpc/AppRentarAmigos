@@ -567,6 +567,23 @@ app.get("/amigohorarioalquiler", (req, res) => {
         }
     );
 });
+//Endpoint para obtener todos los Datos de : Ciudad
+app.get("/CitasAmigo", (req, res) => {
+    const { idAmigo } = req.query;
+    const { fechacita } = req.query;
+    db.query( `SELECT *
+    FROM solicitudamigo
+    WHERE idAmigo='${idAmigo}' AND aceptada = "0" AND fecha = '${fechacita}'`,
+        (err, result) => {
+            if (err) {
+                console.log(err);
+                res.status(500).send("Error al obtener amigos");
+            } else {
+                res.send(result);
+            }
+        }
+    );
+});
 
 app.post("/solicitudalquiler", (req,res)=>{
     const turno = req.body.turno;
@@ -652,3 +669,5 @@ function convertirFechaMySQL(fechaTexto) {
 
     return fechaMySQL;
 }
+
+
