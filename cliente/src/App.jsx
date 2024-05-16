@@ -13,8 +13,10 @@ import SolicitudAlquilerAmigo from "./SolicitudAlquilerAmigo";
 import RegistrarDatosCliente from "./RegistrarDatosCliente";
 import RegistrarFotosCliente from "./RegistrarFotosCliente";
 import RegistrarUbicacionCliente from "./RegistrarUbicacionCliente";
-import Login from "./Login";
+import LoginCliente from "./LoginCliente";
+import LoginAmigo from "./LoginAmigo"
 import SolicitudesaAmigos from "./SolicitudesaAmigos";
+import SolicitudesClientes from "./SolicitudesClientes";
 import CitasAmigos from "./CitasAmigos";
 import AgendaAmigo from "./AgendaAmigo";
 import { UserProvider } from './UserContext';
@@ -34,7 +36,8 @@ function App() {
         <Route path="RegistrarUbicacionAmigo" element={ <RegistrarUbicacionAmigo /> } />
         <Route path="BuscadorAmigo" element={ <BuscadorAmigo /> } />
         <Route path="PerfilAmigo" element={ <PerfilAmigo /> } />
-        <Route path="Login" element={<Login />}/>
+        <Route path="LoginCliente" element={<LoginCliente />}/>
+        <Route path="LoginAmigo" element={<LoginAmigo />}/>
         <Route path="PerfilCliente" element={<PerfilCliente />}/>
         <Route path="SolicitudAlquilerAmigo" element={<SolicitudAlquilerAmigo />}/>
         <Route path="RegistrarDatosCliente" element={<RegistrarDatosCliente />}/>
@@ -42,6 +45,7 @@ function App() {
         <Route path="RegistrarUbicacionCliente" element={<RegistrarUbicacionCliente />}/>
         <Route path="CitasAmigos" element={<CitasAmigos />}/>
         <Route path="SolicitudesaAmigos" element={<SolicitudesaAmigos />}/>
+        <Route path="SolicitudesClientes" element={<SolicitudesClientes />}/>
         <Route path="AgendaAmigo" element={<AgendaAmigo />}/>
       </Routes>
       </UserProvider>
