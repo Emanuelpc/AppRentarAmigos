@@ -18,6 +18,7 @@ import LoginAmigo from "./LoginAmigo"
 import SolicitudesaAmigos from "./SolicitudesaAmigos";
 import SolicitudesClientes from "./SolicitudesClientes";
 import CitasAmigos from "./CitasAmigos";
+import PerfilAmigoPrime from "./PerfilAmigoPrime";
 import { UserProvider } from './UserContext';
 
 
@@ -45,6 +46,7 @@ function App() {
         <Route path="CitasAmigos" element={<CitasAmigos />}/>
         <Route path="SolicitudesaAmigos" element={<SolicitudesaAmigos />}/>
         <Route path="SolicitudesClientes" element={<SolicitudesClientes />}/>
+        <Route path="PerfilAmigoPrime" element={<PerfilAmigoPrime />}/>
       </Routes>
       </UserProvider>
     </div>
