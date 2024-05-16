@@ -621,7 +621,7 @@ app.get("/solicitudescliente", (req, res) => {
     );
 });
 
-//Inicialización del servidor:
+//Inicialización del servidor
 
 app.listen(3001, () => {
     console.log("Se está ejecutando en el puerto 3001");
