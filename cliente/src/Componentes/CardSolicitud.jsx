@@ -32,6 +32,13 @@ const CardSolicitud = ({solicitud,reloadSolicitudes}) => {
     <Card style={{ width: '18rem', backgroundColor: '#f0f0f0' }}>
         <Card.Body>
             <Card.Title style={{  fontSize: '18px', fontFamily: 'Arial, sans-serif' }}>Solicitud Alquiler Amigo</Card.Title>
+            <div style={{ width: '100%', height: '200px', overflow: 'hidden' }}>
+                <Card.Img
+                variant="top"
+                src={solicitud.foto}
+                style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                />
+            </div>
                 <Card.Text style={{ textAlign: 'left', fontSize: '18px', fontFamily: 'Arial, sans-serif' }}>
                 Cliente: {solicitud.nombreCliente} {solicitud.apellidoCliente}<br />
                 Turno: {solicitud.Turno}<br />

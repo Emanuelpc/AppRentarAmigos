@@ -594,6 +594,7 @@ app.post("/solicitudalquiler", (req,res)=>{
     const total = req.body.total;
     const idAmigo = req.body.idAmigo;
     const idCliente = req.body.idCliente;
+    const Aceptar=0;
     
     
     console.log(turno);
@@ -605,8 +606,8 @@ app.post("/solicitudalquiler", (req,res)=>{
     console.log(idAmigo);
     console.log(idCliente);
 
-        db.query('INSERT INTO solicitudamigo(Turno,horas,fecha,ubicacion,motivoAlquiler,total,idAmigo,idCliente) VALUES(?,?,?,?,?,?,?,?)',
-        [turno,horas[0],fecha,ubicacion,motivoAlquiler,total,idAmigo,idCliente],
+        db.query('INSERT INTO solicitudamigo(Turno,horas,fecha,ubicacion,motivoAlquiler,total,idAmigo,idCliente,Aceptada) VALUES(?,?,?,?,?,?,?,?,?)',
+        [turno,horas[0],fecha,ubicacion,motivoAlquiler,total,idAmigo,idCliente,Aceptar],
         (err, result) => {
             if(err){
                 console.log(err);
@@ -642,7 +643,12 @@ app.get("/solicitudesamigos", (req, res) => {
     //Obtener Valores de los parámetros de la URL
     const { id } = req.query;
     console.log(id);
-    let query=`SELECT solicitudamigo.idSolicitudAmigo,solicitudamigo.Turno,solicitudamigo.horas,solicitudamigo.fecha,solicitudamigo.ubicacion,solicitudamigo.motivoAlquiler,solicitudamigo.total,solicitudamigo.idAmigo,solicitudamigo.idCliente,cliente.nombreCliente,cliente.apellidoCliente 
+    let query=`SELECT solicitudamigo.idSolicitudAmigo,solicitudamigo.Turno,solicitudamigo.horas,solicitudamigo.fecha,solicitudamigo.ubicacion,solicitudamigo.motivoAlquiler,solicitudamigo.total,solicitudamigo.idAmigo,solicitudamigo.idCliente,cliente.nombreCliente,cliente.apellidoCliente,(
+        SELECT foto
+        FROM cliente_fotos
+        WHERE cliente_fotos.idCliente = solicitudamigo.idCliente
+        LIMIT 1
+    ) AS foto 
     FROM solicitudamigo , cliente 
     WHERE solicitudamigo.idAmigo = '${id}' AND  solicitudamigo.idCliente = cliente.idCliente AND solicitudamigo.Aceptada=0`
     console.log(query)
