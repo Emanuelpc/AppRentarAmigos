@@ -16,7 +16,17 @@ function BasicNavbar() {
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav" className="justify-content-end">
         {user ? (
+          user.idAmigo ? (
           <Nav className="ms-auto">
+          <NavLink to="../SolicitudesClientes" className="nav-link" activeClassName="active-link">Solicitudes Clientes</NavLink> 
+          <NavLink to="../CitasClientes" className="nav-link" activeClassName="active-link">Agendas de Citas con Clientes</NavLink> 
+          <NavLink to="../PerfilAmigo" className="nav-link" activeClassName="active-link">
+                <div className="d-flex align-items-center">
+                  <FaUser className="me-2" /> Mi perfil {user.Nombre} {user.Apellido}
+                </div>
+          </NavLink>
+          </Nav>
+          ):(<Nav className="ms-auto">
           <NavLink to="../BuscadorAmigo" className="nav-link" activeClassName="active-link">Buscador Amigo</NavLink> 
           <NavLink to="../SolicitudesaAmigos" className="nav-link" activeClassName="active-link">Solicitudes a Amigos</NavLink> 
           <NavLink to="../CitasAmigos" className="nav-link" activeClassName="active-link">Agendas de Citas Amigos</NavLink> 
@@ -25,7 +35,7 @@ function BasicNavbar() {
                   <FaUser className="me-2" /> Mi perfil {user.nombreCliente} {user.apellidoCliente}
                 </div>
           </NavLink>
-          </Nav>
+          </Nav>)
         ):(
           <Nav className="ms-auto">
           <NavLink to="../" className="nav-link" activeClassName="active-link">Home</NavLink> 
