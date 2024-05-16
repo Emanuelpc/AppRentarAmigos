@@ -39,7 +39,7 @@ function LoginAmigo() {
         console.log(amigoData);
         updateUser(amigoData);
         //window.location.href = `/PerfilCliente?data=${amigoData.idCliente}`;
-        navigate(`/PerfilAmigo`);
+        navigate(`/SolicitudesClientes`);
         console.log('Inicio de sesión exitoso');
       } else {
         // Muestra un mensaje de error si las credenciales son incorrectas

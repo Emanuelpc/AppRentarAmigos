@@ -16,6 +16,7 @@ import RegistrarUbicacionCliente from "./RegistrarUbicacionCliente";
 import LoginCliente from "./LoginCliente";
 import LoginAmigo from "./LoginAmigo"
 import SolicitudesaAmigos from "./SolicitudesaAmigos";
+import SolicitudesClientes from "./SolicitudesClientes";
 import CitasAmigos from "./CitasAmigos";
 import { UserProvider } from './UserContext';
 
@@ -43,6 +44,7 @@ function App() {
         <Route path="RegistrarUbicacionCliente" element={<RegistrarUbicacionCliente />}/>
         <Route path="CitasAmigos" element={<CitasAmigos />}/>
         <Route path="SolicitudesaAmigos" element={<SolicitudesaAmigos />}/>
+        <Route path="SolicitudesClientes" element={<SolicitudesClientes />}/>
       </Routes>
       </UserProvider>
     </div>
