@@ -17,28 +17,14 @@ function BasicNavbar() {
         <Navbar.Collapse id="basic-navbar-nav" className="justify-content-end">
         {user ? (
           <Nav className="ms-auto">
-           {user.nombreCliente ? (
-              <>
-                <NavLink to="../BuscadorAmigo" className="nav-link" activeClassName="active-link">Buscador Amigo</NavLink> 
-                <NavLink to="../SolicitudesaAmigos" className="nav-link" activeClassName="active-link">Solicitudes a Amigos</NavLink> 
-                <NavLink to="../CitasAmigos" className="nav-link" activeClassName="active-link">Agendas de Citas Amigos</NavLink> 
-                <NavLink to="../PerfilCliente" className="nav-link" activeClassName="active-link">
-                  <div className="d-flex align-items-center">
-                    <FaUser className="me-2" /> Mi perfil {user.nombreCliente} {user.apellidoCliente}
-                  </div>
-                </NavLink>
-              </>
-            ) : (
-              <>
-                <NavLink to="../BuscadorAmigo" className="nav-link" activeClassName="active-link">Buscador Amigo</NavLink> 
-                <NavLink to="../CitasAmigos" className="nav-link" activeClassName="active-link">Agendas de Citas Cliente</NavLink>
-                <NavLink to="../PerfilAmigoPrime" className="nav-link" activeClassName="active-link">
-                  <div className="d-flex align-items-center">
-                    <FaUser className="me-2" /> Mi perfil {user.Nombre} {user.Apellido}
-                  </div>
-                </NavLink>
-              </>
-            )}
+          <NavLink to="../BuscadorAmigo" className="nav-link" activeClassName="active-link">Buscador Amigo</NavLink> 
+          <NavLink to="../SolicitudesaAmigos" className="nav-link" activeClassName="active-link">Solicitudes a Amigos</NavLink> 
+          <NavLink to="../CitasAmigos" className="nav-link" activeClassName="active-link">Agendas de Citas Amigos</NavLink> 
+          <NavLink to="../PerfilCliente" className="nav-link" activeClassName="active-link">
+                <div className="d-flex align-items-center">
+                  <FaUser className="me-2" /> Mi perfil {user.nombreCliente} {user.apellidoCliente}
+                </div>
+          </NavLink>
           </Nav>
         ):(
           <Nav className="ms-auto">
