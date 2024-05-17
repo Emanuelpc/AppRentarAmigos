@@ -79,6 +79,22 @@ app.get("/ClientePerfil", (req, res) => {
         }
     );
 });
+//Endpoint para obtener todos los Datos de : Amigo
+app.get("/amigoPerfil1", (req, res) => {
+    // Consultar todos los departamentos en la base de datos
+    const{id} = req.query;
+    console.log(id);
+    db.query(`SELECT * FROM amigo WHERE idAmigo='${id}'`,
+        (err, result) => {
+            if (err) {
+                console.log(err);
+                res.status(500).send("Error al obtener amigo");
+            } else {
+                res.send(result);
+            }
+        }
+    );
+});
 
 //Endpoint para obtener todos los Datos de : cliente
 app.get("/Perfilcliente1", (req, res) => {
