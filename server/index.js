@@ -588,8 +588,7 @@ app.get("/amigohorarioalquiler", (req, res) => {
     const { id } = req.query;
     console.log(id)
     // Consultar todos los departamentos en la base de datos
-    db.query(`SELECT * FROM horariodia_amigo WHERE idAmigo='${id}' 
-`,
+    db.query(`SELECT * FROM horariodia_amigo WHERE idAmigo='${id}' `,
         (err, result) => {
             if (err) {
                 console.log(err);
@@ -651,12 +650,50 @@ app.post("/solicitudalquiler", (req,res)=>{
         );
 });
 
+app.post("/modificaralquiler", (req, res) => {
+    const idSolicitud = req.body.idSolicitud;
+    const turno = req.body.turno;
+    const horas = req.body.horas;
+    const fecha = convertirFechaMySQL(req.body.fecha);
+    const ubicacion = req.body.ubicacion;
+    const motivoAlquiler = req.body.motivoAlquiler;
+    const total = req.body.total;
+    const idAmigo = req.body.idAmigo;
+    const idCliente = req.body.idCliente;
+    const Aceptar = 0;
+
+    console.log(idSolicitud);
+    console.log(turno);
+    console.log(horas);
+    console.log(fecha);
+    console.log(ubicacion);
+    console.log(motivoAlquiler);
+    console.log(total);
+    console.log(idAmigo);
+    console.log(idCliente);
+
+    db.query(
+        `UPDATE solicitudamigo 
+         SET Turno = ?, horas = ?, fecha = ?, ubicacion = ?, motivoAlquiler = ?, total = ?, idAmigo = ?, idCliente = ?, Aceptada = ? 
+         WHERE idSolicitudAmigo = ?`,
+        [turno, horas[0], fecha, ubicacion, motivoAlquiler, total, idAmigo, idCliente, Aceptar, idSolicitud],
+        (err, result) => {
+            if (err) {
+                console.log(err);
+                res.status(500).send("Error al actualizar la solicitud de alquiler");
+            } else {
+                res.send("Solicitud actualizada con éxito");
+            }
+        }
+    );
+});
+
 
 app.get("/solicitudescliente", (req, res) => {
     //Obtener Valores de los parámetros de la URL
     const { id } = req.query;
     console.log(id);
-    let query=`SELECT solicitudamigo.idSolicitudAmigo,solicitudamigo.Turno,solicitudamigo.horas,solicitudamigo.fecha,solicitudamigo.ubicacion,solicitudamigo.motivoAlquiler,solicitudamigo.total,solicitudamigo.idAmigo,solicitudamigo.idCliente,amigo.Nombre,amigo.Apellido  
+    let query=`SELECT solicitudamigo.idSolicitudAmigo,solicitudamigo.Turno,solicitudamigo.horas,solicitudamigo.fecha,solicitudamigo.ubicacion,solicitudamigo.motivoAlquiler,solicitudamigo.total,solicitudamigo.idAmigo,solicitudamigo.idCliente,amigo.Nombre,amigo.Apellido,solicitudamigo.Aceptada  
     FROM solicitudamigo , amigo 
     WHERE solicitudamigo.idCliente = '${id}' AND  solicitudamigo.idAmigo = amigo.idAmigo`
     console.log(query)
