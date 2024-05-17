@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import Navbar from "./Componentes/Navbar";
 
+
 function Inicio() {
   return (
     <header className=" pb-10">

@@ -16,9 +16,12 @@ import RegistrarUbicacionCliente from "./RegistrarUbicacionCliente";
 import LoginCliente from "./LoginCliente";
 import LoginAmigo from "./LoginAmigo"
 import SolicitudesaAmigos from "./SolicitudesaAmigos";
+import SolicitudesClientes from "./SolicitudesClientes";
 import CitasAmigos from "./CitasAmigos";
+import AgendaAmigo from "./AgendaAmigo";
 import PerfilAmigoPrime from "./PerfilAmigoPrime";
 import { UserProvider } from './UserContext';
+import AgendaCliente from "./AgendaCliente";
 
 
 function App() {
@@ -44,6 +47,9 @@ function App() {
         <Route path="RegistrarUbicacionCliente" element={<RegistrarUbicacionCliente />}/>
         <Route path="CitasAmigos" element={<CitasAmigos />}/>
         <Route path="SolicitudesaAmigos" element={<SolicitudesaAmigos />}/>
+        <Route path="SolicitudesClientes" element={<SolicitudesClientes />}/>
+        <Route path="AgendaAmigo" element={<AgendaAmigo />}/>
+        <Route path="AgendaCliente" element={<AgendaCliente />}/>
         <Route path="PerfilAmigoPrime" element={<PerfilAmigoPrime />}/>
       </Routes>
       </UserProvider>
