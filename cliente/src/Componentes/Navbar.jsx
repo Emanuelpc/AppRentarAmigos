@@ -20,7 +20,7 @@ function BasicNavbar() {
           <Nav className="ms-auto">
           <NavLink to="../SolicitudesClientes" className="nav-link" activeClassName="active-link">Solicitudes Clientes</NavLink> 
           <NavLink to="../AgendaAmigo" className="nav-link" activeClassName="active-link">Agendas de Citas con Clientes</NavLink> 
-          <NavLink to="../PerfilAmigo" className="nav-link" activeClassName="active-link">
+          <NavLink to="../PerfilAmigoPrime" className="nav-link" activeClassName="active-link">
                 <div className="d-flex align-items-center">
                   <FaUser className="me-2" /> Mi perfil {user.Nombre} {user.Apellido}
                 </div>
