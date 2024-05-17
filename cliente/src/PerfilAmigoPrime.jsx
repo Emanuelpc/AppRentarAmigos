@@ -38,7 +38,7 @@ export default function PerfilAmigoPrime(){
     const getAmigoPerfilFotos = () => {
       const data = user.idAmigo;    ;
       console.log('Valor recibido:', data);
-      Axios.get("http://localhost:3001/AmigoPerfilFotos", {
+      Axios.get("https://xdsiu.vercel.app/AmigoPerfilFotos", {
               params: {
                 idAmigo:data
               }
