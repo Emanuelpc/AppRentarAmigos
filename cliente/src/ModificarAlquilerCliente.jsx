@@ -353,7 +353,8 @@ const convertirADiaIngles = (dia) => {
         // Agregar la nueva solicitud al array de solicitudes de alquiler
         setSolicitudesAlquiler([...solicitudesAlquiler, nuevaSolicitud]);
 
-        Axios.post("http://localhost:3001/solicitudalquiler", {
+        Axios.post("http://localhost:3001/modificaralquiler", {
+            idSolicitud:valoridSolicitud,
             turno: seleccionesUsuario.turno,
             horas: seleccionesUsuario.horas,
             fecha: date.toDateString(),
@@ -366,7 +367,7 @@ const convertirADiaIngles = (dia) => {
             .then((response) => {
                 // Manejar la respuesta del servidor si es necesario
                 console.log("Solicitud de alquiler actualizada con éxito:", response.data);
-                openModal4("Se envio Correctamente la Solicitud de Alquiler al AlquiAmigo");
+                openModal4("Se Actualizo Correctamente la Solicitud de Alquiler al AlquiAmigo");
                 //navigate(`/SolicitudesaAmigos`);
             })
             .catch((error) => {

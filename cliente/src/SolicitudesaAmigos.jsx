@@ -61,9 +61,9 @@ function SolicitudesaAmigos() {
                     Fecha: {solicitud.fecha}<br />
                     Ubicación: {solicitud.ubicacion}<br />
                     Motivo: {solicitud.motivoAlquiler}<br />
-                    Total: {solicitud.total}
+                    Total: {solicitud.total}<br />
                   </Card.Text>
-                  {solicitud.Aceptada === 0 ? (
+                  {parseInt(solicitud.Aceptada) === 0 ? (
                       <Link
                         to={"/ModificarAlquilerCliente"}
                         state={{

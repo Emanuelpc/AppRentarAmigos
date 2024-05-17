@@ -45,6 +45,23 @@ app.get("/cliente", (req, res) => {
         }
     );
 });
+//Endpoint para obtener todos los Datos de : Amigo
+app.get("/amigo1", (req, res) => {
+    // Consultar todos los departamentos en la base de datos
+    const{correoCliente} = req.query;
+    const{contraCliente} = req.query;
+    console.log(correoCliente);
+    db.query(`SELECT * FROM amigo WHERE amigo.CorreoElectronico = '${correoCliente}' AND amigo.Password = '${contraCliente}'`,
+        (err, result) => {
+            if (err) {
+                console.log(err);
+                res.status(500).send("Error al obtener Amigo");
+            } else {
+                res.send(result);
+            }
+        }
+    );
+});
 
 //Endpoint para obtener todos los Datos de : Amigo
 app.get("/ClientePerfil", (req, res) => {
@@ -63,7 +80,7 @@ app.get("/ClientePerfil", (req, res) => {
     );
 });
 
-//Endpoint para obtener todos los Datos de : Amigo
+//Endpoint para obtener todos los Datos de : cliente
 app.get("/Perfilcliente1", (req, res) => {
     // Consultar todos los departamentos en la base de datos
     const{id} = req.query
@@ -555,8 +572,7 @@ app.get("/amigohorarioalquiler", (req, res) => {
     const { id } = req.query;
     console.log(id)
     // Consultar todos los departamentos en la base de datos
-    db.query(`SELECT * FROM horariodia_amigo WHERE idAmigo='${id}' 
-`,
+    db.query(`SELECT * FROM horariodia_amigo WHERE idAmigo='${id}' `,
         (err, result) => {
             if (err) {
                 console.log(err);
@@ -577,6 +593,7 @@ app.post("/solicitudalquiler", (req,res)=>{
     const total = req.body.total;
     const idAmigo = req.body.idAmigo;
     const idCliente = req.body.idCliente;
+    const Aceptar=0;
     
     
     console.log(turno);
@@ -588,8 +605,8 @@ app.post("/solicitudalquiler", (req,res)=>{
     console.log(idAmigo);
     console.log(idCliente);
 
-        db.query('INSERT INTO solicitudamigo(Turno,horas,fecha,ubicacion,motivoAlquiler,total,idAmigo,idCliente) VALUES(?,?,?,?,?,?,?,?)',
-        [turno,horas[0],fecha,ubicacion,motivoAlquiler,total,idAmigo,idCliente],
+        db.query('INSERT INTO solicitudamigo(Turno,horas,fecha,ubicacion,motivoAlquiler,total,idAmigo,idCliente,Aceptada) VALUES(?,?,?,?,?,?,?,?,?)',
+        [turno,horas[0],fecha,ubicacion,motivoAlquiler,total,idAmigo,idCliente,Aceptar],
         (err, result) => {
             if(err){
                 console.log(err);
@@ -600,12 +617,50 @@ app.post("/solicitudalquiler", (req,res)=>{
         );
 });
 
-//Endpoint para obtener todos los Datos de : AmigoPerfil intereses
+app.post("/modificaralquiler", (req, res) => {
+    const idSolicitud = req.body.idSolicitud;
+    const turno = req.body.turno;
+    const horas = req.body.horas;
+    const fecha = convertirFechaMySQL(req.body.fecha);
+    const ubicacion = req.body.ubicacion;
+    const motivoAlquiler = req.body.motivoAlquiler;
+    const total = req.body.total;
+    const idAmigo = req.body.idAmigo;
+    const idCliente = req.body.idCliente;
+    const Aceptar = 0;
+
+    console.log(idSolicitud);
+    console.log(turno);
+    console.log(horas);
+    console.log(fecha);
+    console.log(ubicacion);
+    console.log(motivoAlquiler);
+    console.log(total);
+    console.log(idAmigo);
+    console.log(idCliente);
+
+    db.query(
+        `UPDATE solicitudamigo 
+         SET Turno = ?, horas = ?, fecha = ?, ubicacion = ?, motivoAlquiler = ?, total = ?, idAmigo = ?, idCliente = ?, Aceptada = ? 
+         WHERE idSolicitudAmigo = ?`,
+        [turno, horas[0], fecha, ubicacion, motivoAlquiler, total, idAmigo, idCliente, Aceptar, idSolicitud],
+        (err, result) => {
+            if (err) {
+                console.log(err);
+                res.status(500).send("Error al actualizar la solicitud de alquiler");
+            } else {
+                res.send("Solicitud actualizada con éxito");
+            }
+        }
+    );
+});
+
+
 app.get("/solicitudescliente", (req, res) => {
     //Obtener Valores de los parámetros de la URL
     const { id } = req.query;
     console.log(id);
-    let query=`SELECT solicitudamigo.idSolicitudAmigo,solicitudamigo.Turno,solicitudamigo.horas,solicitudamigo.fecha,solicitudamigo.ubicacion,solicitudamigo.motivoAlquiler,solicitudamigo.total,solicitudamigo.idAmigo,solicitudamigo.idCliente,amigo.Nombre,amigo.Apellido  
+    let query=`SELECT solicitudamigo.idSolicitudAmigo,solicitudamigo.Turno,solicitudamigo.horas,solicitudamigo.fecha,solicitudamigo.ubicacion,solicitudamigo.motivoAlquiler,solicitudamigo.total,solicitudamigo.idAmigo,solicitudamigo.idCliente,amigo.Nombre,amigo.Apellido,solicitudamigo.Aceptada  
     FROM solicitudamigo , amigo 
     WHERE solicitudamigo.idCliente = '${id}' AND  solicitudamigo.idAmigo = amigo.idAmigo`
     console.log(query)
@@ -621,7 +676,51 @@ app.get("/solicitudescliente", (req, res) => {
     );
 });
 
-//Inicialización del servidor
+app.get("/solicitudesamigos", (req, res) => {
+    //Obtener Valores de los parámetros de la URL
+    const { id } = req.query;
+    console.log(id);
+    let query=`SELECT solicitudamigo.idSolicitudAmigo,solicitudamigo.Turno,solicitudamigo.horas,solicitudamigo.fecha,solicitudamigo.ubicacion,solicitudamigo.motivoAlquiler,solicitudamigo.total,solicitudamigo.idAmigo,solicitudamigo.idCliente,cliente.nombreCliente,cliente.apellidoCliente,(
+        SELECT foto
+        FROM cliente_fotos
+        WHERE cliente_fotos.idCliente = solicitudamigo.idCliente
+        LIMIT 1
+    ) AS foto 
+    FROM solicitudamigo , cliente 
+    WHERE solicitudamigo.idAmigo = '${id}' AND  solicitudamigo.idCliente = cliente.idCliente AND solicitudamigo.Aceptada=0`
+    console.log(query)
+    db.query(query,
+        (err, result) => {
+            if (err) {
+                console.log(err);
+                res.status(500).send("Error al obtener amigo");
+            } else {
+                res.send(result);
+            }
+        }
+    );
+});
+
+
+app.post("/aceptarsolicitud", (req, res) => {
+    const id = req.body.id;
+    const Aceptar = req.body.Aceptar;
+    console.log(id);
+    console.log(Aceptar);
+
+    db.query('UPDATE solicitudamigo SET Aceptada = ? WHERE idSolicitudAmigo = ?', [Aceptar, id], (err, result) => {
+        if (err) {
+            console.log(err);
+            res.status(500).send("Error al actualizar la solicitud.");
+        } else {
+            console.log("Solicitud actualizada correctamente.");
+            res.send("Solicitud actualizada con éxito.");
+        }
+    });
+});
+
+
+//Inicialización del servidor:
 
 app.listen(3001, () => {
     console.log("Se está ejecutando en el puerto 3001");
