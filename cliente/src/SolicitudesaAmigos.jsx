@@ -9,6 +9,7 @@ function SolicitudesaAmigos() {
   const { user } = useUser();
   const [Solicitudes, setsolicitudes] = useState([]);
 
+
   const formatearFecha = (fecha) => {
     const date = new Date(fecha);
     const dia = date.getDate();
@@ -60,8 +61,28 @@ function SolicitudesaAmigos() {
                     Fecha: {solicitud.fecha}<br />
                     Ubicación: {solicitud.ubicacion}<br />
                     Motivo: {solicitud.motivoAlquiler}<br />
-                    Total: {solicitud.total}
+                    Total: {solicitud.total}<br />
                   </Card.Text>
+                  {parseInt(solicitud.Aceptada) === 0 ? (
+                      <Link
+                        to={"/ModificarAlquilerCliente"}
+                        state={{
+                          data: {
+                            valoridSolicitud: solicitud.idSolicitudAmigo,
+                            valorTurno: solicitud.Turno,
+                            valorHoras: solicitud.horas,
+                            valorFecha: solicitud.fecha,
+                            valorUbicacion: solicitud.ubicacion,
+                            valorMotivo: solicitud.motivoAlquiler,
+                            valorTotal: solicitud.total,
+                            valoridAmigo: solicitud.idAmigo,
+                            valoridCliente: solicitud.idCliente,
+                         }
+                        }}
+                      >
+                        <button className="btn btn-primary">Editar Solicitud</button>
+                      </Link>
+                    ) : null}
                   {/*<Button variant="primary">Ver Detalles</Button>*/}
                 </Card.Body>
               </Card>
