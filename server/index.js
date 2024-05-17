@@ -606,7 +606,7 @@ app.get("/CitasAmigo", (req, res) => {
     const { fechacita } = req.query;
     db.query( `SELECT *
     FROM solicitudamigo
-    WHERE idAmigo='${idAmigo}' AND aceptada = "0" AND fecha = '${fechacita}'`,
+    WHERE idAmigo='${idAmigo}' AND aceptada = "1" AND fecha = '${fechacita}'`,
         (err, result) => {
             if (err) {
                 console.log(err);
@@ -747,5 +747,21 @@ function convertirFechaMySQL(fechaTexto) {
 
     return fechaMySQL;
 }
+app.get("/CitasCliente", (req, res) => {
+    const { idCliente } = req.query;
+    const { fechacita } = req.query;
+    db.query( `SELECT *
+    FROM solicitudamigo
+    WHERE idCliente='${idCliente}' AND aceptada = "1" AND fecha = '${fechacita}'`,
+        (err, result) => {
+            if (err) {
+                console.log(err);
+                res.status(500).send("Error al obtener amigos");
+            } else {
+                res.send(result);
+            }
+        }
+    );
+});
 
 

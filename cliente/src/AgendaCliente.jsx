@@ -6,23 +6,24 @@ import Axios from "axios";
 import { useUser } from './UserContext';
 
 function AgendaCliente() {
+    const [citas, setCitas] = useState([]);
     const [fechaSeleccionada, setFechaSeleccionada] = useState(new Date());
     const getAmigoPerfil = fecha => {
         //const id = user.idCliente;    ;
         //console.log('Valor recibido:', id);
        const fechaF = fecha.toISOString().substring(0, 10);
        console.log(fechaSeleccionada);
-        Axios.get("http://localhost:3001/CitasAmigo", {
+        Axios.get("http://localhost:3001/CitasCliente", {
             params: {
-              idAmigo:33,
+              idCliente:17,
               fechacita:fechaF
             }
         }).then((response) => {
-            // Manejar la respuesta
-            console.log(response.data)
+            console.log(response.data);
+        setCitas(response.data);
 
         }).catch((error) => {
-           // console.error("Error en la solicitud:", error);
+            console.error("Error en la solicitud:", error);
         });
   }
     
@@ -50,9 +51,20 @@ function AgendaCliente() {
                 <div className="bg-celeste p-5 gap-5 w-1/2 flex flex-col h-5/6">
                     <div className="flex flex-col gap-1 w-full bg-white p-5 rounded-lg shadow flex-grow mb-4">
                         <article className="px-5 py-7 bg-celeste flex gap-5 items-center text-start mb-5">
-                            <p className="mb-0">
-                                Aca vendran las citas ahhhh
-                            </p>
+                        <ul>
+              {citas.length > 0 ? citas.map((cita) => (
+                    <div className="flex gap-5 bg-white text-black">
+                    <img src={cita.url} alt="imagen de perfil" />
+                    <li className="" key={cita.id}>
+                        <p>Nombre: {cita.nombre}</p>
+                        <p>Fecha de la cita:{fechaSeleccionada}</p>
+                        <p>Horas: {cita.horas}</p>
+                        <p>Ubicacion: {cita.ubicacion}</p>
+                        <p>Motivo: {cita.motivoAlquiler}</p>
+                    </li>
+                    </div>
+                )) : <p>No hay citas para el día seleccionado</p> }
+              </ul>
                         </article>
                     </div>
                 </div>
