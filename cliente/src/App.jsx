@@ -19,7 +19,9 @@ import SolicitudesaAmigos from "./SolicitudesaAmigos";
 import SolicitudesClientes from "./SolicitudesClientes";
 import CitasAmigos from "./CitasAmigos";
 import PerfilAmigoPrime from "./PerfilAmigoPrime";
+import AgendaAmigo from "./AgendaAmigo";
 import { UserProvider } from './UserContext';
+import AgendaCliente from "./AgendaCliente";
 
 
 function App() {
@@ -47,6 +49,8 @@ function App() {
         <Route path="SolicitudesaAmigos" element={<SolicitudesaAmigos />}/>
         <Route path="SolicitudesClientes" element={<SolicitudesClientes />}/>
         <Route path="PerfilAmigoPrime" element={<PerfilAmigoPrime />}/>
+        <Route path="AgendaAmigo" element={<AgendaAmigo />}/>
+        <Route path="AgendaCliente" element={<AgendaCliente />}/>
       </Routes>
       </UserProvider>
     </div>
