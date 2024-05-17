@@ -26,13 +26,13 @@ function RegistrarUbicacionCliente() {
   const { Nombre, Apellido, CorreoElectronico, Password, fechaNacimiento, Genero, seleccionPrecio, images } = location.state?.data || {};
 
   const getDepartamentos = () => {
-    Axios.get("https://xdsiu-tecno-triunfadores-projects.vercel.app/departamentos").then((response) => {
+    Axios.get("https://xdsiu.vercel.app/departamentos").then((response) => {
       setdepartamentos(response.data);
     });
   }
 
   const getCiudades = () => {
-    Axios.get("https://xdsiu-tecno-triunfadores-projects.vercel.app/ciudades").then((response) => {
+    Axios.get("https://xdsiu.vercel.app/ciudades").then((response) => {
       setciudades(response.data);
       setCiudadesOriginal(response.data);
     });
@@ -46,7 +46,7 @@ function RegistrarUbicacionCliente() {
 
   const add = () => {
     if (validateForm()) {
-      Axios.post("https://xdsiu-tecno-triunfadores-projects.vercel.app/crearCliente", {
+      Axios.post("https://xdsiu.vercel.app/crearCliente", {
         Nombre: Nombre,
         Apellido: Apellido,
         CorreoElectronico: CorreoElectronico,
@@ -57,17 +57,17 @@ function RegistrarUbicacionCliente() {
         Departamento_idDepartamento: selectedOptionDepartamentos[selectedOptionDepartamentos.length - 1],
         Ciudad_idCiudad: selectedOptionCiudades[selectedOptionCiudades.length - 1]
       }).then(() => {
-        Axios.get("https://xdsiu-tecno-triunfadores-projects.vercel.app/lastUserIDC").then((response) => {
+        Axios.get("https://xdsiu.vercel.app/lastUserIDC").then((response) => {
           const lastUserID = response.data.lastUserID; // Obtener el último ID de usuario creado
           console.log("Último ID de usuario creado:", lastUserID);
           setShowSuccessModal(true); // Abre el modal de éxito después de registrar con éxito
-          Axios.post("https://xdsiu-tecno-triunfadores-projects.vercel.app/lastUserIDFotosC",{
+          Axios.post("https://xdsiu.vercel.app/lastUserIDFotosC",{
             idAmigo:lastUserID,
             images:images
           }).catch(() => {
             setShowErrorModal(true); // Abre el modal de error si no se pudo obtener el ID del usuario
           });
-          Axios.get("https://xdsiu-tecno-triunfadores-projects.vercel.app/ClientePerfil", {
+          Axios.get("https://xdsiu.vercel.app/ClientePerfil", {
           params: {
           idCliente:lastUserID
           }

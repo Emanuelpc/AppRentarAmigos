@@ -19,7 +19,7 @@ function SolicitudesClientes() {
   const getAmigoSolicitudes = () => {
     const data = user.idAmigo; 
     console.log('Valor recibido:', data);
-    Axios.get("http://localhost:3001/solicitudesamigos", {
+    Axios.get("https://xdsiu.vercel.app/solicitudesamigos", {
       params: {
         id : data
       }

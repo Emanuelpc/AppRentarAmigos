@@ -31,7 +31,7 @@ function BuscadorAmigo() {
     const BuscarAmigoNombre = () => {
       let resultado=separarPorEspacios(searchQuery);
       console.log(resultado);
-      Axios.get("https://xdsiu-tecno-triunfadores-projects.vercel.app/amigoBusqueda", {
+      Axios.get("https://xdsiu.vercel.app/amigoBusqueda", {
               params: {
                 Nombre:resultado[0],
                 Apellido:resultado[1]
@@ -45,26 +45,26 @@ function BuscadorAmigo() {
     }
     // Función para obtener la lista de amigos y con su departamentoCorrespondiente del backend
     const getAmigo = () => {
-    Axios.get("https://xdsiu-tecno-triunfadores-projects.vercel.app/amigosconDepartamento").then((response) => {
+    Axios.get("https://xdsiu.vercel.app/amigosconDepartamento").then((response) => {
       setamigos(response.data);
     });
     }
     // Función para obtener la lista de Departamentos del backend
     const getDepartamentos = () => {
-      Axios.get("https://xdsiu-tecno-triunfadores-projects.vercel.app/departamentos").then((response) => {
+      Axios.get("https://xdsiu.vercel.app/departamentos").then((response) => {
         setdepartamentos(response.data);
       });
     }
     // Función para obtener la lista de Ciudades del backend
     const getCiudades = () => {
-      Axios.get("https://xdsiu-tecno-triunfadores-projects.vercel.app/ciudades").then((response) => {
+      Axios.get("https://xdsiu.vercel.app/ciudades").then((response) => {
         setciudades(response.data);
         setCiudadesOriginal(response.data); // Guardar la lista original
       });
     }
     // Función para obtener la lista de Intereses del backend
     const getIntereses = () => {
-      Axios.get("https://xdsiu-tecno-triunfadores-projects.vercel.app/intereses").then((response) => {
+      Axios.get("https://xdsiu.vercel.app/intereses").then((response) => {
         setintereses(response.data);
       });
     }
@@ -143,7 +143,7 @@ function BuscadorAmigo() {
           handleShowModal();
       } else {
           // Realiza la búsqueda si se han seleccionado filtros
-          Axios.get("https://xdsiu-tecno-triunfadores-projects.vercel.app/amigosfiltrado", {
+          Axios.get("https://xdsiu.vercel.app/amigosfiltrado", {
               params: {
                   Departamento: guardarSeleccionComboboxDepartamento[guardarSeleccionComboboxDepartamento.length - 1],
                   Ciudad: guardarSeleccionComboboxCiudad[guardarSeleccionComboboxCiudad.length - 1],

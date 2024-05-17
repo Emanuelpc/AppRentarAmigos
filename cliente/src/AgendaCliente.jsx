@@ -13,7 +13,7 @@ function AgendaCliente() {
         //console.log('Valor recibido:', id);
        const fechaF = fecha.toISOString().substring(0, 10);
        console.log(fechaSeleccionada);
-        Axios.get("http://localhost:3001/CitasCliente", {
+        Axios.get("https://xdsiu.vercel.app/CitasCliente", {
             params: {
               idCliente:17,
               fechacita:fechaF

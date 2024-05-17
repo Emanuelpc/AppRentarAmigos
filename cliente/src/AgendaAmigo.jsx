@@ -12,7 +12,7 @@ function AgendaAmigo() {
     const fechaF = fecha.toISOString().substring(0, 10);
     console.log("la fecha es:", fechaF);
 
-    Axios.get("http://localhost:3001/CitasAmigo", {
+    Axios.get("https://xdsiu.vercel.app/CitasAmigo", {
       params: {
         idAmigo: 33,
         fechacita: fechaF,

@@ -25,13 +25,13 @@ function RegistrarUbicacionAmigo() {
   console.log(horario);
 
   const getDepartamentos = () => {
-    Axios.get("https://xdsiu-tecno-triunfadores-projects.vercel.app/departamentos").then((response) => {
+    Axios.get("https://xdsiu.vercel.app/departamentos").then((response) => {
       setdepartamentos(response.data);
     });
   }
 
   const getCiudades = () => {
-    Axios.get("https://xdsiu-tecno-triunfadores-projects.vercel.app/ciudades").then((response) => {
+    Axios.get("https://xdsiu.vercel.app/ciudades").then((response) => {
       setciudades(response.data);
       setCiudadesOriginal(response.data);
     });
@@ -45,7 +45,7 @@ function RegistrarUbicacionAmigo() {
 
   const add = () => {
     if (validateForm()) {
-      Axios.post("https://xdsiu-tecno-triunfadores-projects.vercel.app/create", {
+      Axios.post("https://xdsiu.vercel.app/create", {
         Nombre: Nombre,
         Apellido: Apellido,
         CorreoElectronico: CorreoElectronico,
@@ -57,18 +57,18 @@ function RegistrarUbicacionAmigo() {
         Departamento_idDepartamento: selectedOptionDepartamentos[selectedOptionDepartamentos.length - 1],
         Ciudad_idCiudad: selectedOptionCiudades[selectedOptionCiudades.length - 1]
       }).then(() => {
-        Axios.get("https://xdsiu-tecno-triunfadores-projects.vercel.app/lastUserID").then((response) => {
+        Axios.get("https://xdsiu.vercel.app/lastUserID").then((response) => {
           const lastUserID = response.data.lastUserID; // Obtener el último ID de usuario creado
           console.log("Último ID de usuario creado:", lastUserID);
           setShowSuccessModal(true); // Abre el modal de éxito después de registrar con éxito
-          Axios.post("https://xdsiu-tecno-triunfadores-projects.vercel.app/lastUserIDFotos",{
+          Axios.post("https://xdsiu.vercel.app/lastUserIDFotos",{
             idAmigo:lastUserID,
             images:images
           }).catch(() => {
             setShowErrorModal(true); // Abre el modal de error si no se pudo obtener el ID del usuario
           });
           console.log(horario)
-          Axios.post("https://xdsiu-tecno-triunfadores-projects.vercel.app/lastUserhorario",{
+          Axios.post("https://xdsiu.vercel.app/lastUserhorario",{
             idAmigo:lastUserID,
             horario:horario
           }).catch(() => {

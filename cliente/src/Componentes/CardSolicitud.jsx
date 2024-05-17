@@ -15,7 +15,7 @@ const CardSolicitud = ({solicitud,reloadSolicitudes}) => {
         setIsModalOpen(false);
     };
     const aceptarsolicitud = (id, Aceptar) => {
-        Axios.post("http://localhost:3001/aceptarsolicitud",{
+        Axios.post("https://xdsiu.vercel.app/aceptarsolicitud",{
             id:id,
             Aceptar:Aceptar
         })

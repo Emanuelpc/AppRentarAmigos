@@ -25,7 +25,7 @@ function LoginAmigo() {
     }
     
     try {
-      const response = await Axios.get("http://localhost:3001/amigo1", {
+      const response = await Axios.get("https://xdsiu.vercel.app/amigo1", {
         params: {
           correoCliente: email,
           contraCliente: password

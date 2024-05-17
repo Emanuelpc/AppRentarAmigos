@@ -23,7 +23,7 @@ function RegistrarInteresesAmigo() {
 
   //Funcion obtener lista de intereses
   const getIntereses = () => {
-    Axios.get("https://xdsiu-tecno-triunfadores-projects.vercel.app/intereses").then((response) => {
+    Axios.get("https://xdsiu.vercel.app/intereses").then((response) => {
       setListintereses(response.data);
     });
     console.log(Listintereses)
