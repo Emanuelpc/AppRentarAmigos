@@ -603,9 +603,28 @@ app.get("/amigohorarioalquiler", (req, res) => {
 app.get("/CitasAmigo", (req, res) => {
     const { idAmigo } = req.query;
     const { fechacita } = req.query;
-    db.query( `SELECT *
-    FROM solicitudamigo
-    WHERE idAmigo='${idAmigo}' AND aceptada = "1" AND fecha = '${fechacita}'`,
+    db.query( `SELECT 
+    sa.idSolicitudAmigo,
+    sa.horas,
+    sa.fecha,
+    sa.ubicacion,
+    sa.motivoAlquiler,
+    sa.idAmigo,
+    sa.idCliente,
+    c.nombreCliente,
+    c.apellidoCliente,
+    (
+        SELECT cf.foto
+        FROM cliente_fotos cf
+        WHERE cf.idCliente = sa.idCliente
+        LIMIT 1
+        
+    ) AS foto 
+FROM 
+    solicitudamigo sa
+JOIN 
+    cliente c ON sa.idCliente = c.idCliente
+    WHERE sa.idAmigo='${idAmigo}' AND sa.aceptada = "1" AND sa.fecha = '${fechacita}'`,
         (err, result) => {
             if (err) {
                 console.log(err);
