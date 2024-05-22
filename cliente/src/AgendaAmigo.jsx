@@ -62,9 +62,9 @@ function AgendaAmigo() {
                       <img src={cita.foto} alt="imagen de perfil" className="w-full h-full object-cover rounded" />
                     </div>
                     <li className="flex-1 flex flex-col">
-                      <p className="mb-2">Nombre: {cita.nombreCliente} {cita.apellidoCliente}</p>
-                      <p className="mb-2">Fecha de la cita: {format(fechaSeleccionada, 'yyyy-MM-dd')}</p>
+                      <p className="mb-2">Cliente: {cita.nombreCliente} {cita.apellidoCliente}</p>
                       <p className="mb-2">Horas: {cita.horas}</p>
+                      <p className="mb-2">Fecha: {format(fechaSeleccionada, 'yyyy-MM-dd')}</p>
                       <p className="mb-2">Ubicacion: {cita.ubicacion}</p>
                       <p className="mb-2">Motivo: {cita.motivoAlquiler}</p>
                     </li>

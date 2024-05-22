@@ -624,7 +624,9 @@ FROM
     solicitudamigo sa
 JOIN 
     cliente c ON sa.idCliente = c.idCliente
-    WHERE sa.idAmigo='${idAmigo}' AND sa.aceptada = "1" AND sa.fecha = '${fechacita}'`,
+    WHERE sa.idAmigo='${idAmigo}' AND sa.aceptada = "1" AND sa.fecha = '${fechacita}'
+    ORDER BY 
+    sa.horas;`,
         (err, result) => {
             if (err) {
                 console.log(err);
@@ -806,9 +808,28 @@ function convertirFechaMySQL(fechaTexto) {
 app.get("/CitasCliente", (req, res) => {
     const { idCliente } = req.query;
     const { fechacita } = req.query;
-    db.query( `SELECT *
-    FROM solicitudamigo
-    WHERE idCliente='${idCliente}' AND aceptada = "1" AND fecha = '${fechacita}'`,
+    db.query( `SELECT 
+    sa.idSolicitudAmigo,
+    sa.horas,
+    sa.fecha,
+    sa.ubicacion,
+    sa.motivoAlquiler,
+    sa.idAmigo,
+    sa.idCliente,
+    a.Nombre,
+    a.Apellido,
+    (
+        SELECT af.foto
+        FROM amigo_fotos af
+        WHERE af.Amigo_idAmigo = sa.idAmigo
+        LIMIT 1
+        
+    ) AS foto 
+FROM 
+    solicitudamigo sa
+JOIN 
+    amigo a ON sa.idAmigo = a.idAmigo
+    WHERE sa.idCliente='${idCliente}' AND sa.aceptada = "1" AND sa.fecha = '${fechacita}'`,
         (err, result) => {
             if (err) {
                 console.log(err);
