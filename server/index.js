@@ -34,7 +34,7 @@ app.get("/cliente", (req, res) => {
     const{correoCliente} = req.query;
     const{contraCliente} = req.query;
     console.log(correoCliente);
-    db.query(`SELECT * FROM cliente WHERE cliente.correoCliente = '${correoCliente}' AND cliente.contraCliente = '${contraCliente}'`,
+    db.query(`SELECT * FROM cliente WHERE cliente.correoCliente = '${correoCliente}' `,
         (err, result) => {
             if (err) {
                 console.log(err);
@@ -51,7 +51,7 @@ app.get("/amigo1", (req, res) => {
     const{correoCliente} = req.query;
     const{contraCliente} = req.query;
     console.log(correoCliente);
-    db.query(`SELECT * FROM amigo WHERE amigo.CorreoElectronico = '${correoCliente}' AND amigo.Password = '${contraCliente}'`,
+    db.query(`SELECT * FROM amigo WHERE amigo.CorreoElectronico = '${correoCliente}'`,
         (err, result) => {
             if (err) {
                 console.log(err);
