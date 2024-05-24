@@ -3,14 +3,17 @@ import React, { useState, useEffect } from 'react';
 import Navbar from "./Componentes/Navbar";
 import { useUser } from './UserContext';
 import Axios from "axios";
+import { useNavigate } from 'react-router-dom';
+import { Button } from 'react-bootstrap';
 
 export default function PerfilAmigoPrime(){
 
     const[AmigoPerfil, setAmigoPerfil] = useState([]);
     const [loading, setLoading] = useState(true);
     const [amigoFotos, setAmigoFotos] = useState([]);
-    const {user} = useUser ();
+    const {user,updateUser} = useUser ();
     const [interes, setIntereses] = useState([]);
+    const navigate = useNavigate(); 
 
     const getAmigoPerfil = () => {
       const data = user.idAmigo;
@@ -100,6 +103,11 @@ export default function PerfilAmigoPrime(){
 
 
 
+    const handleLogout = () => {
+      // Limpia la sesión y redirige al usuario a la página de búsqueda de amigos
+      updateUser(null);
+      navigate("/BuscadorAmigo"); // Redirige utilizando navigate
+    }
 
       return (
         <div className="gradient-custom-2" style={{ backgroundColor: '#112A4A' }}>
@@ -169,6 +177,7 @@ export default function PerfilAmigoPrime(){
                     </MDBCol>
                   ))}
                 </MDBRow>
+                <Button onClick={handleLogout} style={{ alignSelf: 'center', width: '80%', textAlign: 'center', fontSize: '20px', marginTop: '5px', marginBottom: '15px', backgroundColor: 'red', color: 'white', borderRadius: '5px',borderColor:'red' }}>Cerrar Sesión</Button>
                 </MDBCardBody>
             </MDBCard>
           </MDBCol>
