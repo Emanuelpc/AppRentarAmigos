@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Navbar from "./Componentes/Navbar";
 import { MDBCol, MDBContainer, MDBRow, MDBCard, MDBCardBody, MDBCardImage, MDBRadio, MDBBtn } from 'mdb-react-ui-kit';
-import './SolicitudAlquilerAmigo.css';
+import './ModificarAlquilerCliente.css';
 import 'material-icons/css/material-icons.css';
 import { TiClipboard, TiLocation } from 'react-icons/ti'; // Importa el icono de ubicación
 import { CiMoneyBill,CiAlarmOn,CiCalendar,CiViewList } from "react-icons/ci";
@@ -12,8 +12,9 @@ import Axios from "axios";
 import Button from 'react-bootstrap/esm/Button';
 import { useUser } from './UserContext';
 import Modal from 'react-bootstrap/esm/Modal';
+import { Link } from "react-router-dom";
 
-function SolicitudAlquilerAmigo() {
+function ModificarAlquilerCliente() {
     const [date, setDate] = useState(new Date());
     const [diasLaborables, setDiasLaborables] = useState([]); // Lista de días laborables
     const [DiasTurnos, setDiasTurnos] = useState([]); // Lista de Turnos laborables
@@ -21,9 +22,6 @@ function SolicitudAlquilerAmigo() {
     const [amigoalquiler, setamigoalquiler] = useState([]);
     const [amigoalquilerhorario, setamigoalquilerhorario] = useState([]);
     const [seleccionesUsuario, setSeleccionesUsuario] = useState({ turno: '',horas: []});
-    const location = useLocation();
-    const { id } = location.state?.data || {};
-    const [total, setTotal] = useState(0);
     const [ubicacion, setUbicacion] = useState('');
     const [motivoAlquiler, setMotivoAlquiler] = useState('');
     const [solicitudesAlquiler, setSolicitudesAlquiler] = useState([]);
@@ -37,44 +35,60 @@ function SolicitudAlquilerAmigo() {
     const [isModalOpen3, setIsModalOpen3] = useState(false);
     const [modalText4, setModalText4] = useState('');
     const [isModalOpen4, setIsModalOpen4] = useState(false);
+    const location = useLocation();
+    const {valoridSolicitud, valorTurno, valorHoras, valorFecha, valorUbicacion, valorMotivo, valorTotal, valoridAmigo, valoridCliente} = location.state?.data || {};    
+    const [id] = useState(valoridAmigo);
+    const [total, setTotal] = useState(0);
 
-    const openModal = (text) => {
+    const openModal = (text) => { 
         setModalText(text);
         setIsModalOpen(true);
     };
-
     const closeModal = () => {
         setIsModalOpen(false);
     };
-
     const openModal2 = (text) => {
         setModalText2(text);
         setIsModalOpen2(true);
     };
-
     const closeModal2 = () => {
         setIsModalOpen2(false);
     };
-
     const openModal3 = (text) => {
         setModalText3(text);
         setIsModalOpen3(true);
     };
-
     const closeModal3 = () => {
         setIsModalOpen3(false);
     };
-
     const openModal4 = (text) => {
         setModalText4(text);
         setIsModalOpen4(true);
     };
-
     const closeModal4 = () => {
         setIsModalOpen4(false);
         navigate(`/SolicitudesaAmigos`);
     };
 
+    useEffect(() => {
+        if (valorUbicacion) {
+            setUbicacion(valorUbicacion);
+        }
+        if (valorMotivo) {
+            setMotivoAlquiler(valorMotivo);
+        }
+        if (valorTotal) {
+            const totalEntero = parseInt(Math.round(valorTotal));
+            setTotal(totalEntero);
+        }
+        if (valorFecha) {
+            const fechaConvertida = new Date(valorFecha);
+            setDate(fechaConvertida);
+        }
+        if(valorTurno){
+            setSeleccionesUsuario(valorTurno);
+        }
+    }, [valorUbicacion, valorMotivo, valorTurno, valoridAmigo, valorTotal, valorFecha]);
 
     const getAmigoAlquiler = () => {
         Axios.get("http://localhost:3001/amigoalquiler", {
@@ -127,7 +141,6 @@ const convertirHorarioADiasLaborables = (horario) => {
     }
     return diasLaborables;
 };
-
 
 const convertirADiaIngles = (dia) => {
     switch (dia) {
@@ -194,7 +207,6 @@ const convertirADiaIngles = (dia) => {
         // Establece la hora seleccionada como la nueva hora en lugar de agregarla a la lista
         setSeleccionesUsuario({ turno: seleccionesUsuario.turno, horas: [horaSeleccionada] });
     };
-    
 
     const calcularTotal = (precioPorHora, horasSeleccionadas) => {
         const precioPorHoraNum = parseFloat(precioPorHora); // Convertir el precio por hora a número
@@ -240,18 +252,15 @@ const convertirADiaIngles = (dia) => {
     const limpiarSeleccionesUsuario = () => {
         setSeleccionesUsuario({ turno: '', horas: [] });
     };
-
     // Función para limpiar el total
     const limpiarTotal = () => {
-    setTotal(0);
+        setTotal(0);
     };
-
     // Función para limpiar el total
     const limpiarTurnosandHoras = () => {
         
         setHorasDisponiblesSeleccionadas([])
         };
-
     // Función para obtener los turnos disponibles según el día seleccionado
     const obtenerTurnosDisponibles = (dia) => {
         switch (dia) {
@@ -274,7 +283,6 @@ const convertirADiaIngles = (dia) => {
                 return [];
         }
     };
-
     // Función para obtener las horas disponibles según el turno seleccionado
     const obtenerHorasDisponibles = (turnoSeleccionado) => {
         // Define las horas disponibles según el turno seleccionado
@@ -289,7 +297,6 @@ const convertirADiaIngles = (dia) => {
                 return [];
         }
     };
-
     // Actualiza las horas disponibles cuando cambia el turno seleccionado
     useEffect(() => {
         if (seleccionesUsuario.turno !== '') {
@@ -298,7 +305,6 @@ const convertirADiaIngles = (dia) => {
         }
     }, [seleccionesUsuario.turno]);
 
-    
     // Función para manejar cambios en el campo de ubicación
     const handleUbicacionChange = (event) => {
         const value = event.target.value;
@@ -321,10 +327,8 @@ const convertirADiaIngles = (dia) => {
         }
     };
 
-
      // Manejar el envío de la solicitud de alquiler
      const handleEnviarSolicitud = () => {
-
         if (
             seleccionesUsuario.turno === '' ||
             seleccionesUsuario.horas.length === 0 ||
@@ -349,7 +353,8 @@ const convertirADiaIngles = (dia) => {
         // Agregar la nueva solicitud al array de solicitudes de alquiler
         setSolicitudesAlquiler([...solicitudesAlquiler, nuevaSolicitud]);
 
-        Axios.post("http://localhost:3001/solicitudalquiler", {
+        Axios.post("http://localhost:3001/modificaralquiler", {
+            idSolicitud:valoridSolicitud,
             turno: seleccionesUsuario.turno,
             horas: seleccionesUsuario.horas,
             fecha: date.toDateString(),
@@ -361,8 +366,8 @@ const convertirADiaIngles = (dia) => {
         })
             .then((response) => {
                 // Manejar la respuesta del servidor si es necesario
-                console.log("Solicitud de alquiler enviada con éxito:", response.data);
-                openModal4("Se envio Correctamente la Solicitud de Alquiler al AlquiAmigo");
+                console.log("Solicitud de alquiler actualizada con éxito:", response.data);
+                openModal4("Se Actualizo Correctamente la Solicitud de Alquiler al AlquiAmigo");
                 //navigate(`/SolicitudesaAmigos`);
             })
             .catch((error) => {
@@ -375,21 +380,19 @@ const convertirADiaIngles = (dia) => {
     }, [solicitudesAlquiler]);
 
 
+
     // Función para limpiar todos los estados relevantes
     const limpiarSeleccion = () => {
-    limpiarSeleccionesUsuario(); // Limpiar las selecciones de turno y horas
-    limpiarTotal(); // Limpiar el total
-    limpiarTurnosandHoras(); // Limpiar los turnos y horas disponibles
-    setUbicacion(''); // Limpiar la ubicación
-    setMotivoAlquiler(''); // Limpiar el motivo del alquiler
+        limpiarSeleccionesUsuario(); // Limpiar las selecciones de turno y horas
+        limpiarTotal(); // Limpiar el total
+        limpiarTurnosandHoras(); // Limpiar los turnos y horas disponibles
+        setUbicacion(''); // Limpiar la ubicación
+        setMotivoAlquiler(''); // Limpiar el motivo del alquiler
     };
-
     // Manejar el clic en el botón "Cancelar"
-    const handleCancelar = () => {
-    limpiarSeleccion(); // Llamar a la función para limpiar los estados relevantes
+    const handleCancelar = () => {      
+        limpiarSeleccion(); // Llamar a la función para limpiar los estados relevantes
     };
-
-    
 
 
     return (
@@ -400,7 +403,7 @@ const convertirADiaIngles = (dia) => {
                     <MDBCol lg="30" xl="30">
                         <MDBCard className="p-3">
                             <MDBCardBody>
-                                <h1 >Solicitud Alquiler Amigo</h1>
+                                <h1> Modificar Solicitud de Alquiler Amigo</h1>
                                 <MDBRow>
                                     <MDBCol sm="12" lg="6">
                                         <MDBCard className="border border-dark p-3">
@@ -423,7 +426,7 @@ const convertirADiaIngles = (dia) => {
                                                 </div>
                                             </div>
                                             
-                                            <h4 style={{ textAlign: 'left' }}>Selecciona el día de alquiler disponible</h4>
+                                            <h4 style={{ textAlign: 'left' }}>Modifica la fecha de alquiler a tu preferencia</h4>
                                             <div className="d-flex justify-content-center" >
                                                 <Calendar
                                                     onChange={setDate}
@@ -464,12 +467,21 @@ const convertirADiaIngles = (dia) => {
                                     <MDBCol sm="12" lg="6">
                                         <MDBCard className="border border-dark p-3">
                                             <h2>Detalles del Alquiler</h2>
+                                           {/* Input para cargar la ubicacion del alquiler */}
                                             <h4 style={{ textAlign: 'left' }}>Ubicación Encuentro del alquiler</h4>
                                             <div className="d-flex align-items-center">
                                                 <TiLocation style={{ fontSize: '3rem' }} />
-                                                <input type="text" className="form-control mx-3" placeholder="Ingrese la ubicación" value={ubicacion} onChange={handleUbicacionChange} maxLength="51"/>
+                                                <input 
+                                                    type="text" 
+                                                    className="form-control mx-3" 
+                                                    placeholder="Ingrese la ubicación" 
+                                                    value={ubicacion} 
+                                                    onChange={handleUbicacionChange} 
+                                                    maxLength="51"
+                                                />
                                             </div>
                                             <h4 style={{ textAlign: 'left' }}>Motivo del Alquiler</h4>
+                                            {/* Input para cargar el motivo del alquiler */}
                                             <div className="d-flex ">
                                                 <TiClipboard style={{ fontSize: '3rem' }} />
                                                 <textarea className="form-control mx-3" rows="4" placeholder="Ingrese los detalles del alquiler" value={motivoAlquiler} onChange={handleMotivoAlquilerChange} maxLength="151"></textarea>
@@ -509,10 +521,11 @@ const convertirADiaIngles = (dia) => {
                                                 </div>
                                             </div>
                                             <div className="d-flex justify-content-center">
-                                                <Button variant="danger" size="lg" onClick={handleCancelar}>Cancelar</Button>
-                                                <Button variant="success" size="lg" onClick={handleEnviarSolicitud} style={{ marginRight: '10px' }}>Mandar Solicitud Alquiler</Button>
-                                            </div>
-
+                                                <Link to="/SolicitudesaAmigos">
+                                                    <Button variant="danger" size="lg" style={{ marginRight: '50px'}}>Volver</Button>
+                                                </Link>
+                                                <Button variant="success" size="lg" onClick={handleEnviarSolicitud} style={{ marginRight: '10px'}}>Editar Solicitud Alquiler</Button>                                          
+                                            </div>     
                                         </MDBCard>
                                     </MDBCol>
                                 </MDBRow>
@@ -571,4 +584,4 @@ const convertirADiaIngles = (dia) => {
     );
 }
 
-export default SolicitudAlquilerAmigo;
+export default ModificarAlquilerCliente;

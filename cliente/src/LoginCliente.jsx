@@ -1,14 +1,15 @@
 import React, { useState } from 'react';
 import { MDBBtn, MDBContainer, MDBRow, MDBCol, MDBInput } from 'mdb-react-ui-kit';
 import Navbar from "./Componentes/Navbar";
-import './Login.css';
+import './LoginCliente.css';
 import { Button } from 'react-bootstrap';
 import { Link,useNavigate} from 'react-router-dom';
 import Axios from "axios";
 import { FaEye, FaEyeSlash } from 'react-icons/fa'; // Importa los iconos de ojo
 import { useUser } from './UserContext';
+import logo from './Imagenes/logo.png';
 
-function Login() {
+function LoginCliente() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -24,25 +25,30 @@ function Login() {
     }
     
     try {
-      const response = await Axios.get("http://localhost:3001/Cliente", {
+      const response = await Axios.get("http://localhost:3001/cliente", {
         params: {
-          correoCliente: email,
-          contraCliente: password
+          correoCliente: email
         }
       });
       
       const clienteData = response.data[0]; // Suponiendo que la respuesta es un array con un solo elemento
-
+  
       if (clienteData) {
-        // Redirige al usuario a la página "PerfilCliente" si las credenciales son correctas
-        console.log(clienteData);
-        updateUser(clienteData);
-        //window.location.href = `/PerfilCliente?data=${clienteData.idCliente}`;
-        navigate(`/PerfilCliente`);
-        console.log('Inicio de sesión exitoso');
+        // Verifica la contraseña si se encontró el usuario por su email
+        if (clienteData.contraCliente === password) {
+          // Redirige al usuario a la página "PerfilCliente" si las credenciales son correctas
+          console.log(clienteData);
+          updateUser(clienteData);
+          //window.location.href = /PerfilCliente?data=${amigoData.idCliente};
+          navigate('/PerfilCliente');
+          console.log('Inicio de sesión exitoso');
+        } else {
+          // Muestra un mensaje de error si la contraseña es incorrecta
+          setError('Contraseña incorrecta. Por favor, verifica tus credenciales.');
+        }
       } else {
-        // Muestra un mensaje de error si las credenciales son incorrectas
-        setError('Correo electrónico o contraseña incorrectos');
+        // Muestra un mensaje de error si el usuario no existe
+        setError('El usuario no existe. Por favor, verifica tus credenciales o regístrate.');
       }
     } catch (error) {
       // Muestra un mensaje de error si hubo un problema con la solicitud
@@ -60,40 +66,46 @@ function Login() {
       <Navbar />
       <div>
         <form className="form-login" onSubmit={handleLogin}>
-          <h1 className="text-center mb-4">Inicio de Sesión</h1>
+          <h1 className="text-center mb-4">Inicio de Sesión Cliente</h1>
           <MDBContainer className="my-5 gradient-form">
             <MDBRow>
               <MDBCol col='6' className="mb-5 d-flex align-items-center justify-content-center">
                 <div className="d-flex flex-column align-items-center">
                   <div className="text-center mb-4">
-                    <img
-                      src="https://e7.pngegg.com/pngimages/713/762/png-clipart-computer-icons-button-login-image-file-formats-logo.png"
-                      style={{ width: '185px' }}
-                      alt="logo"
-                    />
-                  </div>
+                  <img
+                    src={logo}
+                    style={{ width: '185px' }}
+                    alt="logo"
+                  />
+                  </div >
                   <h4 className="text-center mb-4">Inicia Sesión con tu cuenta</h4>
                   <MDBInput
-                    wrapperClass='mb-4'
+                    wrapperClass='mb-4 input-field'
                     label='Correo Electrónico'
                     id='form1'
                     type='email'
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
+                    maxLength={50}
+                    minLength={3}
                   />
                   <div className="password-input-wrapper mb-4">
-                    <MDBInput
-                      wrapperClass='mb-0'
-                      label='Contraseña'
-                      id='form2'
-                      type={showPassword ? 'text' : 'password'}
-                      value={password}
-                      onChange={(e) => setPassword(e.target.value)}
-                    />
-                    <span className="password-toggle" onClick={togglePasswordVisibility}>
-                      {showPassword ? <FaEyeSlash /> : <FaEye />}
-                    </span>
-                  </div>
+      <div className="input-container">
+        <MDBInput
+          wrapperClass='mb-0'
+          label='Contraseña'
+          id='form2'
+          type={showPassword ? 'text' : 'password'}
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          maxLength={50}
+          minLength={3}
+        />
+        <span className="password-toggle" onClick={togglePasswordVisibility}>
+          {showPassword ? <FaEyeSlash /> : <FaEye />}
+        </span>
+      </div>
+    </div>
 
                   {error && <p className="text-danger">{error}</p>}
                   <div className="text-center mb-4">
@@ -102,7 +114,7 @@ function Login() {
                   <br />
                   <div className="text-center">
                     <p className="mb-0">¿Quieres registrarte?
-                      <Link to="/RegistrarDatosAmigo">
+                      <Link to="/RegistrarDatosCliente">
                         <Button variant="primary" className="ml-2" size="sm">Registrarse</Button>
                       </Link>
                     </p>
@@ -117,4 +129,4 @@ function Login() {
   );
 }
 
-export default Login;
+export default LoginCliente;

@@ -13,10 +13,16 @@ import SolicitudAlquilerAmigo from "./SolicitudAlquilerAmigo";
 import RegistrarDatosCliente from "./RegistrarDatosCliente";
 import RegistrarFotosCliente from "./RegistrarFotosCliente";
 import RegistrarUbicacionCliente from "./RegistrarUbicacionCliente";
-import Login from "./Login";
+import LoginCliente from "./LoginCliente";
+import LoginAmigo from "./LoginAmigo"
 import SolicitudesaAmigos from "./SolicitudesaAmigos";
+import SolicitudesClientes from "./SolicitudesClientes";
 import CitasAmigos from "./CitasAmigos";
+import ModificarAlquilerCliente from "./ModificarAlquilerCliente";
+import AgendaAmigo from "./AgendaAmigo";
+import PerfilAmigoPrime from "./PerfilAmigoPrime";
 import { UserProvider } from './UserContext';
+import AgendaCliente from "./AgendaCliente";
 
 
 function App() {
@@ -33,7 +39,8 @@ function App() {
         <Route path="RegistrarUbicacionAmigo" element={ <RegistrarUbicacionAmigo /> } />
         <Route path="BuscadorAmigo" element={ <BuscadorAmigo /> } />
         <Route path="PerfilAmigo" element={ <PerfilAmigo /> } />
-        <Route path="Login" element={<Login />}/>
+        <Route path="LoginCliente" element={<LoginCliente />}/>
+        <Route path="LoginAmigo" element={<LoginAmigo />}/>
         <Route path="PerfilCliente" element={<PerfilCliente />}/>
         <Route path="SolicitudAlquilerAmigo" element={<SolicitudAlquilerAmigo />}/>
         <Route path="RegistrarDatosCliente" element={<RegistrarDatosCliente />}/>
@@ -41,6 +48,12 @@ function App() {
         <Route path="RegistrarUbicacionCliente" element={<RegistrarUbicacionCliente />}/>
         <Route path="CitasAmigos" element={<CitasAmigos />}/>
         <Route path="SolicitudesaAmigos" element={<SolicitudesaAmigos />}/>
+        <Route path="SolicitudesClientes" element={<SolicitudesClientes />}/>
+        <Route path="ModificarAlquilerCliente" element={<ModificarAlquilerCliente />}/>
+        <Route path="PerfilAmigoPrime" element={<PerfilAmigoPrime />}/>
+        <Route path="AgendaAmigo" element={<AgendaAmigo />}/>
+        <Route path="AgendaCliente" element={<AgendaCliente />}/>
+        <Route path="PerfilAmigoPrime" element={<PerfilAmigoPrime />}/>
       </Routes>
       </UserProvider>
     </div>
