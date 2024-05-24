@@ -26,16 +26,28 @@
     background: none; /* Color de fondo original */
   }
 
-  .password-input-wrapper {
+  .password-input-wrapper .input-container {
     display: flex;
     align-items: center;
-    
+    position: relative;
   }
   
-  .password-toggle {
-    margin-left: -25px; /* Ajusta este valor según sea necesario para alinear el icono */
+  .password-input-wrapper .input-container input {
+    flex: 1;
+    padding-right: 2.5rem; /* Aumenta el padding para que el icono no se superponga */
+  }
+  
+  .password-input-wrapper .password-toggle {
+    position: absolute;
+    right: 1rem;
     cursor: pointer;
     margin-top: -30px;
   }
+  .input-field input {
+    padding-right: 2.5rem;
+  }
+
+  
+  
   
   

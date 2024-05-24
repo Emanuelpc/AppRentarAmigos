@@ -73,7 +73,7 @@ app.get("/cliente", (req, res) => {
     const{correoCliente} = req.query;
     const{contraCliente} = req.query;
     console.log(correoCliente);
-    db.query(`SELECT * FROM cliente WHERE cliente.correoCliente = '${correoCliente}' AND cliente.contraCliente = '${contraCliente}'`,
+    db.query(`SELECT * FROM cliente WHERE cliente.correoCliente = '${correoCliente}' `,
         (err, result) => {
             if (err) {
                 console.log(err);
@@ -90,7 +90,7 @@ app.get("/amigo1", (req, res) => {
     const{correoCliente} = req.query;
     const{contraCliente} = req.query;
     console.log(correoCliente);
-    db.query(`SELECT * FROM amigo WHERE amigo.CorreoElectronico = '${correoCliente}' AND amigo.Password = '${contraCliente}'`,
+    db.query(`SELECT * FROM amigo WHERE amigo.CorreoElectronico = '${correoCliente}'`,
         (err, result) => {
             if (err) {
                 console.log(err);
@@ -642,9 +642,30 @@ app.get("/amigohorarioalquiler", (req, res) => {
 app.get("/CitasAmigo", (req, res) => {
     const { idAmigo } = req.query;
     const { fechacita } = req.query;
-    db.query( `SELECT *
-    FROM solicitudamigo
-    WHERE idAmigo='${idAmigo}' AND aceptada = "1" AND fecha = '${fechacita}'`,
+    db.query( `SELECT 
+    sa.idSolicitudAmigo,
+    sa.horas,
+    sa.fecha,
+    sa.ubicacion,
+    sa.motivoAlquiler,
+    sa.idAmigo,
+    sa.idCliente,
+    c.nombreCliente,
+    c.apellidoCliente,
+    (
+        SELECT cf.foto
+        FROM cliente_fotos cf
+        WHERE cf.idCliente = sa.idCliente
+        LIMIT 1
+        
+    ) AS foto 
+FROM 
+    solicitudamigo sa
+JOIN 
+    cliente c ON sa.idCliente = c.idCliente
+    WHERE sa.idAmigo='${idAmigo}' AND sa.aceptada = "1" AND sa.fecha = '${fechacita}'
+    ORDER BY 
+    sa.horas;`,
         (err, result) => {
             if (err) {
                 console.log(err);
@@ -791,6 +812,21 @@ app.post("/aceptarsolicitud", (req, res) => {
     });
 });
 
+app.post("/rechazarsolicitud", (req, res) => {
+    const id = req.body.id;
+
+    db.query('DELETE FROM solicitudamigo WHERE idSolicitudAmigo = ?', [id], (err, result) => {
+        if (err) {
+            console.log(err);
+            res.status(500).send("Error al eliminar la solicitud.");
+        } else {
+            console.log("Solicitud eliminada correctamente.");
+            res.send("Solicitud eliminada con éxito.");
+        }
+    });
+});
+
+
 
 //Inicialización del servidor:
 
@@ -823,9 +859,28 @@ function convertirFechaMySQL(fechaTexto) {
 app.get("/CitasCliente", (req, res) => {
     const { idCliente } = req.query;
     const { fechacita } = req.query;
-    db.query( `SELECT *
-    FROM solicitudamigo
-    WHERE idCliente='${idCliente}' AND aceptada = "1" AND fecha = '${fechacita}'`,
+    db.query( `SELECT 
+    sa.idSolicitudAmigo,
+    sa.horas,
+    sa.fecha,
+    sa.ubicacion,
+    sa.motivoAlquiler,
+    sa.idAmigo,
+    sa.idCliente,
+    a.Nombre,
+    a.Apellido,
+    (
+        SELECT af.foto
+        FROM amigo_fotos af
+        WHERE af.Amigo_idAmigo = sa.idAmigo
+        LIMIT 1
+        
+    ) AS foto 
+FROM 
+    solicitudamigo sa
+JOIN 
+    amigo a ON sa.idAmigo = a.idAmigo
+    WHERE sa.idCliente='${idCliente}' AND sa.aceptada = "1" AND sa.fecha = '${fechacita}'`,
         (err, result) => {
             if (err) {
                 console.log(err);

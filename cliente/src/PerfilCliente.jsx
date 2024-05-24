@@ -3,6 +3,8 @@ import React, { useState, useEffect } from 'react';
 import Navbar from "./Componentes/Navbar";
 import { useUser } from './UserContext';
 //import { useLocation } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import { Button } from 'react-bootstrap';
 
 import Axios from "axios";
 
@@ -11,7 +13,8 @@ export default function PerfilCliente({}){
   const [clientePerfil, setClientePerfil] = useState();
   const [loading, setLoading] = useState(true);
   const [clientefotos,setclientefotos] = useState();
-  const { user } = useUser();
+  const { user,updateUser } = useUser();
+  const navigate = useNavigate(); 
   
   const getAmigoPerfilFotos = () => {
     //const params = new URLSearchParams(window.location.search);
@@ -70,6 +73,13 @@ export default function PerfilCliente({}){
     return <div>Cargando...</div>; // Muestra un mensaje de carga mientras loading es true
   }
 
+  const handleLogout = () => {
+    // Limpia la sesión y redirige al usuario a la página de búsqueda de amigos
+    updateUser(null);
+    navigate("/BuscadorAmigo"); // Redirige utilizando navigate
+  }
+
+
   return (
     <div className="gradient-custom-2" style={{background: '#112A4A'}}>
       <div>
@@ -126,6 +136,7 @@ export default function PerfilCliente({}){
                     </MDBCol>
                   ))}
                 </MDBRow>
+                <Button onClick={handleLogout} style={{ alignSelf: 'center', width: '80%', textAlign: 'center', fontSize: '20px', marginTop: '5px', marginBottom: '15px', backgroundColor: 'red', color: 'white', borderRadius: '5px',borderColor:'red' }}>Cerrar Sesión</Button>
               </MDBCardBody>
             </MDBCard>
           </MDBCol>
