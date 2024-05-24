@@ -22,7 +22,7 @@ export default function PerfilCliente({}){
     // se cambio a 3306 las rutas del url
     const data = user.idCliente;    ;
     console.log('Valor recibido:', data);
-    Axios.get("https://xdsiu.vercel.app/ClientePerfilFotos", {
+    Axios.get("https://deployado.vercel.app/ClientePerfilFotos", {
       params: {
         id : data
       }
@@ -40,7 +40,7 @@ export default function PerfilCliente({}){
     //const data = params.get('data');
     const data = user.idCliente; 
     console.log('Valor recibido:', data);
-    Axios.get("https://xdsiu.vercel.app/Perfilcliente1", {
+    Axios.get("https://deployado.vercel.app/Perfilcliente1", {
       params: {
         id : data
       }

@@ -18,7 +18,7 @@ const CardSolicitud = ({ solicitud, reloadSolicitudes }) => {
     };
 
     const aceptarSolicitud = (id, Aceptar) => {
-        Axios.post("http://localhost:3001/aceptarsolicitud", {
+        Axios.post("https://deployado.vercel.app/aceptarsolicitud", {
             id: id,
             Aceptar: Aceptar
         })
@@ -32,7 +32,7 @@ const CardSolicitud = ({ solicitud, reloadSolicitudes }) => {
     };
 
     const rechazarSolicitud = (id) => {
-        Axios.post("http://localhost:3001/rechazarsolicitud", {
+        Axios.post("https://deployado.vercel.app/rechazarsolicitud", {
             id: id
         })
             .then(response => {

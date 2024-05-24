@@ -91,7 +91,7 @@ function ModificarAlquilerCliente() {
     }, [valorUbicacion, valorMotivo, valorTurno, valoridAmigo, valorTotal, valorFecha]);
 
     const getAmigoAlquiler = () => {
-        Axios.get("https://xdsiu.vercel.app/amigoalquiler", {
+        Axios.get("https://deployado.vercel.app/amigoalquiler", {
             params: {
                 id: id
             }
@@ -104,7 +104,7 @@ function ModificarAlquilerCliente() {
     }
 
     const getAmigoHorarioAlquiler = () => {
-        Axios.get("https://xdsiu.vercel.app/amigohorarioalquiler", {
+        Axios.get("https://deployado.vercel.app/amigohorarioalquiler", {
             params: {
                 id: id
             }
@@ -353,7 +353,7 @@ const convertirADiaIngles = (dia) => {
         // Agregar la nueva solicitud al array de solicitudes de alquiler
         setSolicitudesAlquiler([...solicitudesAlquiler, nuevaSolicitud]);
 
-        Axios.post("https://xdsiu.vercel.app/modificaralquiler", {
+        Axios.post("https://deployado.vercel.app/modificaralquiler", {
             idSolicitud:valoridSolicitud,
             turno: seleccionesUsuario.turno,
             horas: seleccionesUsuario.horas,

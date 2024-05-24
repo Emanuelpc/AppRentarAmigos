@@ -15,7 +15,7 @@ function AgendaAmigo() {
     const fechaF = format(fecha, 'yyyy-MM-dd');
     console.log("la fecha es:", fechaF);
 
-    Axios.get("https://xdsiu.vercel.app/CitasAmigo", {
+    Axios.get("https://deployado.vercel.app/CitasAmigo", {
       params: {
         idAmigo: user.idAmigo,
         fechacita: fechaF,

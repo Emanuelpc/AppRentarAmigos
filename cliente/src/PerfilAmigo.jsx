@@ -25,7 +25,7 @@ export default function PerfilAmigo() {
   
   const getAmigoPerfil = () => {
     console.log(id)
-    Axios.get("https://xdsiu.vercel.app/AmigoPerfil", {
+    Axios.get("https://deployado.vercel.app/AmigoPerfil", {
             params: {
               idAmigo:id
             }
@@ -41,7 +41,7 @@ export default function PerfilAmigo() {
 
   const getAmigoPerfilFotos = () => {
     console.log(id)
-    Axios.get("https://xdsiu.vercel.app/AmigoPerfilFotos", {
+    Axios.get("https://deployado.vercel.app/AmigoPerfilFotos", {
             params: {
               idAmigo:id
             }
