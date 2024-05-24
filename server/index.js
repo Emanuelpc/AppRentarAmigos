@@ -773,6 +773,21 @@ app.post("/aceptarsolicitud", (req, res) => {
     });
 });
 
+app.post("/rechazarsolicitud", (req, res) => {
+    const id = req.body.id;
+
+    db.query('DELETE FROM solicitudamigo WHERE idSolicitudAmigo = ?', [id], (err, result) => {
+        if (err) {
+            console.log(err);
+            res.status(500).send("Error al eliminar la solicitud.");
+        } else {
+            console.log("Solicitud eliminada correctamente.");
+            res.send("Solicitud eliminada con éxito.");
+        }
+    });
+});
+
+
 
 //Inicialización del servidor:
 
