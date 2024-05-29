@@ -19,9 +19,10 @@ export default function PerfilCliente({}){
   const getAmigoPerfilFotos = () => {
     //const params = new URLSearchParams(window.location.search);
     //const data = params.get('data');
+    // se cambio a 3306 las rutas del url
     const data = user.idCliente;    ;
     console.log('Valor recibido:', data);
-    Axios.get("http://localhost:3001/ClientePerfilFotos", {
+    Axios.get("https://deployado.vercel.app/ClientePerfilFotos", {
       params: {
         id : data
       }
@@ -39,7 +40,7 @@ export default function PerfilCliente({}){
     //const data = params.get('data');
     const data = user.idCliente; 
     console.log('Valor recibido:', data);
-    Axios.get("http://localhost:3001/Perfilcliente1", {
+    Axios.get("https://deployado.vercel.app/Perfilcliente1", {
       params: {
         id : data
       }
@@ -96,7 +97,7 @@ export default function PerfilCliente({}){
                   </div>
                 <div className="ms-3" style={{ marginTop: '130px' }}>
                   <h2 style={{ marginBottom: '0' }}>{clientePerfil[0].nombreCliente+" "+clientePerfil[0].apellidoCliente}</h2>
-                  <MDBCardText>{clientePerfil[0].generoCliente}</MDBCardText>
+                  <MDBCardText style={{ textAlign: 'left' ,fontSize: '20px', marginTop: '10px'  }}>{clientePerfil[0].generoCliente}</MDBCardText>
                 </div>
               </div>
               <div className="p-4 text-black" style={{ backgroundColor: '#f8f9fa' }}>

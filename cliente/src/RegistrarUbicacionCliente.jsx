@@ -26,13 +26,13 @@ function RegistrarUbicacionCliente() {
   const { Nombre, Apellido, CorreoElectronico, Password, fechaNacimiento, Genero, seleccionPrecio, images } = location.state?.data || {};
 
   const getDepartamentos = () => {
-    Axios.get("http://localhost:3001/departamentos").then((response) => {
+    Axios.get("https://deployado.vercel.app/departamentos").then((response) => {
       setdepartamentos(response.data);
     });
   }
 
   const getCiudades = () => {
-    Axios.get("http://localhost:3001/ciudades").then((response) => {
+    Axios.get("https://deployado.vercel.app/ciudades").then((response) => {
       setciudades(response.data);
       setCiudadesOriginal(response.data);
     });
@@ -46,7 +46,7 @@ function RegistrarUbicacionCliente() {
 
   const add = () => {
     if (validateForm()) {
-      Axios.post("http://localhost:3001/crearCliente", {
+      Axios.post("https://deployado.vercel.app/crearCliente", {
         Nombre: Nombre,
         Apellido: Apellido,
         CorreoElectronico: CorreoElectronico,
@@ -57,17 +57,17 @@ function RegistrarUbicacionCliente() {
         Departamento_idDepartamento: selectedOptionDepartamentos[selectedOptionDepartamentos.length - 1],
         Ciudad_idCiudad: selectedOptionCiudades[selectedOptionCiudades.length - 1]
       }).then(() => {
-        Axios.get("http://localhost:3001/lastUserIDC").then((response) => {
+        Axios.get("https://deployado.vercel.app/lastUserIDC").then((response) => {
           const lastUserID = response.data.lastUserID; // Obtener el último ID de usuario creado
           console.log("Último ID de usuario creado:", lastUserID);
           setShowSuccessModal(true); // Abre el modal de éxito después de registrar con éxito
-          Axios.post("http://localhost:3001/lastUserIDFotosC",{
+          Axios.post("https://deployado.vercel.app/lastUserIDFotosC",{
             idAmigo:lastUserID,
             images:images
           }).catch(() => {
             setShowErrorModal(true); // Abre el modal de error si no se pudo obtener el ID del usuario
           });
-          Axios.get("http://localhost:3001/ClientePerfil", {
+          Axios.get("https://deployado.vercel.app/ClientePerfil", {
           params: {
           idCliente:lastUserID
           }

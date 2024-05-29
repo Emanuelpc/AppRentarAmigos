@@ -23,7 +23,7 @@ function RegistrarInteresesAmigo() {
 
   //Funcion obtener lista de intereses
   const getIntereses = () => {
-    Axios.get("http://localhost:3001/intereses").then((response) => {
+    Axios.get("https://deployado.vercel.app/intereses").then((response) => {
       setListintereses(response.data);
     });
     console.log(Listintereses)

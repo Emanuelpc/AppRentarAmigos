@@ -14,7 +14,7 @@ function AgendaCliente() {
         const fechaF = format(fecha, 'yyyy-MM-dd');
         console.log("la fecha es:", fechaF);
 
-        Axios.get("http://localhost:3001/CitasCliente", {
+        Axios.get("https://deployado.vercel.app/CitasCliente", {
             params: {
               idCliente: user.idCliente,
               fechacita:fechaF

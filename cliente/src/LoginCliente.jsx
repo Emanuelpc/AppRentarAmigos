@@ -25,7 +25,7 @@ function LoginCliente() {
     }
     
     try {
-      const response = await Axios.get("http://localhost:3001/cliente", {
+      const response = await Axios.get("https://deployado.vercel.app/cliente", {
         params: {
           correoCliente: email
         }

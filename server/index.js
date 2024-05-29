@@ -3,17 +3,56 @@ const app = express();
 const mysql = require("mysql");
 const cors = require("cors");
 
-app.use(cors()); // Permite peticiones desde diferentes dominios
+
+// Permitir solicitudes desde el origen del cliente en el puerto 3000
+app.use(cors());
+  
+  // Resto de la configuración de tu servidor...
+
+app.listen(3001, () => {
+    console.log('Servidor en el puerto 3001');
+  });
+
 app.use(express.json()); // Permite el análisis del cuerpo de las solicitudes en formato JSON
 
 //Conexión a la base de datos MySQL:
 
-const db = mysql.createConnection({
-    host: "localhost",
-    user: "root",
-    password: "",
-    database: "basedatosappamigo"
-});
+const dbConfig = {
+    host: "btzpzoaeocc8mk7jnk5s-mysql.services.clever-cloud.com",
+    user: "u4hqdtm7ehetv2me",
+    password: "Ay3peV2E8sk5m3dmfZe1",
+    database: "btzpzoaeocc8mk7jnk5s"
+};
+
+let db;
+
+function connectDatabase() {
+    db = mysql.createConnection(dbConfig);
+
+    db.connect((err) => {
+        if (err) {
+            console.error('Error connecting to database:', err);
+            // Retry connection after 2 seconds
+            setTimeout(connectDatabase, 2000);
+        } else {
+            console.log('Connected to MySQL database!');
+        }
+    });
+
+    db.on('error', (err) => {
+        console.error('Database error:', err);
+        if (err.code === 'PROTOCOL_CONNECTION_LOST') {
+            connectDatabase(); // Reconnect if connection is lost
+        } else {
+            throw err;
+        }
+    });
+}
+
+connectDatabase(); // Initial connection attempt
+
+
+
 //Endpoint para obtener todos los Datos de : Amigo
 app.get("/amigos", (req, res) => {
     // Consultar todos los departamentos en la base de datos
@@ -791,9 +830,6 @@ app.post("/rechazarsolicitud", (req, res) => {
 
 //Inicialización del servidor:
 
-app.listen(3001, () => {
-    console.log("Se está ejecutando en el puerto 3001");
-});
 
 function extraerDatos(array, propiedad) {
     return array.map(objeto => objeto[propiedad]);

@@ -18,7 +18,7 @@ export default function PerfilAmigoPrime(){
     const getAmigoPerfil = () => {
       const data = user.idAmigo;
       console.log('Valor recibido:', data);
-      Axios.get("http://localhost:3001/amigoPerfil1", {
+      Axios.get("https://deployado.vercel.app/amigoPerfil1", {
           params:{
               id : data
           }
@@ -41,7 +41,7 @@ export default function PerfilAmigoPrime(){
     const getAmigoPerfilFotos = () => {
       const data = user.idAmigo;    ;
       console.log('Valor recibido:', data);
-      Axios.get("http://localhost:3001/AmigoPerfilFotos", {
+      Axios.get("https://deployado.vercel.app/AmigoPerfilFotos", {
               params: {
                 idAmigo:data
               }
@@ -57,7 +57,7 @@ export default function PerfilAmigoPrime(){
     const getIntereses = () => {
       const data = user.idAmigo;
       console.log('Valor recibido:', data);
-      Axios.get("http://localhost:3001/AmigoPerfil", {
+      Axios.get("https://deployado.vercel.app/AmigoPerfil", {
             params: {
               idAmigo:data
             }
